@@ -1,0 +1,1 @@
+export {default as CarrosselCard} from './carrosselcard.view'
