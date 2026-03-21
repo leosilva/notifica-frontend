@@ -31,11 +31,13 @@ export function Carrossellayout() {
         handleData();
     }, []);
 
-        const qrCodeUrl = `http(s)://api.qrserver.com/v1/create-qr-code/?data=${qrImage}&size=[pixels]x[pixels]`;
-    
+    const qrCodeUrl = `http(s)://api.qrserver.com/v1/create-qr-code/?data=${qrImage}&size=[pixels]x[pixels]`;
+
     return (
-        <div>
-            <img src={qrCodeUrl} alt="QR Code" style={{ position: 'absolute', top: '85%', left: "80%"}}/>
+        <div className='w-full h-full relative'>
+            <div className='p-10 bg-gray-300 absolute top-[90%] left-[90%] z-50'>
+                <img src={qrCodeUrl} alt="QR Code" />
+            </div>
             {dados.length > 0 && <CarrosselData info={dados} />}
         </div>
     )

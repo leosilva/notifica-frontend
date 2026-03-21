@@ -14,6 +14,7 @@ interface ArrayProps {
 }
 
 export default function CarrosselData({ info = [] }: ArrayProps) {
+    
     const meusItens: React.ReactNode[] =info.map((item) => (
         <CarrosselCard  
             titulo={item.titulo} 
@@ -21,7 +22,7 @@ export default function CarrosselData({ info = [] }: ArrayProps) {
             imagem={item.imagem}
         />));
     return (
-        <div style={{ maxWidth: '70vw' }}>
+        <div style={{ maxWidth: '65vw' }}>
             <AutoCarrossel items={meusItens} interval={2500} />
         </div>
     )
