@@ -1,34 +1,17 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2022",
-    "useDefineForClassFields": true,
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "types": ["vite/client", "react", "react-dom"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    
-    /* Path Aliases */
+    "composite": true,
+    "emitDeclarationOnly": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    } 
-  }, // <--- ESSA CHAVE FECHA O compilerOptions
+    },
+    "allowImportingTsExtensions": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx"
+    // ... restante das suas configurações
+  },
   "include": ["src"]
 }
