@@ -7,7 +7,7 @@ export function AppRoutes() {
   return (
     <Routes>
       <Route path="/news" element={<NewsPage />} />
-      <Route path="" element={<AdminPage />} />
+      <Route path="" element={<StudentPage />} />
     </Routes>
   );
 }

@@ -26,7 +26,7 @@ import {
 } from '../ui/select';
 import { MapPin } from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { MessageSquare, PaletteIcon } from 'lucide-react';
+import { Megaphone, PaletteIcon } from 'lucide-react';
 import { memo, useMemo } from 'react';
 
 const TEMPLATES = [
@@ -126,7 +126,7 @@ const AdminMessageArea = memo(
     }, []);
 
     return (
-      <Card>
+      <Card className='lg:w-[55%] bg-teal-50 dark:bg-emerald-950'>
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-xl place-content-between">
             <div className="flex flex-row items-center gap-4">
@@ -136,9 +136,9 @@ const AdminMessageArea = memo(
                   background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
                 }}
               >
-                <MessageSquare className="h-5 w-5 text-white" />
+                <Megaphone className="h-5 w-5 text-white" />
               </div>
-              Criar Comunicado
+              Comunicado
             </div>
 
             <DropdownMenu>
@@ -160,7 +160,7 @@ const AdminMessageArea = memo(
               <DropdownMenuPortal>
                 <DropdownMenuContent className="w-xl bg-popover/95 border-border">
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel className="p-1.5 text-sm font-bold text-amber-50 text-center">
+                    <DropdownMenuLabel className="p-1.5 text-sm font-bold text-black/50 dark:text-amber-50 text-center">
                       Escolha o template para a sua mensagem:
                     </DropdownMenuLabel>
                     <DropdownMenuRadioGroup

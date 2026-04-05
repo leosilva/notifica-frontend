@@ -131,7 +131,7 @@ const StudentMessageArea = memo(
               <DropdownMenuPortal>
                 <DropdownMenuContent className="w-xl bg-popover/95 border-border">
                   <DropdownMenuGroup>
-                    <DropdownMenuLabel className="p-1.5 text-sm font-bold text-amber-50 text-center">
+                    <DropdownMenuLabel className="p-1.5 text-sm font-bold dark:text-amber-50 text-center text-black/50">
                       Escolha o template para a sua mensagem:
                     </DropdownMenuLabel>
                     <DropdownMenuRadioGroup
