@@ -1,5 +1,5 @@
 import { useDeferredValue, useState } from 'react';
-import { Header, AdminMessageArea, AdminPreview, Upload,SubmitButton } from '../components';
+import { Header, AdminMessageArea, AdminPreview, Upload,PageButton } from '../components';
 
 export function AdminPage() {
   const [message, setMessage] = useState('');
@@ -24,7 +24,7 @@ export function AdminPage() {
             setSelectedSector={setSelectedSector}
           />
           <Upload  uploadedImage={uploadedImage} setUploadedImage={setUploadedImage}/></div>
-          <SubmitButton />
+          <PageButton />
           <AdminPreview
             message={deferredMessage}
             template={template}
