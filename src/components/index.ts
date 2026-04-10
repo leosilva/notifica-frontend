@@ -4,4 +4,4 @@ export { Header } from './header';
 export { StudentMessageArea, AdminMessageArea } from './message-area';
 export { StudentPreview, AdminPreview } from './preview';
 export { Upload } from './upload';
-export {SubmitButton} from './submit-button'
+export {PageButton} from './page-button'

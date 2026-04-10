@@ -26,8 +26,9 @@ import {
 } from '../ui/select';
 import { MapPin } from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { Megaphone, PaletteIcon } from 'lucide-react';
+import { Megaphone, PaletteIcon, Save ,Send } from 'lucide-react';
 import { memo, useMemo } from 'react';
+import { Button } from '../ui/button';
 
 const TEMPLATES = [
   {
@@ -214,6 +215,8 @@ const AdminMessageArea = memo(
               </span>
             </div>
           </div>
+          <Button className="w-full bg-emerald-700/60 font-semibold text-black/70 text-lg p-4 flex items-center justify-center"><Save className='text-black/40 h-full'/>Salvar Comunicado</Button>
+          <Button className="w-full bg-emerald-700 font-semibold text-black/60 text-lg p-4"><Send />Salvar e Publicar Comunicado</Button>
         </CardContent>
       </Card>
     );
