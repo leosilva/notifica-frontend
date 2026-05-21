@@ -20,7 +20,7 @@ export function NewsPage() {
       // O nome da rota não corresponde com a realidade, mas o dado precisa fazer sentido para o seu uso
       const response = await fetch('http://localhost:8000/api/carrossel/');
       const data = await response.json();
-
+      console.log(response);
       console.log(data);
 
       setNews(data);

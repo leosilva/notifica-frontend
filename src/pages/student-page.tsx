@@ -1,7 +1,6 @@
 import { useDeferredValue, useState } from 'react';
 import { Header, StudentMessageArea, StudentPreview } from '../components';
 
-
 export function StudentPage() {
   const [message, setMessage] = useState('');
   const [template, setTemplate] = useState(

@@ -26,9 +26,12 @@ import {
 } from '../ui/select';
 import { MapPin } from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { Megaphone, PaletteIcon, Save ,Send } from 'lucide-react';
-import { memo, useMemo } from 'react';
+import { Megaphone, PaletteIcon, Save, Send } from 'lucide-react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import { Button } from '../ui/button';
+import { toast } from 'sonner';
+import { Upload } from '../upload';
+import { Input } from '../ui/input';
 
 const TEMPLATES = [
   {
@@ -93,7 +96,14 @@ interface Types {
   setTemplate: (value: string) => void;
   selectedSector: string;
   setSelectedSector: (value: string) => void;
+  uploadedImage: string | null;
+  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  title: string;
+  setTitle: (value: string) => void;
 }
+
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3Mzg0NzMxLCJpYXQiOjE3NzY1MjA3MzEsImp0aSI6ImZiYTZkZTJjOTcwYjQwZDk5ZGQ0MWFjN2I4OGQzMWVjIiwidXNlcl9pZCI6IjEifQ.ui083fsK4xFIf0PuKSh1Fk_xn8i_mZt2KcsS0CuNn28';
 const AdminMessageArea = memo(
   ({
     message,
@@ -102,6 +112,10 @@ const AdminMessageArea = memo(
     setTemplate,
     selectedSector,
     setSelectedSector,
+    uploadedImage,
+    setUploadedImage,
+    title, 
+    setTitle
   }: Types) => {
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
@@ -109,11 +123,44 @@ const AdminMessageArea = memo(
         setMessage(value);
       }
     };
+      const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      if (value.length <= 50) {
+        setTitle(value);
+      }
+    };
+    const fetchPost = async () => {
+      try {
+        await fetch('http://localhost:8000/api/postagem/', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ corpo: `${message}` }),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const removeImage = () => {
+      setUploadedImage(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+
     const Templates = useMemo(() => {
       return TEMPLATES.map((info) => (
-        <DropdownMenuRadioItem value={info.color} key={info.id}>
+        <DropdownMenuRadioItem
+          value={info.color}
+          key={info.id}
+          onClick={removeImage}
+        >
           <div
-            className="flex rounded-xl transition-all duration-300 hover:scale-[1.02] group border-border hover:border-primary/50 w-full h-16"
+            className="flex rounded-xl transition-all duration-300 hover:scale-[1.02] group border-border hover:border-primary/50 w-full h-16 col-span-2"
             style={{ background: info.color }}
           >
             <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center">
@@ -124,10 +171,10 @@ const AdminMessageArea = memo(
           </div>
         </DropdownMenuRadioItem>
       ));
-    }, []);
+    }, [removeImage]);
 
     return (
-      <Card className='lg:w-[55%] bg-teal-50 dark:bg-emerald-950'>
+      <Card className="lg:w-full bg-teal-50 dark:bg-emerald-950">
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-xl place-content-between">
             <div className="flex flex-row items-center gap-4">
@@ -197,6 +244,17 @@ const AdminMessageArea = memo(
               </SelectContent>
             </Select>
           </div>
+                        <div>
+                        <Label className='py-2'>Imagem</Label>
+                        <Upload 
+                          uploadedImage={uploadedImage}
+                          setUploadedImage={setUploadedImage}
+                        />
+                      </div>
+                                    <div>
+                        <Label className='py-2'>Titulo</Label>
+                        <Input className="w-full border border-black/15 p-1 bord rounded-sm focus-visible:border-amber-50 " value={title} onChange={handleTitleChange} id='titulo' type='text' placeholder='digite o titulo de seu comunicado'></Input>
+                      </div>
 
           <div className="space-y-2">
             <Label htmlFor="admin-message">Mensagem</Label>
@@ -215,8 +273,24 @@ const AdminMessageArea = memo(
               </span>
             </div>
           </div>
-          <Button className="w-full bg-emerald-700/60 font-semibold text-black/70 text-lg p-4 flex items-center justify-center"><Save className='text-black/40 h-full'/>Salvar Comunicado</Button>
-          <Button className="w-full bg-emerald-700 font-semibold text-black/60 text-lg p-4"><Send />Salvar e Publicar Comunicado</Button>
+          <div className='flex flex-row gap-2 justify-around'>
+          <Button className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center">
+            <Save className="text-emerald-50 h-full" />
+            Salvar Comunicado
+          </Button>
+          <Button
+            className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50"
+            onClick={() => {
+              message === ''
+                ? toast.error('digite algo antes de publicar')
+                : (fetchPost(),
+                  setMessage(''),
+                  toast.success('mensagem publicada com sucesso'));
+            }}
+          >
+            <Send />
+            Salvar e Publicar Comunicado
+          </Button></div>
         </CardContent>
       </Card>
     );

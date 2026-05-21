@@ -1,13 +1,12 @@
 import { Route, Routes } from 'react-router';
-import { NewsPage } from '../pages/news-page';
-import { AdminPage } from '../pages/admin-page';
-import { StudentPage } from '../pages/student-page';
+import { NewsPage, StudentPage, AdminPage, ComunicationPage } from '../pages';
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path="/news" element={<NewsPage />} />
       <Route path="" element={<AdminPage />} />
+      <Route path="/comunicados" element={<ComunicationPage />} />
     </Routes>
   );
 }

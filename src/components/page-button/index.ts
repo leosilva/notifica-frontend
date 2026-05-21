@@ -1,1 +1,1 @@
-export {default as PageButton} from './page-button.view'
+export { default as PageButton } from './page-button.view';
