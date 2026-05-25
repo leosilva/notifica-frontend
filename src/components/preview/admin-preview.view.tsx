@@ -58,7 +58,7 @@ const preview = memo(
                 </div>
 
                 <h3 className="font-bold text-lg mb-3 text-gray-100 text-center">
-                  {title === "" ? "Comunicado Administrativo" : title}
+                  {title === '' ? 'Comunicado Administrativo' : title}
                 </h3>
 
                 <p className="text-gray-300 mb-4 wrap-break-word text-center">

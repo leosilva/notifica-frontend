@@ -12,7 +12,7 @@ import { useLocation } from 'react-router';
 export function AdminPage() {
   const { state } = useLocation();
   const [message, setMessage] = useState(state?.mensagem || '');
-    const [title, setTitle] = useState(state?.titulo || '');
+  const [title, setTitle] = useState(state?.titulo || '');
   const [template, setTemplate] = useState(
     state?.template ||
       'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))',
@@ -48,8 +48,10 @@ export function AdminPage() {
             message={deferredMessage}
             template={template}
             selectedSector={selectedSector}
-            uploadedImage={uploadedImage} Slide={0}       
-            title={title}   />
+            uploadedImage={uploadedImage}
+            Slide={0}
+            title={title}
+          />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Funnel, Undo2 } from 'lucide-react';
 import { Header, PageButton, AnnouncementCard } from '../components';
 import { Input } from '@/components/ui/input';
 import { useCallback, useEffect } from 'react';
+import { Table } from '@/components/ui/table';
 
 export function ComunicationPage() {
   const token =
@@ -50,8 +51,16 @@ export function ComunicationPage() {
               </button>
             </div>
           </div>
-          <div className="w-full grid lg:grid-cols-4 sm:grid-cols-2 gap-3 h-full ">
+          <div className="w-full grid lg:grid-cols-4 sm:grid-cols-2 gap-3 h-full items-start  ">
             <AnnouncementCard
+              image={'nada'}
+              template={
+                'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))'
+              }
+              message={'testizinho'}
+              title={'Hellos my friend'}
+            />
+                        <AnnouncementCard
               image={'nada'}
               template={
                 'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))'
@@ -59,6 +68,27 @@ export function ComunicationPage() {
               message={'testizinho'}
               title={'Hello my friend'}
             />
+                        <AnnouncementCard
+              image={'nada'}
+              template={
+                'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))'
+              }
+              message={'testizinho'}
+              title={'Hello my friend'}
+            />
+                        <AnnouncementCard
+              image={'nada'}
+              template={
+                'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))'
+              }
+              message={'testizinho'}
+              title={'Hello my friend'}
+            />
+          </div>
+          <div className='w-full'>
+              <Table>
+                
+              </Table>
           </div>
         </div>
       </main>

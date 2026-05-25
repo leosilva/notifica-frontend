@@ -114,8 +114,8 @@ const AdminMessageArea = memo(
     setSelectedSector,
     uploadedImage,
     setUploadedImage,
-    title, 
-    setTitle
+    title,
+    setTitle,
   }: Types) => {
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
@@ -123,7 +123,7 @@ const AdminMessageArea = memo(
         setMessage(value);
       }
     };
-      const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       if (value.length <= 50) {
         setTitle(value);
@@ -244,17 +244,24 @@ const AdminMessageArea = memo(
               </SelectContent>
             </Select>
           </div>
-                        <div>
-                        <Label className='py-2'>Imagem</Label>
-                        <Upload 
-                          uploadedImage={uploadedImage}
-                          setUploadedImage={setUploadedImage}
-                        />
-                      </div>
-                                    <div>
-                        <Label className='py-2'>Titulo</Label>
-                        <Input className="w-full border border-black/15 p-1 bord rounded-sm focus-visible:border-amber-50 " value={title} onChange={handleTitleChange} id='titulo' type='text' placeholder='digite o titulo de seu comunicado'></Input>
-                      </div>
+          <div>
+            <Label className="py-2">Imagem</Label>
+            <Upload
+              uploadedImage={uploadedImage}
+              setUploadedImage={setUploadedImage}
+            />
+          </div>
+          <div>
+            <Label className="py-2">Titulo</Label>
+            <Input
+              className="w-full border border-black/15 p-1 bord rounded-sm focus-visible:border-amber-50 "
+              value={title}
+              onChange={handleTitleChange}
+              id="titulo"
+              type="text"
+              placeholder="digite o titulo de seu comunicado"
+            ></Input>
+          </div>
 
           <div className="space-y-2">
             <Label htmlFor="admin-message">Mensagem</Label>
@@ -273,24 +280,25 @@ const AdminMessageArea = memo(
               </span>
             </div>
           </div>
-          <div className='flex flex-row gap-2 justify-around'>
-          <Button className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center">
-            <Save className="text-emerald-50 h-full" />
-            Salvar Comunicado
-          </Button>
-          <Button
-            className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50"
-            onClick={() => {
-              message === ''
-                ? toast.error('digite algo antes de publicar')
-                : (fetchPost(),
-                  setMessage(''),
-                  toast.success('mensagem publicada com sucesso'));
-            }}
-          >
-            <Send />
-            Salvar e Publicar Comunicado
-          </Button></div>
+          <div className="flex flex-row gap-2 justify-around">
+            <Button className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center">
+              <Save className="text-emerald-50 h-full" />
+              Salvar Comunicado
+            </Button>
+            <Button
+              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50"
+              onClick={() => {
+                message === ''
+                  ? toast.error('digite algo antes de publicar')
+                  : (fetchPost(),
+                    setMessage(''),
+                    toast.success('mensagem publicada com sucesso'));
+              }}
+            >
+              <Send />
+              Salvar e Publicar Comunicado
+            </Button>
+          </div>
         </CardContent>
       </Card>
     );

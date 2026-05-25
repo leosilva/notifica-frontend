@@ -28,13 +28,6 @@ import {
 } from '../ui/dialog';
 
 export default function AnnouncementCard({ template, image, message, title }) {
-  const [currentstyle, setCurrentStyle] = useState('hidden');
-  const visiblestyle = () => {
-    setCurrentStyle(' opacity-100');
-  };
-  const ocultstyle = () => {
-    setCurrentStyle('opacity-0 hidden');
-  };
   const bubbleButtonStyle = ` flex flex-row items-center justify-center gap-1 text-white bg-[#7d2ae8]
   py-[10px] rounded-[6px] 
   transition-all duration-300 active:scale-100
@@ -42,14 +35,12 @@ export default function AnnouncementCard({ template, image, message, title }) {
 
   return (
     <Card
-      className="mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-800/30 hover:bg-taupe-200/20"
-      onMouseOver={visiblestyle}
-      onMouseLeave={ocultstyle}
+      className="group mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-800/30 hover:bg-taupe-200/20"
     >
       <CardHeader>
         <CardTitle>Comunicado 1</CardTitle>
       </CardHeader>
-      <CardContent className="">
+      <CardContent className="py-4 group-hover:py-0">
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
           style={{ background: template }}
@@ -90,111 +81,115 @@ export default function AnnouncementCard({ template, image, message, title }) {
             )}
           </div>
         </div>
-        <CardFooter className="bg-primary-foreground border-0 p-0 py-2  grid grid-cols-3 gap-1" >
-            <Link
-              to="/"
-              state={{ mensagem: `${message}`, template: `${template}`, titulo: `${title}` }}
-              className="w-full h-full "
+        <CardFooter className="bg-primary-foreground border-0 p-0 py-2  group-hover:grid-cols-3 gap-1 hover:opacity-100 group-hover:grid hidden">
+          <Link
+            to="/"
+            state={{
+              mensagem: `${message}`,
+              template: `${template}`,
+              titulo: `${title}`,
+            }}
+            className="w-full h-full "
+          >
+            <Button
+              className={`${bubbleButtonStyle} w-full bg-emerald-400`}
+            >
+              <Save /> Editar
+            </Button>
+          </Link>
+
+          <Dialog>
+            <DialogTrigger
+              render={<div />}
+              nativeButton={true}
+              className="h-full"
             >
               <Button
-                className={`${currentstyle} ${bubbleButtonStyle} w-full  bg-emerald-400`}
+                className={` ${bubbleButtonStyle} h-full w-full  bg-blue-400`}
               >
-                <Save /> Editar
+                <Eye /> Visualizar
               </Button>
-            </Link>
+            </DialogTrigger>
 
-            <Dialog>
-              <DialogTrigger
-                render={<div />}
-                nativeButton={true}
-                className="h-full"
+            <DialogContent className="sm:max-w-5xl w-[95vw]">
+              <DialogHeader>
+                <DialogTitle>Visualização Ampliada</DialogTitle>
+              </DialogHeader>
+
+              <div
+                className="relative h-[550px] w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
+                style={{ background: template }}
               >
-                <Button
-                  className={`${currentstyle} ${bubbleButtonStyle} h-full w-full  bg-blue-400`}
-                >
-                  <Eye /> Visualizar
-                </Button>
-              </DialogTrigger>
+                <div className="absolute inset-0 bg-black/5" />
 
-              <DialogContent className="sm:max-w-5xl w-[95vw]">
-                <DialogHeader>
-                  <DialogTitle>Visualização Ampliada</DialogTitle>
-                </DialogHeader>
-
-                <div
-                  className="relative h-[550px] w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
-                  style={{ background: template }}
-                >
-                  <div className="absolute inset-0 bg-black/5" />
-
-                  <div className="relative z-10 w-full max-w-3xl px-6">
-                    {image !== 'nada' ? (
-                      <div className="relative w-full h-full p-4">
-                        <img
-                          src={image}
-                          alt="Upload Preview"
-                          className="w-full h-full object-contain rounded-md shadow-lg"
-                        />
+                <div className="relative z-10 w-full max-w-3xl px-6">
+                  {image !== 'nada' ? (
+                    <div className="relative w-full h-full p-4">
+                      <img
+                        src={image}
+                        alt="Upload Preview"
+                        className="w-full h-full object-contain rounded-md shadow-lg"
+                      />
+                    </div>
+                  ) : (
+                    <div className="bg-gray-900 rounded-xl p-10 shadow-2xl flex flex-col gap-5 border border-white/5 w-full">
+                      <div className="flex items-center justify-center gap-3 shrink-0">
+                        <MapPin className="h-6 w-6 text-amber-100/80" />
+                        <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
+                          Setor
+                        </span>
                       </div>
-                    ) : (
-                      <div className="bg-gray-900 rounded-xl p-10 shadow-2xl flex flex-col gap-5 border border-white/5 w-full">
-                        <div className="flex items-center justify-center gap-3 shrink-0">
-                          <MapPin className="h-6 w-6 text-amber-100/80" />
-                          <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
-                            Setor
-                          </span>
-                        </div>
 
-                        <h3 className="font-bold text-gray-100 text-center leading-tight text-3xl">
-                          {title}
-                        </h3>
+                      <h3 className="font-bold text-gray-100 text-center leading-tight text-3xl">
+                        {title}
+                      </h3>
 
-                        <p className="text-gray-400 text-center wrap-break-word text-xl line-clamp-6 leading-relaxed px-4">
-                          {message}
-                        </p>
+                      <p className="text-gray-400 text-center wrap-break-word text-xl line-clamp-6 leading-relaxed px-4">
+                        {message}
+                      </p>
 
-                        <div className="border-t border-gray-800 mt-6 pt-6 text-center">
-                          <span className="text-gray-500 text-base font-medium italic">
-                            Administração: teste
-                          </span>
-                        </div>
+                      <div className="border-t border-gray-800 mt-6 pt-6 text-center">
+                        <span className="text-gray-500 text-base font-medium italic">
+                          Administração: teste
+                        </span>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
-              </DialogContent>
-            </Dialog>
-            <AlertDialog>
-              <AlertDialogTrigger
-                render={<span />}
-                nativeButton={true}
-                className="h-full"
+              </div>
+            </DialogContent>
+          </Dialog>
+          <AlertDialog>
+            <AlertDialogTrigger
+              render={<span />}
+              nativeButton={true}
+              className="h-full"
+            >
+              <Button
+                className={` ${bubbleButtonStyle} h-full w-full  bg-red-500`}
               >
-                <Button
-                  className={`${currentstyle} ${bubbleButtonStyle} h-full w-full  bg-red-500`}
-                >
-                  <Trash />
-                  Excluir
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent size="sm">
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="font-extrabold text-xl p-2">
-                    Atenção!
-                  </AlertDialogTitle>
-                  <AlertDialogDescription className="text-sm">
-                    Você deseja realmente apagar esse comunicado? Uma vez
-                    excluído, não será possível recuperá-lo.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <div className="w-full flex justify-center gap-3">
-                  <AlertDialogCancel variant="outline">Não</AlertDialogCancel>
-                  <AlertDialogAction variant="destructive">
-                    Sim, excluir
-                  </AlertDialogAction>
-                </div>
-              </AlertDialogContent>
-            </AlertDialog>
+                <Trash />
+                Excluir
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="sm">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="font-extrabold text-xl p-2">
+                  Atenção!
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-sm">
+                  Você deseja realmente apagar esse comunicado? Uma vez
+                  excluído, não será possível recuperá-lo.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <div className="w-full flex justify-center gap-3">
+                <AlertDialogCancel variant="outline">Não</AlertDialogCancel>
+                <AlertDialogAction variant="destructive">
+                  Sim, excluir
+                </AlertDialogAction>
+              </div>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardFooter>
       </CardContent>
     </Card>

@@ -40,37 +40,37 @@ const UploadArea = memo(({ uploadedImage, setUploadedImage }: Types) => {
   };
 
   return (
-      <div className='px-1'>
-        {!uploadedImage ? (
-          <div className="">
-            <Button
-              className=" p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70"
-              variant="outline"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Selecionar imagem
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-          </div>
-        ) : (
-          <div className=" ">
-            <Button
-              variant="destructive"
-              size="icon"
-              className=" text-sm p-2 w-auto"
-              onClick={removeImage}
-            >
-              Excluir a imagem
-            </Button>
-          </div>
-        )}
-      </div>
+    <div className="px-1">
+      {!uploadedImage ? (
+        <div className="">
+          <Button
+            className=" p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70"
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Selecionar imagem
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+        </div>
+      ) : (
+        <div className=" ">
+          <Button
+            variant="destructive"
+            size="icon"
+            className=" text-sm p-2 w-auto"
+            onClick={removeImage}
+          >
+            Excluir a imagem
+          </Button>
+        </div>
+      )}
+    </div>
   );
 });
 
