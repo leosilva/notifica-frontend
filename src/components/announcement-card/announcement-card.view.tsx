@@ -34,13 +34,11 @@ export default function AnnouncementCard({ template, image, message, title }) {
   `;
 
   return (
-    <Card
-      className="group mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-800/30 hover:bg-taupe-200/20"
-    >
+    <Card className="group mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-500/20 hover:bg-taupe-200/20">
       <CardHeader>
         <CardTitle>Comunicado 1</CardTitle>
       </CardHeader>
-      <CardContent className="py-4 group-hover:py-0">
+      <CardContent className="py-4 group-hover:py-2 transition-all duration-300 ease-in-out">
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
           style={{ background: template }}
@@ -81,7 +79,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
             )}
           </div>
         </div>
-        <CardFooter className="bg-primary-foreground border-0 p-0 py-2  group-hover:grid-cols-3 gap-1 hover:opacity-100 group-hover:grid hidden">
+        <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-3 overflow-hidden transition-all duration-300 ease-in-out opacity-0 max-h-0 group-hover:max-h-20 group-hover:opacity-100 group-hover:py-2 group-hover:mt-2">
           <Link
             to="/"
             state={{
@@ -89,11 +87,9 @@ export default function AnnouncementCard({ template, image, message, title }) {
               template: `${template}`,
               titulo: `${title}`,
             }}
-            className="w-full h-full "
+            className="w-full h-full"
           >
-            <Button
-              className={`${bubbleButtonStyle} w-full bg-emerald-400`}
-            >
+            <Button className={`${bubbleButtonStyle} w-full bg-emerald-400`}>
               <Save /> Editar
             </Button>
           </Link>
@@ -105,7 +101,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
               className="h-full"
             >
               <Button
-                className={` ${bubbleButtonStyle} h-full w-full  bg-blue-400`}
+                className={` ${bubbleButtonStyle} h-full w-full bg-blue-400`}
               >
                 <Eye /> Visualizar
               </Button>
@@ -117,7 +113,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
               </DialogHeader>
 
               <div
-                className="relative h-[550px] w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
+                className="relative h-137.5 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
                 style={{ background: template }}
               >
                 <div className="absolute inset-0 bg-black/5" />
@@ -159,6 +155,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
               </div>
             </DialogContent>
           </Dialog>
+
           <AlertDialog>
             <AlertDialogTrigger
               render={<span />}
@@ -166,7 +163,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
               className="h-full"
             >
               <Button
-                className={` ${bubbleButtonStyle} h-full w-full  bg-red-500`}
+                className={` ${bubbleButtonStyle} h-full w-full bg-red-500`}
               >
                 <Trash />
                 Excluir

@@ -40,7 +40,7 @@ const Header = memo(({ frase }: Type) => {
             <ModeToggle />
             <button
               className="rounded-sm ring-1 hover:bg-emerald-400 ring-emerald-400/50 dark:hover:bg-primary/5 hover:ring-4 dark:hover:ring-emerald-400/60 dark:ring-emerald-600/60 transition-all duration-300 dark:bg-black/80 h-9 w-16 flex items-center flex-row justify-around px-1 bg-emerald-500 text-amber-50"
-              onClick={() => toast('desconectado com sucsso')}
+              onClick={() => toast('desconectado com sucesso')}
               type="button"
             >
               <LogOut className="h-4 w-4 mr-2 " />

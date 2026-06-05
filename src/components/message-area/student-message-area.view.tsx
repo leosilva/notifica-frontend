@@ -80,10 +80,21 @@ const StudentMessageArea = memo(
       }
     };
     const Templates = useMemo(() => {
-      return TEMPLATES.map((info) => (
-        <DropdownMenuRadioItem value={info.color} key={info.id}>
-          <div
-            className="flex rounded-xl transition-all duration-300 hover:scale-[1.02] group border-border hover:border-primary/50 w-full h-16"
+      return TEMPLATES.map((info) => {
+        const isSelected = template === info.color;
+
+        return (
+          <button
+            type="button"
+            key={info.id}
+            onClick={() => {
+              setTemplate(info.color);
+            }}
+            className={`relative flex w-full h-16 rounded-xl transition-all duration-100 hover:scale-[1.02] group border-2 outline-none cursor-pointer ${
+              isSelected
+                ? 'border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
+                : 'border-transparent hover:border-emerald-500/30'
+            }`}
             style={{ background: info.color }}
           >
             <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center">
@@ -91,10 +102,11 @@ const StudentMessageArea = memo(
                 {info.label}
               </span>
             </div>
-          </div>
-        </DropdownMenuRadioItem>
-      ));
-    }, []);
+          </button>
+        );
+      });
+      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    }, [template, setTemplate]);
 
     return (
       <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 transform-gpu">

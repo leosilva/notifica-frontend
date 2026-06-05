@@ -36,7 +36,7 @@ const preview = memo(({ message, template }: Types) => {
         </CardDescription>
         <CardContent>
           <div
-            className="relative h-80 rounded-2xl overflow-hidden border-2 border-emerald-950/5 shadow-inner mt-6"
+            className="relative h-80 rounded-2xl overflow-hidden border-2 border-transparent shadow-inner mt-6"
             style={{ background: template }}
           >
             <div className={`absolute inset-0 `} />

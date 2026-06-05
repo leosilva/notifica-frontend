@@ -6,3 +6,4 @@ export { StudentPreview, AdminPreview } from './preview';
 export { Upload } from './upload';
 export { PageButton } from './page-button';
 export { AnnouncementCard } from './announcement-card';
+export { AnnouncementTable } from './announcement-table';

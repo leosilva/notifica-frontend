@@ -103,7 +103,7 @@ interface Types {
 }
 
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3Mzg0NzMxLCJpYXQiOjE3NzY1MjA3MzEsImp0aSI6ImZiYTZkZTJjOTcwYjQwZDk5ZGQ0MWFjN2I4OGQzMWVjIiwidXNlcl9pZCI6IjEifQ.ui083fsK4xFIf0PuKSh1Fk_xn8i_mZt2KcsS0CuNn28';
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjExMTU4LCJpYXQiOjE3ODA0MjIzNTgsImp0aSI6IjQyYjM4ZWRiOTQxZjQxODRiMDgyNzc0N2ViODNhMjBhIiwidXNlcl9pZCI6IjEifQ.pPq4c5X-P1R6qNd5maXrlHMQnH84zAvDmbn2sqxYKoc";
 const AdminMessageArea = memo(
   ({
     message,
@@ -137,7 +137,7 @@ const AdminMessageArea = memo(
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ corpo: `${message}` }),
+          body: JSON.stringify({ corpo: `${message}`,titulo: `${title}`}),
         });
       } catch (error) {
         console.log(error);
@@ -153,14 +153,22 @@ const AdminMessageArea = memo(
     };
 
     const Templates = useMemo(() => {
-      return TEMPLATES.map((info) => (
-        <DropdownMenuRadioItem
-          value={info.color}
-          key={info.id}
-          onClick={removeImage}
-        >
-          <div
-            className="flex rounded-xl transition-all duration-300 hover:scale-[1.02] group border-border hover:border-primary/50 w-full h-16 col-span-2"
+      return TEMPLATES.map((info) => {
+        const isSelected = template === info.color;
+
+        return (
+          <button
+            type="button"
+            key={info.id}
+            onClick={() => {
+              setTemplate(info.color);
+              removeImage();
+            }}
+            className={`relative flex w-full h-16 rounded-xl transition-all duration-100 hover:scale-[1.02] group border-2 outline-none cursor-pointer ${
+              isSelected
+                ? 'border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
+                : 'border-transparent hover:border-emerald-500/30'
+            }`}
             style={{ background: info.color }}
           >
             <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center">
@@ -168,10 +176,11 @@ const AdminMessageArea = memo(
                 {info.label}
               </span>
             </div>
-          </div>
-        </DropdownMenuRadioItem>
-      ));
-    }, [removeImage]);
+          </button>
+        );
+      });
+      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    }, [template, setTemplate, removeImage]);
 
     return (
       <Card className="lg:w-full bg-teal-50 dark:bg-emerald-950">
