@@ -102,8 +102,7 @@ interface Types {
   setTitle: (value: string) => void;
 }
 
-const token =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg2MjExMTU4LCJpYXQiOjE3ODA0MjIzNTgsImp0aSI6IjQyYjM4ZWRiOTQxZjQxODRiMDgyNzc0N2ViODNhMjBhIiwidXNlcl9pZCI6IjEifQ.pPq4c5X-P1R6qNd5maXrlHMQnH84zAvDmbn2sqxYKoc";
+const token = import.meta.env.VITE_AUTH_TOKEN;
 const AdminMessageArea = memo(
   ({
     message,
