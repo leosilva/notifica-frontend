@@ -1,4 +1,4 @@
-import { Eye, Pencil, Trash2, MapPin } from 'lucide-react';
+import { Eye, Pencil, Trash2, MapPin, Send } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -27,76 +27,7 @@ import {
 } from '../ui/dialog';
 import { Link } from 'react-router';
 
-export default function TabelaComunicados() {
-  const dados = [
-    {
-      id: 1,
-      titulo: 'Manutenção Preventiva de Rede',
-      setor: 'Tecnologia da Informação',
-      autor: 'Gabriel Souza',
-      dataCriacao: '20/05/2026',
-      dataPublicacao: '22/05/2026',
-      mensagem:
-        'Informamos que no próximo domingo haverá uma manutenção nos servidores centrais entre 02h e 06h da manhã.',
-      template: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    },
-    {
-      id: 2,
-      titulo: 'Novo Cardápio do Refeitório',
-      setor: 'Recursos Humanos',
-      autor: 'Mariana Lins',
-      dataCriacao: '24/05/2026',
-      dataPublicacao: '25/05/2026',
-      mensagem:
-        'Confira as opções saudáveis que preparamos para o mês de Junho. O novo cardápio já está disponível no mural.',
-      template: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
-    },
-    {
-      id: 3,
-      titulo: 'Workshop de Produtividade',
-      setor: 'Desenvolvimento',
-      autor: 'Ricardo Alves',
-      dataCriacao: '18/05/2026',
-      dataPublicacao: 'Pendente',
-      mensagem:
-        'Inscrições abertas para o workshop de metodologias ágeis que ocorrerá na sala de conferências B.',
-      template: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-    {
-      id: 4,
-      titulo: 'Workshop de Produtividade',
-      setor: 'Desenvolvimento',
-      autor: 'Ricardo Alves',
-      dataCriacao: '18/05/2026',
-      dataPublicacao: 'Pendente',
-      mensagem:
-        'Inscrições abertas para o workshop de metodologias ágeis que ocorrerá na sala de conferências B.',
-      template: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-    {
-      id: 5,
-      titulo: 'Workshop de Produtividade',
-      setor: 'Desenvolvimento',
-      autor: 'Ricardo Alves',
-      dataCriacao: '18/05/2026',
-      dataPublicacao: 'Pendente',
-      mensagem:
-        'Inscrições abertas para o workshop de metodologias ágeis que ocorrerá na sala de conferências B.',
-      template: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-    {
-      id: 6,
-      titulo: 'Workshop de Produtividade',
-      setor: 'Desenvolvimento',
-      autor: 'Ricardo Alves',
-      dataCriacao: '18/05/2026',
-      dataPublicacao: 'Pendente',
-      mensagem:
-        'Inscrições abertas para o workshop de metodologias ágeis que ocorrerá na sala de conferências B.',
-      template: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    },
-  ];
-
+export default function TabelaComunicados({ dados = [] }) {
   const actionButtonStyle = `flex items-center justify-center gap-1 text-white py-1.5 px-3 rounded-[6px] transition-all duration-300 active:scale-95 text-xs font-medium`;
 
   return (
@@ -121,32 +52,38 @@ export default function TabelaComunicados() {
               <TableCell className="font-medium">{item.titulo}</TableCell>
               <TableCell>
                 <span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-[10px] font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                  {item.setor}
+                  {item.setor || 'setor'}
                 </span>
               </TableCell>
-              <TableCell className="text-gray-600 dark:text-gray-400">
-                {item.autor}
+              <TableCell className="text-gray-600 dark:text-gray-400 break-words">
+                {item.usuario.nome}
               </TableCell>
-              <TableCell>{item.dataCriacao}</TableCell>
+              <TableCell>{item.dataCriacao || 'algum dia ai'}</TableCell>
               <TableCell>
                 <span
                   className={
-                    item.dataPublicacao === 'Pendente'
+                    item.publicado_em === 'Pendente'
                       ? 'text-amber-600 font-semibold'
                       : ''
                   }
                 >
-                  {item.dataPublicacao}
+                  {item.publicado_em}
                 </span>
               </TableCell>
 
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
+                  <Button
+                    className={`${actionButtonStyle} bg-yellow-500 hover:bg-yellow-600 shadow-sm`}
+                  >
+                    <Send className="h-3.5 w-3.5" /> Publicar
+                  </Button>
                   <Link
                     to="/editar"
                     state={{
-                      mensagem: item.mensagem,
-                      template: item.template,
+                      mensagem: item.corpo,
+                      template:
+                        'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
                       titulo: item.titulo,
                     }}
                   >
@@ -157,7 +94,6 @@ export default function TabelaComunicados() {
                     </Button>
                   </Link>
 
-                  {/* VISUALIZAR */}
                   <Dialog>
                     <DialogTrigger render={<div />} nativeButton={true}>
                       <Button
@@ -187,11 +123,11 @@ export default function TabelaComunicados() {
                               {item.titulo}
                             </h3>
                             <p className="text-gray-400 text-center text-xl leading-relaxed px-4">
-                              {item.mensagem}
+                              {item.corpo}
                             </p>
                             <div className="border-t border-gray-800 mt-6 pt-6 text-center">
                               <span className="text-gray-500 text-base font-medium italic">
-                                Autor: {item.autor}
+                                Autor: {item.nome}
                               </span>
                             </div>
                           </div>
@@ -200,7 +136,6 @@ export default function TabelaComunicados() {
                     </DialogContent>
                   </Dialog>
 
-                  {/* EXCLUIR */}
                   <AlertDialog>
                     <AlertDialogTrigger render={<span />} nativeButton={true}>
                       <Button

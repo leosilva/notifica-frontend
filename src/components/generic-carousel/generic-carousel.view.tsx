@@ -9,7 +9,7 @@ interface GenericProp {
 export default function GenericCarouselView({ children }: GenericProp) {
   return (
     <Carousel
-      className="w-full"
+      className="w-full h-full"
       opts={{ loop: true, watchDrag: false }}
       plugins={[
         Autoplay({
@@ -17,7 +17,7 @@ export default function GenericCarouselView({ children }: GenericProp) {
         }),
       ]}
     >
-      <CarouselContent>{children}</CarouselContent>
+      <CarouselContent className="">{children}</CarouselContent>
     </Carousel>
   );
 }

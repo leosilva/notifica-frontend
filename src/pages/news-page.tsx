@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CarouselItem } from '@/components/ui/carousel';
-import { CarouselCard, GenericCarousel } from '../components';
+import { CarouselCard, AdminCard, GenericCarousel } from '../components';
 
 interface News {
   id: number;
   titulo: string;
-  sumario: string;
+  corpo: string;
   avatar: string;
   author: string;
   background: string;
@@ -34,15 +34,15 @@ export function NewsPage() {
   }, [fetchNews]);
 
   return (
-    <div className="w-full h-full bg-linear-to-br from-blue-500 to-blue-700">
-      <div className="w-full max-w-[65vw] mx-auto">
+    <div className="w-full h-full bg-linear-to-br from-blue-500 to-blue-700 flex justify-center items-center">
+      <div className="w-full max-w-[60vw] mx-auto">
         {!!news.length && (
           <GenericCarousel>
             {news.map((item, index) => (
               <CarouselItem key={item.id || index}>
-                <CarouselCard
+                <AdminCard
                   title={item.titulo}
-                  resume={item.sumario}
+                  resume={item.corpo}
                   avatar={item.avatar}
                   author={item.author}
                 />

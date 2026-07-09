@@ -15,15 +15,17 @@ interface Types {
   template: string;
   selectedSector: string;
   uploadedImage: string | null;
-  Slide: number;
+  Slide?: number;
   title: string;
 }
 
-const preview = memo(
+const Preview = memo(
   ({ message, template, selectedSector, uploadedImage, title }: Types) => {
     const Dates = useMemo(() => new Date().toLocaleDateString('pt-BR'), []);
-    const [slide, setSlide] = useState([100]);
-    console.log(slide);
+
+    const [slide, setSlide] = useState([1]);
+    const opacityValue = slide[0];
+
     return (
       <Card className="mt-8 transform-gpu bg-teal-50 dark:bg-emerald-950">
         <CardHeader>
@@ -33,26 +35,27 @@ const preview = memo(
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div
-            className="relative h-80 rounded-lg overflow-hidden border flex items-center justify-center"
-            style={{
-              background: uploadedImage
-                ? `url(${uploadedImage}) center/cover no-repeat`
-                : template,
-            }}
-          >
-            <div className="absolute inset-0 bg-black/20" />
+          <div className="grid grid-cols-1 grid-rows-1 h-80 rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
+            <div
+              className="col-start-1 row-start-1 w-full h-full transition-opacity duration-75"
+              style={{
+                background: uploadedImage
+                  ? `url(${uploadedImage}) center/cover no-repeat`
+                  : template,
+                opacity: opacityValue,
+              }}
+            />
 
             <div
-              className="relative z-10 w-full max-w-lg m-6 rounded-xl"
-              style={{
-                backgroundColor: `rgba(17, 24, 39, ${slide[0] / 100})`,
-              }}
-            >
-              <div className="rounded-lg p-6 shadow-xl">
+              className="col-start-1 row-start-1 w-full h-full bg-black/20"
+              style={{ opacity: opacityValue }}
+            />
+
+            <div className="col-start-1 row-start-1 flex items-center justify-center p-6">
+              <div className="w-full max-w-lg rounded-xl shadow-xl p-6 bg-gray-900/20 backdrop-blur-sm">
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <MapPin className="h-5 w-5 text-amber-50" />
-                  <span className="font-semibold text-amber-50 opacity-100">
+                  <span className="font-semibold text-amber-50">
                     {selectedSector || 'Setor'}
                   </span>
                 </div>
@@ -74,16 +77,17 @@ const preview = memo(
           </div>
         </CardContent>
         <CardFooter className="flex flex-col items-start bg-teal-50 dark:bg-emerald-950 border-0">
-          <CardTitle className="m-2 text-primary/60">Opacidade:</CardTitle>
+          <CardTitle className="m-2 text-primary/60">
+            Opacidade do Fundo:
+          </CardTitle>
           <Slider
-            defaultValue={[100]}
             value={slide}
             onValueChange={(value) =>
               setSlide(Array.isArray(value) ? value : [value])
             }
-            min={1}
-            max={100}
-            step={1}
+            min={0}
+            max={1}
+            step={0.01}
             className="bg-amber-500"
           />
         </CardFooter>
@@ -91,4 +95,5 @@ const preview = memo(
     );
   },
 );
-export default preview;
+
+export default Preview;

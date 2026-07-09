@@ -1,4 +1,4 @@
-import { Eye, MapPin, Save, Trash } from 'lucide-react';
+import { Eye, MapPin, Save, Trash, Send } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -27,70 +27,116 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-export default function AnnouncementCard({ template, image, message, title }) {
+export default function AnnouncementCard({ announcement }) {
+  const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTgxMTM5LCJpYXQiOjE3ODI0OTQ3MzksImp0aSI6ImYwYTAzMzM5MWEyMTQxNTVhZmJiOGUzNzA1Yzc4N2UxIiwidXNlcl9pZCI6NDQxNzE1fQ.9sZ9pXXVwvYaHtY3WBq_3ykKlqdZYo_2EfdtA4o36nM';
+const fetchDelete = async () => {
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/postagem/${announcement.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erro ao deletar comunicado');
+      }
+
+      alert('Comunicado excluído com sucesso!'); 
+      
+    } catch (error) {
+      console.error('Erro na requisição de exclusão:', error);
+      alert(`Não foi possível excluir: ${error.message}`);
+    }
+  };
   const bubbleButtonStyle = ` flex flex-row items-center justify-center gap-1 text-white bg-[#7d2ae8]
   py-[10px] rounded-[6px] 
   transition-all duration-300 active:scale-100
   `;
 
   return (
-    <Card className="group mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-500/20 hover:bg-taupe-200/20">
+    <Card
+      className={
+        ' mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-500/20 hover:bg-taupe-200/20'
+      }
+    >
       <CardHeader>
-        <CardTitle>Comunicado 1</CardTitle>
+        <CardTitle>Comunicado {announcement.id}</CardTitle>
       </CardHeader>
       <CardContent className="py-4 group-hover:py-2 transition-all duration-300 ease-in-out">
         <div
-          className="relative h-48 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
-          style={{ background: template }}
+          className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
+          style={{
+            background:
+              'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+          }}
         >
           <div className="absolute inset-0 bg-black/5" />
 
           <div className="relative z-10 w-full max-w-55">
-            {image !== 'nada' ? (
+            {
+              /*announcement.image !== null ? (
               <div className="relative w-full h-full p-2">
                 <img
-                  src={image}
+                  src={announcement.image}
                   alt="Upload Preview"
                   className="w-full h-full object-contain rounded-md"
                 />
               </div>
-            ) : (
-              <div className="bg-gray-900 rounded-md p-2 shadow-lg flex flex-col gap-1.5 border border-white/5">
+            ) : (*/
+              <div className="bg-gray-900 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
                 <div className="flex items-center justify-center gap-1 shrink-0">
                   <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
                   <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
-                    Setor
+                    {announcement.setor || 'setor'}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-gray-100 text-center leading-tight text-[11px]">
-                  {title}
+                <h3 className="font-bold text-gray-100 text-center leading-tight text-[11px] break-words">
+                  {announcement.titulo}
                 </h3>
                 <p className="text-gray-400 text-center wrap-break-word text-[10px] line-clamp-2 leading-snug">
-                  {message}
+                  {announcement.corpo}
                 </p>
 
-                <div className="border-t border-gray-800 mt-0.5 pt-1.5 text-center">
+                <div className="border-t border-gray-800 mt-0.5 pt-1.5 text-center flex flex-col">
                   <span className="text-gray-500 text-[9px] font-medium italic">
-                    Administração: teste
+                    Administração: {`${announcement.usuario.nome}`}
+                  </span>
+                  <span className="text-gray-500 text-[9px] font-medium italic">
+                    {announcement.publicado_em || 'essa mermo'}
                   </span>
                 </div>
               </div>
-            )}
+            }
           </div>
         </div>
-        <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-3 overflow-hidden transition-all duration-300 ease-in-out opacity-0 max-h-0 group-hover:max-h-20 group-hover:opacity-100 group-hover:py-2 group-hover:mt-2">
+
+        <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-4 overflow-hidden transition-all duration-300 ease-in-out max-h-20 opacity-100 py-2 mt-2">
+          <Button
+            title="Publicar"
+            className={`${bubbleButtonStyle} w-full h-full bg-orange-400`}
+          >
+            <Send size={20} />
+          </Button>
+
           <Link
             to="/"
             state={{
-              mensagem: `${message}`,
-              template: `${template}`,
-              titulo: `${title}`,
+              mensagem: `${announcement.corpo}`,
+              template:
+                'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+              titulo: `${announcement.titulo}`,
             }}
             className="w-full h-full"
+            title="Salvar rascunho"
           >
             <Button className={`${bubbleButtonStyle} w-full bg-emerald-400`}>
-              <Save /> Editar
+              <Save size={20} />
             </Button>
           </Link>
 
@@ -101,9 +147,10 @@ export default function AnnouncementCard({ template, image, message, title }) {
               className="h-full"
             >
               <Button
+                title="Visualizar comunicado"
                 className={` ${bubbleButtonStyle} h-full w-full bg-blue-400`}
               >
-                <Eye /> Visualizar
+                <Eye size={20} />
               </Button>
             </DialogTrigger>
 
@@ -114,20 +161,24 @@ export default function AnnouncementCard({ template, image, message, title }) {
 
               <div
                 className="relative h-137.5 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
-                style={{ background: template }}
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+                }}
               >
                 <div className="absolute inset-0 bg-black/5" />
 
                 <div className="relative z-10 w-full max-w-3xl px-6">
-                  {image !== 'nada' ? (
+                  {
+                    /*announcement.image !== 'nada' ? (
                     <div className="relative w-full h-full p-4">
                       <img
-                        src={image}
+                        src={announcement.image}
                         alt="Upload Preview"
                         className="w-full h-full object-contain rounded-md shadow-lg"
                       />
                     </div>
-                  ) : (
+                  ) : (*/
                     <div className="bg-gray-900 rounded-xl p-10 shadow-2xl flex flex-col gap-5 border border-white/5 w-full">
                       <div className="flex items-center justify-center gap-3 shrink-0">
                         <MapPin className="h-6 w-6 text-amber-100/80" />
@@ -136,21 +187,24 @@ export default function AnnouncementCard({ template, image, message, title }) {
                         </span>
                       </div>
 
-                      <h3 className="font-bold text-gray-100 text-center leading-tight text-3xl">
-                        {title}
+                      <h3 className="font-bold text-gray-100 text-center leading-tight text-3xl break-words">
+                        {announcement.titulo}
                       </h3>
 
                       <p className="text-gray-400 text-center wrap-break-word text-xl line-clamp-6 leading-relaxed px-4">
-                        {message}
+                        {announcement.corpo}
                       </p>
 
-                      <div className="border-t border-gray-800 mt-6 pt-6 text-center">
-                        <span className="text-gray-500 text-base font-medium italic">
-                          Administração: teste
-                        </span>
+                      <div className="text-sm text-gray-400 border-t pt-3 text-center">
+                        <div>
+                          Administração: {`${announcement.usuario.nome}`}
+                        </div>
+                        <div className="text-xs mt-1">
+                          {announcement.publicado_em || 'essa mermo'}
+                        </div>
                       </div>
                     </div>
-                  )}
+                  }
                 </div>
               </div>
             </DialogContent>
@@ -163,10 +217,10 @@ export default function AnnouncementCard({ template, image, message, title }) {
               className="h-full"
             >
               <Button
+                title="Excluir comunicado"
                 className={` ${bubbleButtonStyle} h-full w-full bg-red-500`}
               >
-                <Trash />
-                Excluir
+                <Trash size={20} />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent size="sm">
@@ -181,7 +235,7 @@ export default function AnnouncementCard({ template, image, message, title }) {
               </AlertDialogHeader>
               <div className="w-full flex justify-center gap-3">
                 <AlertDialogCancel variant="outline">Não</AlertDialogCancel>
-                <AlertDialogAction variant="destructive">
+                <AlertDialogAction variant="destructive" onClick={fetchDelete}>
                   Sim, excluir
                 </AlertDialogAction>
               </div>

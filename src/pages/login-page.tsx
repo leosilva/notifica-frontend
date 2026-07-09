@@ -8,7 +8,7 @@ import {
 } from '../components/ui/card';
 import { ModeToggle } from '../components/mode-toggle';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import logopng from '../assets/logo.png'
+import logopng from '../assets/logo.png';
 
 export default function LoginPage() {
   return (
@@ -26,7 +26,6 @@ export default function LoginPage() {
               />
             </div>
             <CardTitle className="text-3xl font-bold p-4 text-emerald-400 flex justify-center h-20">
-
               <img src={logopng} alt="Logotipo Notifica" />
             </CardTitle>
             <CardDescription className="text-xl flex justify-center">
@@ -34,55 +33,63 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-               <Tabs defaultValue="estudante" className="w-full bg-emerald-50
-               ">
-      <TabsList className="w-full bg-emerald-50" variant='default'>
-        <TabsTrigger value="estudante" className="data-[state=inactive]: bg-amber-50">Estudante</TabsTrigger>
-        <TabsTrigger value="administrador">administrador</TabsTrigger>
-      </TabsList>
-      <TabsContent value="estudante">
-        <Card className='bg-transparent ring-0'>
-          <CardHeader >
-            <CardTitle>Estudante</CardTitle>
-            <CardDescription>
-              View your key metrics and recent project activity. Track progress
-              across all your active projects.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            You have 12 active projects and 3 pending tasks.
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="administrador">
-        <Card className='bg-transparent border-0 ring-0'>
-          <CardHeader>
-            <CardTitle>administrador</CardTitle>
-            <CardDescription>
-              Track performance and user engagement metrics. Monitor trends and
-              identify growth opportunities.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            Page views are up 25% compared to last month.
-          </CardContent>
-        </Card>
-      </TabsContent>
-      <TabsContent value="reports">
-        <Card>
-          <CardHeader>
-            <CardTitle>Reports</CardTitle>
-            <CardDescription>
-              Generate and download your detailed reports. Export data in
-              multiple formats for analysis.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="text-sm text-muted-foreground">
-            You have 5 reports ready and available to export.
-          </CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
+            <Tabs
+              defaultValue="estudante"
+              className="w-full bg-emerald-50
+               "
+            >
+              <TabsList className="w-full bg-emerald-50" variant="default">
+                <TabsTrigger
+                  value="estudante"
+                  className="data-[state=inactive]: bg-amber-50"
+                >
+                  Estudante
+                </TabsTrigger>
+                <TabsTrigger value="administrador">administrador</TabsTrigger>
+              </TabsList>
+              <TabsContent value="estudante">
+                <Card className="bg-transparent ring-0">
+                  <CardHeader>
+                    <CardTitle>Estudante</CardTitle>
+                    <CardDescription>
+                      View your key metrics and recent project activity. Track
+                      progress across all your active projects.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    You have 12 active projects and 3 pending tasks.
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="administrador">
+                <Card className="bg-transparent border-0 ring-0">
+                  <CardHeader>
+                    <CardTitle>administrador</CardTitle>
+                    <CardDescription>
+                      Track performance and user engagement metrics. Monitor
+                      trends and identify growth opportunities.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    Page views are up 25% compared to last month.
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              <TabsContent value="reports">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Reports</CardTitle>
+                    <CardDescription>
+                      Generate and download your detailed reports. Export data
+                      in multiple formats for analysis.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground">
+                    You have 5 reports ready and available to export.
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
       </main>

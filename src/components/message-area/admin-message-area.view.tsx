@@ -102,7 +102,8 @@ interface Types {
   setTitle: (value: string) => void;
 }
 
-const token = import.meta.env.VITE_AUTH_TOKEN;
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTgxMTM5LCJpYXQiOjE3ODI0OTQ3MzksImp0aSI6ImYwYTAzMzM5MWEyMTQxNTVhZmJiOGUzNzA1Yzc4N2UxIiwidXNlcl9pZCI6NDQxNzE1fQ.9sZ9pXXVwvYaHtY3WBq_3ykKlqdZYo_2EfdtA4o36nM';
 const AdminMessageArea = memo(
   ({
     message,
@@ -136,7 +137,11 @@ const AdminMessageArea = memo(
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ corpo: `${message}`,titulo: `${title}`}),
+          body: JSON.stringify({
+            corpo: `${message}`,
+            titulo: `${title}`,
+            disponivel: true,
+          }),
         });
       } catch (error) {
         console.log(error);
@@ -163,15 +168,15 @@ const AdminMessageArea = memo(
               setTemplate(info.color);
               removeImage();
             }}
-            className={`relative flex w-full h-16 rounded-xl transition-all duration-100 hover:scale-[1.02] group border-2 outline-none cursor-pointer ${
+            className={`relative flex w-full h-10 rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group border outline-none cursor-pointer overflow-hidden ${
               isSelected
-                ? 'border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
-                : 'border-transparent hover:border-emerald-500/30'
+                ? 'border-emerald-500 shadow-sm ring-2 ring-emerald-500/20 z-10'
+                : 'border-black/5 hover:border-black/20 dark:hover:border-white/20'
             }`}
             style={{ background: info.color }}
           >
-            <div className="absolute inset-0 bg-black/20 rounded-xl flex items-center justify-center">
-              <span className="text-white font-semibold text-xs text-center px-1 group-hover:scale-110 transition-transform duration-300">
+            <div className="absolute inset-0 bg-black/15 group-hover:bg-black/10 transition-colors duration-200 flex items-center justify-center">
+              <span className="text-white font-medium text-xs tracking-wide text-center px-2 truncate group-hover:scale-105 transition-transform duration-200">
                 {info.label}
               </span>
             </div>
@@ -196,40 +201,6 @@ const AdminMessageArea = memo(
               </div>
               Comunicado
             </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none border-none ring-0">
-                <div className="dark:bg-black/20 ring-2 ring-emerald-300 bg-emerald-500 dark:ring-teal-600 rounded-4xl hover:transition-all hover:scale-110 duration-300 hover:ring-4 p-0.5 dark:hover:bg-emerald-800 cursor-pointer">
-                  <Tooltip>
-                    <TooltipTrigger render={<div />}>
-                      <PaletteIcon className="w-8 h-8 text-emerald-50" />
-                    </TooltipTrigger>
-                    <TooltipContent side="top">
-                      <p className="text-[0.6rem] w-15 font-medium">
-                        escolha o seu template
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuPortal>
-                <DropdownMenuContent className="w-xl bg-popover/95 border-border">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel className="p-1.5 text-sm font-bold text-black/50 dark:text-amber-50 text-center">
-                      Escolha o template para a sua mensagem:
-                    </DropdownMenuLabel>
-                    <DropdownMenuRadioGroup
-                      value={template}
-                      onValueChange={setTemplate}
-                      className="grid grid-cols-2 gap-1.5"
-                    >
-                      {Templates}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenuPortal>
-            </DropdownMenu>
           </CardTitle>
           <CardDescription>Mensagem e setor de destino</CardDescription>
         </CardHeader>
@@ -252,12 +223,45 @@ const AdminMessageArea = memo(
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <Label className="py-2">Imagem</Label>
+          <div className="flex flex-col gap-3">
+            <Label className="py-2">Plano de fundo:</Label>
+
             <Upload
               uploadedImage={uploadedImage}
               setUploadedImage={setUploadedImage}
             />
+
+            <div className="flex flex-col gap-2 items-start">
+              <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="outline-none border-none ring-0">
+                  <Button
+                    className="p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
+                    variant="outline"
+                  >
+                    Selecione um template
+                  </Button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuPortal>
+                  <DropdownMenuContent className="w-xl max-w-[95vw] bg-popover/95 backdrop-blur-sm border border-border p-2 rounded-xl shadow-xl">
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel className="pb-2 pt-1 text-xs font-semibold text-black/40 dark:text-white/40 text-center tracking-wider uppercase">
+                        Escolha o template para a sua mensagem
+                      </DropdownMenuLabel>
+
+                      <DropdownMenuRadioGroup
+                        value={template}
+                        onValueChange={setTemplate}
+                        className="grid grid-cols-3 gap-2 p-1"
+                      >
+                        {Templates}
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenuPortal>
+              </DropdownMenu>
+            </div>
           </div>
           <div>
             <Label className="py-2">Titulo</Label>
@@ -300,6 +304,7 @@ const AdminMessageArea = memo(
                   ? toast.error('digite algo antes de publicar')
                   : (fetchPost(),
                     setMessage(''),
+                    setTitle(''),
                     toast.success('mensagem publicada com sucesso'));
               }}
             >

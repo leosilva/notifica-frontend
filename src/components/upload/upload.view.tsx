@@ -40,11 +40,11 @@ const UploadArea = memo(({ uploadedImage, setUploadedImage }: Types) => {
   };
 
   return (
-    <div className="px-1">
+    <div className="">
       {!uploadedImage ? (
         <div className="">
           <Button
-            className=" p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70"
+            className=" p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
             variant="outline"
             onClick={() => fileInputRef.current?.click()}
           >
