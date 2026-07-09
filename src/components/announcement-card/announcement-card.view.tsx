@@ -28,8 +28,7 @@ import {
 } from '../ui/dialog';
 
 export default function AnnouncementCard({ announcement }) {
-  const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzgyNTgxMTM5LCJpYXQiOjE3ODI0OTQ3MzksImp0aSI6ImYwYTAzMzM5MWEyMTQxNTVhZmJiOGUzNzA1Yzc4N2UxIiwidXNlcl9pZCI6NDQxNzE1fQ.9sZ9pXXVwvYaHtY3WBq_3ykKlqdZYo_2EfdtA4o36nM';
+  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NDg4NDc4LCJpYXQiOjE3ODM2MjQ0NzgsImp0aSI6IjQ0MzYwN2YyMjdhYzRlN2Y4ODZlNWQ0YjU1MzljMjU3IiwidXNlcl9pZCI6IjEifQ.ravRy65Jdur_jjlUOMTy3gfBhiVeiiqzATrjfz2qNwU"
 const fetchDelete = async () => {
 
     try {
@@ -67,7 +66,7 @@ const fetchDelete = async () => {
       <CardHeader>
         <CardTitle>Comunicado {announcement.id}</CardTitle>
       </CardHeader>
-      <CardContent className="py-4 group-hover:py-2 transition-all duration-300 ease-in-out">
+      <CardContent className="py-2 group-hover:py-2 transition-all duration-300 ease-in-out">
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
           style={{
@@ -242,6 +241,11 @@ const fetchDelete = async () => {
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>
+    <p className="text-right text-[11px] text-gray-500 italic ">
+  {announcement.publicado_em 
+    ? `Publicado em: ${announcement.publicado_em}` 
+    : 'Ainda não publicado'}
+</p>
       </CardContent>
     </Card>
   );
