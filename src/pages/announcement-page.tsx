@@ -20,7 +20,8 @@ export function ComunicationPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [data, setData] = useState([]);
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0NDg4NDc4LCJpYXQiOjE3ODM2MjQ0NzgsImp0aSI6IjQ0MzYwN2YyMjdhYzRlN2Y4ODZlNWQ0YjU1MzljMjU3IiwidXNlcl9pZCI6IjEifQ.ravRy65Jdur_jjlUOMTy3gfBhiVeiiqzATrjfz2qNwU";
+  require('dotenv').config();
+  const token = process.env.TOKEN_ACESSO;
 
   const handleAnnouncement = useCallback(async () => {
     try {
@@ -36,7 +37,7 @@ export function ComunicationPage() {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     handleAnnouncement();
