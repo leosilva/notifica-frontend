@@ -16,12 +16,11 @@ import { ButtonGroup } from '@/components/ui/button-group';
 import { Button } from '../components/ui/button';
 
 export function ComunicationPage() {
-  const [filter, setFilter] = useState('recente'); 
+  const [filter, setFilter] = useState('recente');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [data, setData] = useState([]);
-  require('dotenv').config();
-  const token = process.env.TOKEN_ACESSO;
+  const token = import.meta.env.VITE_TOKEN_ACESSO;
 
   const handleAnnouncement = useCallback(async () => {
     try {
@@ -33,6 +32,7 @@ export function ComunicationPage() {
         },
       });
       const data = await response.json();
+      console.log(data);
       setData(data);
     } catch (error) {
       console.error(error);
@@ -48,7 +48,7 @@ export function ComunicationPage() {
 
     if (searchTerm.trim() !== '') {
       result = result.filter((item) =>
-        item.titulo?.toLowerCase().includes(searchTerm.toLowerCase())
+        item.titulo?.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -94,7 +94,7 @@ export function ComunicationPage() {
                   <TableProperties />
                 </Button>
               </ButtonGroup>
-              
+
               <Input
                 placeholder="digite o nome do comunicado"
                 className="w-80 dark:text-amber-50"
@@ -122,10 +122,10 @@ export function ComunicationPage() {
                         Antigos
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem value={'publicados'}>
-                        Publicados
+                        Publicado
                       </DropdownMenuRadioItem>
                       <DropdownMenuRadioItem value={'rascunhos'}>
-                        Rascunhos
+                        Não publicado
                       </DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                   </DropdownMenuGroup>

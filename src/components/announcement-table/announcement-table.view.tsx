@@ -26,6 +26,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { Link } from 'react-router';
+import { it } from 'node:test';
 
 export default function TabelaComunicados({ dados = [] }) {
   const actionButtonStyle = `flex items-center justify-center gap-1 text-white py-1.5 px-3 rounded-[6px] transition-all duration-300 active:scale-95 text-xs font-medium`;
@@ -58,23 +59,25 @@ export default function TabelaComunicados({ dados = [] }) {
               <TableCell className="text-gray-600 dark:text-gray-400 break-words">
                 {item.usuario.nome}
               </TableCell>
-              <TableCell>{item.dataCriacao || 'algum dia ai'}</TableCell>
+              <TableCell>{item.dataCriacao}</TableCell>
               <TableCell>
                 <span
                   className={
-                    item.publicado_em === 'Pendente'
+                    item.disponivel === false
                       ? 'text-amber-600 font-semibold'
                       : ''
                   }
                 >
-                  {item.publicado_em}
+                  {                  item.disponivel === false
+                      ? 'Pendente'
+                      : `${item.publicado_em}`}
                 </span>
               </TableCell>
 
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                   <Button
-                    className={`${actionButtonStyle} bg-yellow-500 hover:bg-yellow-600 shadow-sm`}
+                    className={`${actionButtonStyle} bg-emerald-400 hover:bg-yellow-600 shadow-sm`}
                   >
                     <Send className="h-3.5 w-3.5" /> Publicar
                   </Button>
@@ -83,8 +86,9 @@ export default function TabelaComunicados({ dados = [] }) {
                     state={{
                       mensagem: item.corpo,
                       template:
-                        'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+                        `${item.gradiente_fundo}`,
                       titulo: item.titulo,
+                      id: item.id
                     }}
                   >
                     <Button

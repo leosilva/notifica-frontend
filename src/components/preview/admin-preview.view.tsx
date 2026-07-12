@@ -14,7 +14,7 @@ interface Types {
   message: string;
   template: string;
   selectedSector: string;
-  uploadedImage: string | null;
+  uploadedImage: File | null;
   Slide?: number;
   title: string;
 }
@@ -25,6 +25,10 @@ const Preview = memo(
 
     const [slide, setSlide] = useState([1]);
     const opacityValue = slide[0];
+    const imageUrl = useMemo(() => {
+    if (!uploadedImage) return null;
+    return URL.createObjectURL(uploadedImage);
+  }, [uploadedImage]);
 
     return (
       <Card className="mt-8 transform-gpu bg-teal-50 dark:bg-emerald-950">
@@ -39,8 +43,8 @@ const Preview = memo(
             <div
               className="col-start-1 row-start-1 w-full h-full transition-opacity duration-75"
               style={{
-                background: uploadedImage
-                  ? `url(${uploadedImage}) center/cover no-repeat`
+                background: imageUrl
+                  ? `url(${imageUrl}) center/cover no-repeat`
                   : template,
                 opacity: opacityValue,
               }}

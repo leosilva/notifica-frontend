@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { CarouselItem } from '@/components/ui/carousel';
-import { CarouselCard, AdminCard, GenericCarousel } from '../components';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import { AdminCard } from '../components';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface News {
   id: number;
@@ -8,22 +9,28 @@ interface News {
   corpo: string;
   avatar: string;
   author: string;
-  background: string;
+  gradiente_fundo: string;
   qr_url: string;
 }
 
 export function NewsPage() {
   const [news, setNews] = useState<News[]>([]);
+  const [api, setApi] = useState<CarouselApi>();
+  const [bgColor, setBgColor] = useState('linear-gradient(to bottom right, #3b82f6, #1d4ed8)');
+
+  const autoplay = Autoplay({ delay: 10000});
 
   const fetchNews = useCallback(async () => {
     try {
-      // O nome da rota não corresponde com a realidade, mas o dado precisa fazer sentido para o seu uso
       const response = await fetch('http://localhost:8000/api/carrossel/');
       const data = await response.json();
-      console.log(response);
-      console.log(data);
+      const activeNews = data.filter((item) => item.disponivel);
+      setNews(activeNews);
+      console.log(data)
 
-      setNews(data);
+      if (activeNews.length > 0 && activeNews[0].gradiente_fundo) {
+        setBgColor(activeNews[0].gradiente_fundo);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -33,22 +40,44 @@ export function NewsPage() {
     fetchNews();
   }, [fetchNews]);
 
+  useEffect(() => {
+    if (!api || news.length === 0) return;
+
+    api.on('select', () => {
+      const currentIndex = api.selectedScrollSnap();
+      const currentCard = news[currentIndex];
+      
+      if (currentCard?.gradiente_fundo) {
+        setBgColor(currentCard.gradiente_fundo);
+      }
+    });
+  }, [api, news]);
+
   return (
-    <div className="w-full h-full bg-linear-to-br from-blue-500 to-blue-700 flex justify-center items-center">
-      <div className="w-full max-w-[60vw] mx-auto">
+    <div 
+      className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
+      style={{ background: bgColor }}
+    >
+      <div className="w-full max-w-[60vw] mx-auto relative z-10">
         {!!news.length && (
-          <GenericCarousel>
-            {news.map((item, index) => (
-              <CarouselItem key={item.id || index}>
-                <AdminCard
-                  title={item.titulo}
-                  resume={item.corpo}
-                  avatar={item.avatar}
-                  author={item.author}
-                />
-              </CarouselItem>
-            ))}
-          </GenericCarousel>
+          <Carousel 
+            setApi={setApi}
+            plugins={[autoplay]}
+            opts={{ loop: true, watchDrag: false }}
+          >
+            <CarouselContent>
+              {news.map((item, index) => (
+                <CarouselItem key={item.id || index}>
+                  <AdminCard
+                    title={item.titulo}
+                    resume={item.corpo}
+                    avatar={item.avatar}
+                    author={item.author}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         )}
       </div>
     </div>

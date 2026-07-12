@@ -96,14 +96,15 @@ interface Types {
   setTemplate: (value: string) => void;
   selectedSector: string;
   setSelectedSector: (value: string) => void;
-  uploadedImage: string | null;
-  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  uploadedImage: File | null;
+  setUploadedImage: React.Dispatch<React.SetStateAction<File | null>>;
   title: string;
   setTitle: (value: string) => void;
+  id: number | null;
 }
-  require('dotenv').config();
 
-const token = process.env.TOKEN_ACESSO;
+const token = import.meta.env.VITE_TOKEN_ACESSO;
+
 const AdminMessageArea = memo(
   ({
     message,
@@ -116,11 +117,13 @@ const AdminMessageArea = memo(
     setUploadedImage,
     title,
     setTitle,
+    id,
   }: Types) => {
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
       if (value.length <= 150) {
         setMessage(value);
+        console.log(uploadedImage);
       }
     };
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,24 +132,81 @@ const AdminMessageArea = memo(
         setTitle(value);
       }
     };
-    const fetchPost = async () => {
+
+    const createFormData = (isAvailable: boolean) => {
+      const formData = new FormData();
+
+      formData.append(
+        'titulo',
+        title === '' ? 'Comunicado Administrativo' : title
+      );
+      formData.append('corpo', message);
+      formData.append('gradiente_fundo', template);
+      formData.append('disponivel', String(isAvailable));
+
+      if (uploadedImage) {
+        formData.append('imagem', uploadedImage);
+      }
+
+      return formData;
+    };
+
+    const fetchPublished = async () => {
       try {
         await fetch('http://localhost:8000/api/postagem/', {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            corpo: `${message}`,
-            titulo: `${title}`,
-            disponivel: true,
-          }),
+          body: createFormData(true),
         });
       } catch (error) {
         console.log(error);
       }
     };
+
+    const fetchSaved = async () => {
+      try {
+        await fetch('http://localhost:8000/api/postagem/', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: createFormData(false),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const updatePublished = async (postId: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/postagem/${postId}/`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: createFormData(true),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const updateSaved = async (postId: number) => {
+      try {
+        await fetch(`http://localhost:8000/api/postagem/${postId}/`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: createFormData(false),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const removeImage = () => {
@@ -154,6 +214,44 @@ const AdminMessageArea = memo(
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
+    };
+
+    const handleSaveAction = async () => {
+      if (message === '') {
+        toast.error('digite algo antes de publicar');
+        return;
+      }
+
+      if (id !== null) {
+        await updateSaved(id);
+        toast.success('mensagem atualizada com sucesso');
+      } else {
+        await fetchSaved();
+        toast.success('mensagem salva com sucesso');
+      }
+
+      setMessage('');
+      setTitle('');
+      removeImage();
+    };
+
+    const handlePublishAction = async () => {
+      if (message === '') {
+        toast.error('digite algo antes de publicar');
+        return;
+      }
+
+      if (id !== null) {
+        await updatePublished(id);
+        toast.success('mensagem atualizada e publicada com sucesso');
+      } else {
+        await fetchPublished();
+        toast.success('mensagem publicada com sucesso');
+      }
+
+      setMessage('');
+      setTitle('');
+      removeImage();
     };
 
     const Templates = useMemo(() => {
@@ -234,7 +332,10 @@ const AdminMessageArea = memo(
             <div className="flex flex-col gap-2 items-start">
               <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
               <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none border-none ring-0">
+                <DropdownMenuTrigger
+                  className="outline-none border-none ring-0"
+                  asChild
+                >
                   <Button
                     className="p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
                     variant="outline"
@@ -293,28 +394,24 @@ const AdminMessageArea = memo(
             </div>
           </div>
           <div className="flex flex-row gap-2 justify-around">
-            <Button className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center">
-              <Save className="text-emerald-50 h-full" />
+            <Button
+              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center"
+              onClick={handleSaveAction}
+            >
+              <Save className="text-emerald-50 h-full mr-2" />
               Salvar Comunicado
             </Button>
             <Button
-              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50"
-              onClick={() => {
-                message === ''
-                  ? toast.error('digite algo antes de publicar')
-                  : (fetchPost(),
-                    setMessage(''),
-                    setTitle(''),
-                    toast.success('mensagem publicada com sucesso'));
-              }}
+              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50 flex items-center justify-center"
+              onClick={handlePublishAction}
             >
-              <Send />
+              <Send className="mr-2" />
               Salvar e Publicar Comunicado
             </Button>
           </div>
         </CardContent>
       </Card>
     );
-  },
+  }
 );
 export default AdminMessageArea;

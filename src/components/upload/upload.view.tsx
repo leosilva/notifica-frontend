@@ -7,31 +7,33 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Upload, X } from 'lucide-react';
-import { memo, useRef, useState } from 'react';
+import { memo, useRef } from 'react';
 import { toast } from 'sonner';
+
 interface Types {
-  uploadedImage: string | null;
-  setUploadedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  // Alterado de string para File
+  uploadedImage: File | null;
+  setUploadedImage: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 const UploadArea = memo(({ uploadedImage, setUploadedImage }: Types) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast.error('imagem excede tamanho previsto');
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImage(e.target?.result as string);
-        toast.success('imagem selecionada com sucesso');
-      };
-      reader.readAsDataURL(file);
+      // Passa o arquivo diretamente para o estado
+      setUploadedImage(file);
+      toast.success('imagem selecionada com sucesso');
     }
   };
+
   const removeImage = () => {
     setUploadedImage(null);
     if (fileInputRef.current) {

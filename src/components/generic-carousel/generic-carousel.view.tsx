@@ -3,7 +3,8 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent } from '../ui/carousel';
 
 interface GenericProp {
-  children: ReactNode;
+  children: React.ReactNode; 
+  onSlideChange?: (index: number) => void;
 }
 
 export default function GenericCarouselView({ children }: GenericProp) {

@@ -1,4 +1,4 @@
-import { Eye, MapPin, Save, Trash, Send } from 'lucide-react';
+import { Eye, MapPin, Save, Trash, Send, Pencil } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -27,32 +27,47 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 
-export default function AnnouncementCard({ announcement }) {
-  require('dotenv').config();
-const token = process.env.TOKEN_ACESSO;
-const fetchDelete = async () => {
+export default function AnnouncementCard({ announcement, onUpdate }) {
+  const token = import.meta.env.VITE_TOKEN_ACESSO;
+  
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  
+  const fetchDelete = async (e) => {
+    e.preventDefault(); 
 
     try {
-      const response = await fetch(`http://localhost:8000/api/postagem/${announcement.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `http://localhost:8000/api/postagem/${announcement.id}/`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || 'Erro ao deletar comunicado');
       }
 
-      alert('Comunicado excluído com sucesso!'); 
-      
+      alert('Comunicado excluído com sucesso!');
+    
+      setIsAlertOpen(false);
+
+      if (onUpdate) {
+        onUpdate(); 
+      } else {
+        window.location.reload(); 
+      }
+
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
     }
   };
+
   const bubbleButtonStyle = ` flex flex-row items-center justify-center gap-1 text-white bg-[#7d2ae8]
   py-[10px] rounded-[6px] 
   transition-all duration-300 active:scale-100
@@ -71,24 +86,22 @@ const fetchDelete = async () => {
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
           style={{
-            background:
-              'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+            background: announcement.gradiente_fundo,
           }}
         >
           <div className="absolute inset-0 bg-black/5" />
 
           <div className="relative z-10 w-full max-w-55">
-            {
-              /*announcement.image !== null ? (
+            {announcement.imagem ? (
               <div className="relative w-full h-full p-2">
                 <img
-                  src={announcement.image}
+                  src={announcement.imagem}
                   alt="Upload Preview"
                   className="w-full h-full object-contain rounded-md"
                 />
               </div>
-            ) : (*/
-              <div className="bg-gray-900 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
+            ) : (
+              <div className="bg-gray-900/20 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
                 <div className="flex items-center justify-center gap-1 shrink-0">
                   <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
                   <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
@@ -103,23 +116,23 @@ const fetchDelete = async () => {
                   {announcement.corpo}
                 </p>
 
-                <div className="border-t border-gray-800 mt-0.5 pt-1.5 text-center flex flex-col">
-                  <span className="text-gray-500 text-[9px] font-medium italic">
-                    Administração: {`${announcement.usuario.nome}`}
+                <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
+                  <span className="text-gray-400 text-[9px] font-medium italic">
+                    Administração: {announcement.usuario?.nome || 'Admin'}
                   </span>
-                  <span className="text-gray-500 text-[9px] font-medium italic">
-                    {announcement.publicado_em || 'essa mermo'}
+                  <span className="text-gray-400 text-[9px] font-medium italic">
+                    {announcement.publicado_em || 'Recente'}
                   </span>
                 </div>
               </div>
-            }
+            )}
           </div>
         </div>
 
         <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-4 overflow-hidden transition-all duration-300 ease-in-out max-h-20 opacity-100 py-2 mt-2">
           <Button
             title="Publicar"
-            className={`${bubbleButtonStyle} w-full h-full bg-orange-400`}
+            className={`${bubbleButtonStyle} w-full h-full bg-emerald-400`}
           >
             <Send size={20} />
           </Button>
@@ -127,16 +140,16 @@ const fetchDelete = async () => {
           <Link
             to="/"
             state={{
-              mensagem: `${announcement.corpo}`,
-              template:
-                'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
-              titulo: `${announcement.titulo}`,
+              titulo: announcement.titulo,
+              corpo: announcement.corpo,
+              template: announcement.gradiente_fundo,
+              id: announcement.id
             }}
             className="w-full h-full"
-            title="Salvar rascunho"
+            title="Editar comunicado"
           >
             <Button className={`${bubbleButtonStyle} w-full bg-emerald-400`}>
-              <Save size={20} />
+              <Pencil size={20} />
             </Button>
           </Link>
 
@@ -162,28 +175,26 @@ const fetchDelete = async () => {
               <div
                 className="relative h-137.5 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
                 style={{
-                  background:
-                    'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
+                  background: announcement.gradiente_fundo,
                 }}
               >
                 <div className="absolute inset-0 bg-black/5" />
 
                 <div className="relative z-10 w-full max-w-3xl px-6">
-                  {
-                    /*announcement.image !== 'nada' ? (
+                  {announcement.imagem ? (
                     <div className="relative w-full h-full p-4">
                       <img
-                        src={announcement.image}
+                        src={announcement.imagem}
                         alt="Upload Preview"
                         className="w-full h-full object-contain rounded-md shadow-lg"
                       />
                     </div>
-                  ) : (*/
-                    <div className="bg-gray-900 rounded-xl p-10 shadow-2xl flex flex-col gap-5 border border-white/5 w-full">
+                  ) : (
+                    <div className="bg-black-900/20 rounded-xl p-10 shadow-2xl flex flex-col gap-5 border border-white/5 w-full">
                       <div className="flex items-center justify-center gap-3 shrink-0">
                         <MapPin className="h-6 w-6 text-amber-100/80" />
                         <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
-                          Setor
+                          {announcement.setor || 'Setor'}
                         </span>
                       </div>
 
@@ -197,20 +208,19 @@ const fetchDelete = async () => {
 
                       <div className="text-sm text-gray-400 border-t pt-3 text-center">
                         <div>
-                          Administração: {`${announcement.usuario.nome}`}
+                          Administração: {announcement.usuario?.nome || 'Admin'}
                         </div>
                         <div className="text-xs mt-1">
-                          {announcement.publicado_em || 'essa mermo'}
+                          {announcement.publicado_em || 'Recente'}
                         </div>
                       </div>
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             </DialogContent>
           </Dialog>
-
-          <AlertDialog>
+          <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
             <AlertDialogTrigger
               render={<span />}
               nativeButton={true}
@@ -242,11 +252,15 @@ const fetchDelete = async () => {
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>
-    <p className="text-right text-[11px] text-gray-500 italic ">
-  {announcement.publicado_em 
-    ? `Publicado em: ${announcement.publicado_em}` 
-    : 'Ainda não publicado'}
-</p>
+        <p className={`text-right text-[11px] italic ${
+                    announcement.disponivel === false
+                      ? 'text-amber-600 font-semibold'
+                      : ''
+                  }`}>
+          {announcement.disponivel
+            ? `Publicado em: ${announcement.publicado_em}`
+            : 'Ainda não publicado'}
+        </p>
       </CardContent>
     </Card>
   );
