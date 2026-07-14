@@ -20,8 +20,7 @@ export function ComunicationPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [data, setData] = useState([]);
-  const token = import.meta.env.VITE_TOKEN_ACESSO;
-
+  const token = localStorage.getItem('access_token');
   const handleAnnouncement = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:8000/api/postagem/', {

@@ -28,7 +28,7 @@ import {
 } from '../ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
-  const token = import.meta.env.VITE_TOKEN_ACESSO;
+  const token = localStorage.getItem('access_token');
   
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   
@@ -252,15 +252,16 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>
-        <p className={`text-right text-[11px] italic ${
-                    announcement.disponivel === false
-                      ? 'text-amber-600 font-semibold'
-                      : ''
-                  }`}>
-          {announcement.disponivel
-            ? `Publicado em: ${announcement.publicado_em}`
-            : 'Ainda não publicado'}
-        </p>
+<p className={`text-right text-[11px] italic ${
+            announcement.disponivel === false
+              ? 'text-amber-600 font-semibold'
+              : ''
+          }`}>
+  {announcement.disponivel
+    ? <span className="text-emerald-600 non-italic not-italic">Publicado em: </span>
+    : 'Ainda não publicado'}
+  {announcement.disponivel && announcement.publicado_em}
+</p>
       </CardContent>
     </Card>
   );

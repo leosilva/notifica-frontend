@@ -103,7 +103,7 @@ interface Types {
   id: number | null;
 }
 
-const token = import.meta.env.VITE_TOKEN_ACESSO;
+const token = localStorage.getItem('access_token');
 
 const AdminMessageArea = memo(
   ({
