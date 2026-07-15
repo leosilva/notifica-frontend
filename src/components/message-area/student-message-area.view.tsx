@@ -73,6 +73,55 @@ interface Types {
 }
 const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
+    const fetchPublished = async () => {
+      const token = localStorage.getItem('access_token');
+
+      const payload = {
+        corpo: message,
+        gradiente_fundo: template,
+        disponivel: true,
+      };
+
+      try {
+        const response = await fetch('http://localhost:8000/api/postagem/', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao enviar comunicado');
+        }
+
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    };
+
+    const handleSendMessage = async () => {
+      if (message.length === 0) {
+        toast.error('Escreva algo antes de enviar');
+        return;
+      }
+
+      const toastId = toast.loading('Publicando comunicado...');
+
+      const success = await fetchPublished();
+
+      if (success) {
+        toast.success('Mensagem enviada com sucesso', { id: toastId });
+        setMessage('');
+      } else {
+        toast.error('Não foi possível enviar o comunicado. Tente novamente.', {
+          id: toastId,
+        });
+      }
+    };
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
       if (value.length <= 80) {
@@ -107,7 +156,6 @@ const StudentMessageArea = memo(
       });
       // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     }, [template, setTemplate]);
-
     return (
       <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 transform-gpu">
         <CardHeader className="pb-6  ">
@@ -201,11 +249,7 @@ const StudentMessageArea = memo(
           <Button
             className="w-full h-12 font-semibold rounded-xl transition-all duration-300 transform hover:ring-1 hover:dark:ring-emerald-400/90 hover:ring-emerald-700/90 border-0 outline-none dark:bg-emerald-800 bg-emerald-400 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-amber-50"
             type="button"
-            onClick={() =>
-              message.length === 0
-                ? toast.error('Escreva algo antes de enviar')
-                : toast.success('Mensagem enviada com sucesso')
-            }
+            onClick={handleSendMessage}
           >
             <Send className="mr-2 h-5 w-5 inline text-amber-50" />
             Publicar Comunicado

@@ -14,7 +14,7 @@ export default function Carouselcard({
   author,
 }: CarrosselcardProps) {
   return (
-    <div className="h-[70vh] bg-gray-900/95 backdrop-blur-lg rounded-2xl p-12 shadow-2xl border border-white/20 flex flex-col items-center gap-10 justify-center">
+    <div className="h-[70vh] bg-gray-900/30 backdrop-blur-lg rounded-2xl p-12 shadow-2xl border border-white/20 flex flex-col items-center gap-10 justify-center">
       <h1 className="flex items-center justify-center mb-4 text-gray-100">l</h1>
       <h3 className="font-bold text-3xl md:text-4xl mb-6 text-gray-100">
         {title}

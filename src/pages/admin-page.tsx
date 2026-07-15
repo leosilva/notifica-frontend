@@ -13,7 +13,7 @@ export function AdminPage() {
   const { state } = useLocation();
   const [message, setMessage] = useState(state?.corpo || '');
   const [title, setTitle] = useState(state?.titulo || '');
-  const [id, setId] = useState(state?.id || null)
+  const [id, setId] = useState(state?.id || null);
   const [template, setTemplate] = useState(
     state?.template ||
       'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))',

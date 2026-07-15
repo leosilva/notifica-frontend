@@ -29,11 +29,11 @@ import {
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
   const token = localStorage.getItem('access_token');
-  
+
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  
+
   const fetchDelete = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       const response = await fetch(
@@ -53,15 +53,14 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
       }
 
       alert('Comunicado excluído com sucesso!');
-    
+
       setIsAlertOpen(false);
 
       if (onUpdate) {
-        onUpdate(); 
+        onUpdate();
       } else {
-        window.location.reload(); 
+        window.location.reload();
       }
-
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
@@ -138,17 +137,17 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
           </Button>
 
           <Link
-            to="/"
+            to="/admin"
             state={{
               titulo: announcement.titulo,
               corpo: announcement.corpo,
               template: announcement.gradiente_fundo,
-              id: announcement.id
+              id: announcement.id,
             }}
             className="w-full h-full"
             title="Editar comunicado"
           >
-            <Button className={`${bubbleButtonStyle} w-full bg-emerald-400`}>
+            <Button className={`${bubbleButtonStyle} w-full bg-amber-300`}>
               <Pencil size={20} />
             </Button>
           </Link>
@@ -252,16 +251,22 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>
-<p className={`text-right text-[11px] italic ${
+        <p
+          className={`text-right text-[11px] italic ${
             announcement.disponivel === false
               ? 'text-amber-600 font-semibold'
               : ''
-          }`}>
-  {announcement.disponivel
-    ? <span className="text-emerald-600 non-italic not-italic">Publicado em: </span>
-    : 'Ainda não publicado'}
-  {announcement.disponivel && announcement.publicado_em}
-</p>
+          }`}
+        >
+          {announcement.disponivel ? (
+            <span className="text-emerald-600 non-italic not-italic">
+              Publicado em:{' '}
+            </span>
+          ) : (
+            'Ainda não publicado'
+          )}
+          {announcement.disponivel && announcement.publicado_em}
+        </p>
       </CardContent>
     </Card>
   );

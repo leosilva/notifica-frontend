@@ -21,7 +21,7 @@ const UploadArea = memo(({ uploadedImage, setUploadedImage }: Types) => {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    
+
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
         toast.error('imagem excede tamanho previsto');

@@ -43,7 +43,7 @@ const preview = memo(({ message, template }: Types) => {
             <div className="absolute inset-0 bg-black/20" />
             <div className="relative h-full flex items-center justify-center p-8">
               <div className="text-center max-w-lg w-full">
-                <div className="bg-gray-900/95 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-black/5">
+                <div className="bg-gray-900/30 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-black/5">
                   <div className="flex items-center justify-center mb-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center"

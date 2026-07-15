@@ -68,16 +68,16 @@ export default function TabelaComunicados({ dados = [] }) {
                       : ''
                   }
                 >
-                  {                  item.disponivel === false
-                      ? 'Pendente'
-                      : `${item.publicado_em}`}
+                  {item.disponivel === false
+                    ? 'Pendente'
+                    : `${item.publicado_em}`}
                 </span>
               </TableCell>
 
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                   <Button
-                    className={`${actionButtonStyle} bg-emerald-400 hover:bg-yellow-600 shadow-sm`}
+                    className={`${actionButtonStyle} bg-emerald-400 hover:bg-emerald-600 shadow-sm`}
                   >
                     <Send className="h-3.5 w-3.5" /> Publicar
                   </Button>
@@ -85,14 +85,13 @@ export default function TabelaComunicados({ dados = [] }) {
                     to="/editar"
                     state={{
                       mensagem: item.corpo,
-                      template:
-                        `${item.gradiente_fundo}`,
+                      template: `${item.gradiente_fundo}`,
                       titulo: item.titulo,
-                      id: item.id
+                      id: item.id,
                     }}
                   >
                     <Button
-                      className={`${actionButtonStyle} bg-emerald-500 hover:bg-emerald-600 shadow-sm`}
+                      className={`${actionButtonStyle} bg-amber-300 hover:bg-amber-400 shadow-sm`}
                     >
                       <Pencil className="h-3.5 w-3.5" /> Editar
                     </Button>

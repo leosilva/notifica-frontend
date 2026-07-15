@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import {
-  GraduationCap,
-  Eye,
-  EyeOff,
-  User,
-  Lock,
-} from 'lucide-react';
+import { GraduationCap, Eye, EyeOff, User, Lock } from 'lucide-react';
 import {
   Card,
   CardTitle,
@@ -53,9 +47,9 @@ export default function LoginPage() {
 
     try {
       const response = await fetch('http://localhost:8000/api/token/pair/', {
-        method: 'POST', 
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: username,
@@ -69,22 +63,28 @@ export default function LoginPage() {
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
 
-        setAviso({ mensagem: 'Login realizado com sucesso! Entrando...', tipo: 'sucesso' });
-
+        setAviso({
+          mensagem: 'Login realizado com sucesso! Entrando...',
+          tipo: 'sucesso',
+        });
 
         setTimeout(() => {
-          window.location.href = '/'; 
+          window.location.href = window.location.href =
+            tipoUsuario === 'estudante' ? '/student' : '/admin';
         }, 1500);
-
       } else {
-        setAviso({ 
-          mensagem: data.detail || 'Matrícula ou senha incorretos. Tente novamente.', 
-          tipo: 'erro' 
+        setAviso({
+          mensagem:
+            data.detail || 'Matrícula ou senha incorretos. Tente novamente.',
+          tipo: 'erro',
         });
       }
     } catch (error) {
-      console.error("Erro na requisição:", error);
-      setAviso({ mensagem: 'Erro de conexão. Verifique se o servidor está rodando.', tipo: 'erro' });
+      console.error('Erro na requisição:', error);
+      setAviso({
+        mensagem: 'Erro de conexão. Verifique se o servidor está rodando.',
+        tipo: 'erro',
+      });
     } finally {
       setIsLoading(false);
     }
@@ -112,11 +112,12 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            
             {aviso.mensagem && (
               <div
                 className={`mb-4 p-3 rounded text-sm font-medium text-center ${
-                  aviso.tipo === 'erro' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'
+                  aviso.tipo === 'erro'
+                    ? 'bg-red-100 text-red-700'
+                    : 'bg-emerald-100 text-emerald-700'
                 }`}
               >
                 {aviso.mensagem}
@@ -143,11 +144,11 @@ export default function LoginPage() {
                 value="estudante"
                 className="flex flex-col gap-4 mt-4"
               >
-                <form 
-                  onSubmit={(e) => { 
-                    e.preventDefault(); 
-                    handleLogin('estudante'); 
-                  }} 
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleLogin('estudante');
+                  }}
                   className="flex flex-col gap-4"
                 >
                   <InputGroup>
@@ -191,7 +192,11 @@ export default function LoginPage() {
                     </InputGroupAddon>
                   </InputGroup>
 
-                  <Button type="submit" disabled={isLoading} className="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 text-white">
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 text-white"
+                  >
                     {isLoading ? 'Aguarde...' : 'Entrar'}
                   </Button>
                 </form>
@@ -201,11 +206,11 @@ export default function LoginPage() {
                 value="administrador"
                 className="flex flex-col gap-4 mt-4"
               >
-                <form 
-                  onSubmit={(e) => { 
-                    e.preventDefault(); 
-                    handleLogin('administrador'); 
-                  }} 
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleLogin('administrador');
+                  }}
                   className="flex flex-col gap-4"
                 >
                   <InputGroup>
@@ -246,8 +251,12 @@ export default function LoginPage() {
                       </button>
                     </InputGroupAddon>
                   </InputGroup>
-                  
-                  <Button type="submit" disabled={isLoading} className="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 text-white">
+
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 text-white"
+                  >
                     {isLoading ? 'Aguarde...' : 'Entrar como Admin'}
                   </Button>
                 </form>

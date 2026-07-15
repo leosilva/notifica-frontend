@@ -138,7 +138,7 @@ const AdminMessageArea = memo(
 
       formData.append(
         'titulo',
-        title === '' ? 'Comunicado Administrativo' : title
+        title === '' ? 'Comunicado Administrativo' : title,
       );
       formData.append('corpo', message);
       formData.append('gradiente_fundo', template);
@@ -178,21 +178,6 @@ const AdminMessageArea = memo(
         console.log(error);
       }
     };
-
-    const updatePublished = async (postId: number) => {
-      try {
-        await fetch(`http://localhost:8000/api/postagem/${postId}/`, {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: createFormData(true),
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const updateSaved = async (postId: number) => {
       try {
         await fetch(`http://localhost:8000/api/postagem/${postId}/`, {
@@ -242,7 +227,9 @@ const AdminMessageArea = memo(
       }
 
       if (id !== null) {
-        await updatePublished(id);
+        await updateSaved(id);
+        await fetchPublished();
+
         toast.success('mensagem atualizada e publicada com sucesso');
       } else {
         await fetchPublished();
@@ -412,6 +399,6 @@ const AdminMessageArea = memo(
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 export default AdminMessageArea;

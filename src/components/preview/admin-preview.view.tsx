@@ -26,9 +26,9 @@ const Preview = memo(
     const [slide, setSlide] = useState([1]);
     const opacityValue = slide[0];
     const imageUrl = useMemo(() => {
-    if (!uploadedImage) return null;
-    return URL.createObjectURL(uploadedImage);
-  }, [uploadedImage]);
+      if (!uploadedImage) return null;
+      return URL.createObjectURL(uploadedImage);
+    }, [uploadedImage]);
 
     return (
       <Card className="mt-8 transform-gpu bg-teal-50 dark:bg-emerald-950">

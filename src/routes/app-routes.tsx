@@ -10,10 +10,11 @@ import {
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />}></Route>
+      <Route path="" element={<LoginPage />}></Route>
       <Route path="/news" element={<NewsPage />} />
-      <Route path="" element={<AdminPage />} />
-      <Route path="/comunicados" element={<ComunicationPage />} />
+      <Route path="/admin" element={<AdminPage />} />
+      <Route path="/student" element={<StudentPage />} />
+      <Route path="/admin/comunicados" element={<ComunicationPage />} />
     </Routes>
   );
 }
