@@ -70,7 +70,7 @@ export default function LoginPage() {
 
         setTimeout(() => {
           window.location.href = window.location.href =
-            tipoUsuario === 'estudante' ? '/student' : '/admin';
+            tipoUsuario === 'estudante' ? '/student' : '/comunicados';
         }, 1500);
       } else {
         setAviso({

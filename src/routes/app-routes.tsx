@@ -14,7 +14,7 @@ export function AppRoutes() {
       <Route path="/news" element={<NewsPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/student" element={<StudentPage />} />
-      <Route path="/admin/comunicados" element={<ComunicationPage />} />
+      <Route path="/comunicados" element={<ComunicationPage />} />
     </Routes>
   );
 }
