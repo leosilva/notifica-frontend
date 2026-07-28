@@ -29,6 +29,10 @@ import {
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
   const token = localStorage.getItem('access_token');
+  const textlimit = (texto, limite) => {
+  if (!texto) return '';
+  return texto.length > limite ? `${texto.slice(0, limite)}...` : texto;
+  };
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
@@ -78,8 +82,10 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         ' mt-8 transform-gpu transition-colors duration-300 bg-white/30 dark:bg-emerald-500/20 hover:bg-taupe-200/20'
       }
     >
-      <CardHeader>
-        <CardTitle>Comunicado {announcement.id}</CardTitle>
+      <CardHeader className='flex flex-col'>
+<CardTitle title={announcement.titulo}>
+  {textlimit(announcement.titulo, 30)}
+</CardTitle>
       </CardHeader>
       <CardContent className="py-2 group-hover:py-2 transition-all duration-300 ease-in-out">
         <div
