@@ -1,4 +1,4 @@
-import { Funnel, Undo2, Square, TableProperties } from 'lucide-react';
+import { Funnel, Undo2, Square, TableProperties, Plus } from 'lucide-react';
 import { Header, PageButton, AnnouncementCard } from '../components';
 import { Input } from '@/components/ui/input';
 import { useCallback, useEffect, useState, useMemo } from 'react';
@@ -73,8 +73,7 @@ export function ComunicationPage() {
         <div className="bg-teal-50/60 dark:bg-emerald-950 rounded-2xl my-6 w-full p-6 shadow-sm shadow-emerald-900/10">
           <div className="py-6 justify-between flex flex-row items-center">
             <div className="flex flex-row gap-2 items-center">
-              <PageButton to=".." frase="" icon={<Undo2 />} />
-              <h2 className="font-bold text-2xl text-black/30 dark:text-emerald-600">
+              <h2 className="font-bold text-3xl text-black/30 dark:text-emerald-600">
                 Comunicados
               </h2>
             </div>
@@ -83,12 +82,23 @@ export function ComunicationPage() {
                 <Button
                   variant={viewMode === 'cards' ? 'secondary' : 'outline'}
                   onClick={() => setViewMode('cards')}
+                  className={
+                    viewMode === 'cards'
+                      ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                      : 'bg-emerald-50 text-slate-600 hover:bg-slate-100'
+                  }
                 >
                   <Square />
                 </Button>
+
                 <Button
                   variant={viewMode === 'table' ? 'secondary' : 'outline'}
                   onClick={() => setViewMode('table')}
+                  className={
+                    viewMode === 'table'
+                      ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                      : 'bg-emerald-50 text-slate-600 hover:bg-slate-100'
+                  }
                 >
                   <TableProperties />
                 </Button>
@@ -130,6 +140,13 @@ export function ComunicationPage() {
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <div>
+                <PageButton
+                  to="/admin"
+                  frase="Criar comunicado"
+                  icon={<Plus />}
+                />
+              </div>
             </div>
           </div>
 
