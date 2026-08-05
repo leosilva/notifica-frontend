@@ -21,6 +21,7 @@ export function AdminPage() {
   const [selectedSector, setSelectedSector] = useState('');
   const deferredMessage = useDeferredValue(message);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [opacity, setOpacity] = useState<number>(100);
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden ">
       <Header frase="Painel Administrativo" />
@@ -39,6 +40,8 @@ export function AdminPage() {
               title={title}
               setTitle={setTitle}
               id={id}
+              opacity={opacity}
+              setOpacity={setOpacity}
             />
           </div>
           <PageButton
@@ -51,7 +54,7 @@ export function AdminPage() {
             template={template}
             selectedSector={selectedSector}
             uploadedImage={uploadedImage}
-            Slide={0}
+            opacity={opacity}
             title={title}
           />
         </div>

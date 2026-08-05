@@ -42,7 +42,7 @@ const UploadArea = memo(({ uploadedImage, setUploadedImage }: Types) => {
   };
 
   return (
-    <div className="">
+    <div className="mr-2">
       {!uploadedImage ? (
         <div className="">
           <Button

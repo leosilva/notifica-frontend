@@ -24,10 +24,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import { MapPin } from 'lucide-react';
+import {
+  MapPin,
+  Megaphone,
+  PaletteIcon,
+  Save,
+  Send,
+  Sliders,
+} from 'lucide-react';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { Megaphone, PaletteIcon, Save, Send } from 'lucide-react';
-import { memo, useEffect, useMemo, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { Upload } from '../upload';
@@ -101,6 +107,8 @@ interface Types {
   title: string;
   setTitle: (value: string) => void;
   id: number | null;
+  opacity: number;
+  setOpacity: (value: number) => void;
 }
 
 const token = localStorage.getItem('access_token');
@@ -118,14 +126,16 @@ const AdminMessageArea = memo(
     title,
     setTitle,
     id,
+    opacity,
+    setOpacity,
   }: Types) => {
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
       if (value.length <= 150) {
         setMessage(value);
-        console.log(uploadedImage);
       }
     };
+
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       if (value.length <= 50) {
@@ -146,6 +156,7 @@ const AdminMessageArea = memo(
 
       if (uploadedImage) {
         formData.append('imagem', uploadedImage);
+        formData.append('opacidade', String(opacity));
       }
 
       return formData;
@@ -178,6 +189,7 @@ const AdminMessageArea = memo(
         console.log(error);
       }
     };
+
     const updateSaved = async (postId: number) => {
       try {
         await fetch(`http://localhost:8000/api/postagem/${postId}/`, {
@@ -268,7 +280,6 @@ const AdminMessageArea = memo(
           </button>
         );
       });
-      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     }, [template, setTemplate, removeImage]);
 
     return (
@@ -308,15 +319,35 @@ const AdminMessageArea = memo(
               </SelectContent>
             </Select>
           </div>
+
           <div className="flex flex-col gap-3">
             <Label className="py-2">Plano de fundo:</Label>
+            <div className="flex flex-row">
+              <Upload
+                uploadedImage={uploadedImage}
+                setUploadedImage={setUploadedImage}
+              />
 
-            <Upload
-              uploadedImage={uploadedImage}
-              setUploadedImage={setUploadedImage}
-            />
+              <div
+                className={`flex items-center gap-3 w-auto px-1 transition-opacity duration-300 ${uploadedImage ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}
+              >
+                <Sliders className="h-3.5 w-3.5 text-zinc-500" />
+                <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 whitespace-nowrap">
+                  Opacidade: {opacity}%
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={opacity}
+                  disabled={!uploadedImage}
+                  onChange={(e) => setOpacity(Number(e.target.value))}
+                  className="flex-1 h-1 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-teal-600 focus:outline-none"
+                />
+              </div>
+            </div>
 
-            <div className="flex flex-col gap-2 items-start">
+            <div className="flex flex-col gap-2 items-start mt-2">
               <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
               <DropdownMenu>
                 <DropdownMenuTrigger
@@ -324,7 +355,7 @@ const AdminMessageArea = memo(
                   asChild
                 >
                   <Button
-                    className="p-2  bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
+                    className="p-2 bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
                     variant="outline"
                   >
                     Selecione um template
@@ -351,6 +382,7 @@ const AdminMessageArea = memo(
               </DropdownMenu>
             </div>
           </div>
+
           <div>
             <Label className="py-2">Titulo</Label>
             <Input
@@ -380,6 +412,7 @@ const AdminMessageArea = memo(
               </span>
             </div>
           </div>
+
           <div className="flex flex-row gap-2 justify-around">
             <Button
               className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center"

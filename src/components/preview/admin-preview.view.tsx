@@ -15,16 +15,21 @@ interface Types {
   template: string;
   selectedSector: string;
   uploadedImage: File | null;
-  Slide?: number;
+  opacity: number;
   title: string;
 }
 
 const Preview = memo(
-  ({ message, template, selectedSector, uploadedImage, title }: Types) => {
+  ({
+    message,
+    template,
+    selectedSector,
+    uploadedImage,
+    title,
+    opacity,
+  }: Types) => {
     const Dates = useMemo(() => new Date().toLocaleDateString('pt-BR'), []);
 
-    const [slide, setSlide] = useState([1]);
-    const opacityValue = slide[0];
     const imageUrl = useMemo(() => {
       if (!uploadedImage) return null;
       return URL.createObjectURL(uploadedImage);
@@ -46,13 +51,13 @@ const Preview = memo(
                 background: imageUrl
                   ? `url(${imageUrl}) center/cover no-repeat`
                   : template,
-                opacity: opacityValue,
+                opacity: imageUrl ? opacity / 100 : 0.7,
               }}
             />
 
             <div
               className="col-start-1 row-start-1 w-full h-full bg-black/20"
-              style={{ opacity: opacityValue }}
+              style={{ opacity: opacity / 100 }}
             />
 
             <div className="col-start-1 row-start-1 flex items-center justify-center p-6">
@@ -80,21 +85,6 @@ const Preview = memo(
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col items-start bg-teal-50 dark:bg-emerald-950 border-0">
-          <CardTitle className="m-2 text-primary/60">
-            Opacidade do Fundo:
-          </CardTitle>
-          <Slider
-            value={slide}
-            onValueChange={(value) =>
-              setSlide(Array.isArray(value) ? value : [value])
-            }
-            min={0}
-            max={1}
-            step={0.01}
-            className="bg-amber-500"
-          />
-        </CardFooter>
       </Card>
     );
   },
