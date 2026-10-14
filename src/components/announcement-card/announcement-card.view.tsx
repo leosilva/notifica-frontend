@@ -1,4 +1,17 @@
-import { Eye, MapPin, Save, Trash, Send, Pencil } from 'lucide-react';
+import { Button } from '@base-ui/react';
+import { Eye, MapPin, Pencil, Save, Send, Trash } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog';
 import {
   Card,
   CardContent,
@@ -6,19 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
-import { Button } from '@base-ui/react';
-import { useState } from 'react';
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from '../ui/alert-dialog';
-import { Link } from 'react-router';
 import {
   Dialog,
   DialogContent,
@@ -143,13 +143,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
           </Button>
 
           <Link
-            to="/admin"
-            state={{
-              titulo: announcement.titulo,
-              corpo: announcement.corpo,
-              template: announcement.gradiente_fundo,
-              id: announcement.id,
-            }}
+            to={`/comunicados/${announcement.id}`}
             className="w-full h-full"
             title="Editar comunicado"
           >

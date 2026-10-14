@@ -1,70 +1,35 @@
-import { Funnel, Undo2, Square, TableProperties, Plus } from 'lucide-react';
-import { Header, PageButton, AnnouncementCard } from '../components';
-import { Input } from '@/components/ui/input';
-import { useCallback, useEffect, useState, useMemo } from 'react';
+import { Funnel, Plus, Square, TableProperties, Undo2 } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  AnnouncementCard,
+  AnnouncementTable,
+  Header,
+  PageButton,
+} from '@/components';
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuGroup,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-} from '../components/ui/dropdown-menu';
-import { AnnouncementTable } from '../components';
-import { ButtonGroup } from '@/components/ui/button-group';
-import { Button } from '../components/ui/button';
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { useListAnnouncements } from './list-announcements.hook';
 
-export function ComunicationPage() {
-  const [filter, setFilter] = useState('recente');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
-  const [data, setData] = useState([]);
-  const token = localStorage.getItem('access_token');
-  const handleAnnouncement = useCallback(async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/postagem/', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    handleAnnouncement();
-  }, [handleAnnouncement]);
-
-  const filteredAndSortedData = useMemo(() => {
-    let result = [...data];
-
-    if (searchTerm.trim() !== '') {
-      result = result.filter((item) =>
-        item.titulo?.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
-    }
-
-    if (filter === 'publicados') {
-      result = result.filter((item) => !!item.publicado_em);
-    } else if (filter === 'rascunhos') {
-      result = result.filter((item) => !item.publicado_em);
-    }
-
-    if (filter === 'recente') {
-      result.sort((a, b) => b.id - a.id);
-    } else if (filter === 'antigo') {
-      result.sort((a, b) => a.id - b.id);
-    }
-
-    return result;
-  }, [data, filter, searchTerm]);
+export function ListAnnouncementsPage() {
+  const {
+    viewMode,
+    setViewMode,
+    searchTerm,
+    setSearchTerm,
+    filter,
+    setFilter,
+    filteredAndSortedData,
+  } = useListAnnouncements();
 
   return (
     <div className="w-full h-auto min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden flex-col">
@@ -142,7 +107,7 @@ export function ComunicationPage() {
               </DropdownMenu>
               <div>
                 <PageButton
-                  to="/admin"
+                  to="/comunicados/criar"
                   frase="Criar comunicado"
                   icon={<Plus />}
                 />
@@ -154,7 +119,11 @@ export function ComunicationPage() {
             <div className="w-full grid lg:grid-cols-4 sm:grid-cols-2 gap-3 h-full items-start">
               {filteredAndSortedData.length > 0 ? (
                 filteredAndSortedData.map((item) => (
-                  <AnnouncementCard key={item.id} announcement={item} />
+                  <AnnouncementCard
+                    key={item.id}
+                    announcement={item}
+                    onUpdate={() => {}}
+                  />
                 ))
               ) : (
                 <p className="col-span-full text-center text-gray-400 italic py-10">

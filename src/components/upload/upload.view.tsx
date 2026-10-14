@@ -1,3 +1,6 @@
+import { Upload, X } from 'lucide-react';
+import { memo, useRef } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -6,9 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Upload, X } from 'lucide-react';
-import { memo, useRef } from 'react';
-import { toast } from 'sonner';
 
 interface Types {
   // Alterado de string para File

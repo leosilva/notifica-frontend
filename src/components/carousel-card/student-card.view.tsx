@@ -1,4 +1,4 @@
-import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface CarrosselcardProps {
   title: string;

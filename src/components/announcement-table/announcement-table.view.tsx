@@ -1,22 +1,16 @@
-import { Eye, Pencil, Trash2, MapPin, Send } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../ui/table';
+import { it } from 'node:test';
 import { Button } from '@base-ui/react';
+import { Eye, MapPin, Pencil, Send, Trash2 } from 'lucide-react';
+import { Link } from 'react-router';
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '../ui/alert-dialog';
 import {
   Dialog,
@@ -25,8 +19,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
-import { Link } from 'react-router';
-import { it } from 'node:test';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table';
 
 export default function TabelaComunicados({ dados = [] }) {
   const actionButtonStyle = `flex items-center justify-center gap-1 text-white py-1.5 px-3 rounded-[6px] transition-all duration-300 active:scale-95 text-xs font-medium`;

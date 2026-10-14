@@ -1,12 +1,12 @@
+import Autoplay from 'embla-carousel-autoplay';
 import { useCallback, useEffect, useState } from 'react';
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
-  type CarouselApi,
 } from '@/components/ui/carousel';
 import { AdminCard } from '../components';
-import Autoplay from 'embla-carousel-autoplay';
 
 interface News {
   id: number;

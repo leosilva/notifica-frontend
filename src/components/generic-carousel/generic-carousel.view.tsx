@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
+import type { ReactNode } from 'react';
 import { Carousel, CarouselContent } from '../ui/carousel';
 
 interface GenericProp {

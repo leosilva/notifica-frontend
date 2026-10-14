@@ -1,14 +1,22 @@
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { ModeToggle } from '../mode-toggle';
 import { LogOut } from 'lucide-react';
-import { toast } from 'sonner';
 import { memo } from 'react';
+import { toast } from 'sonner';
+import { ModeToggle } from '../mode-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { API_BASE_URL } from '@/constants/environments';
 
 interface Type {
   frase: string;
 }
 
 const Header = memo(({ frase }: Type) => {
+  const HandleLogout = () => {
+    localStorage.removeItem('acesstoken');
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
+  };
+
   return (
     <header className="relative z-10 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-lg w-full dark:bg-emerald-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,7 +24,7 @@ const Header = memo(({ frase }: Type) => {
           <div className="flex items-center gap-4">
             <div className="relative">
               <Avatar className="h-12 w-12 ring-1 ring-primary/20 ring-offset- ring-offset-background">
-                <AvatarImage />
+                <AvatarImage src={dados.foto} />
                 <AvatarFallback
                   className="font-bold text-white"
                   style={{
@@ -28,7 +36,7 @@ const Header = memo(({ frase }: Type) => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-emerald-400 dark:text-emerald-800">
-                Olá, asdyuidsa
+                Olá, {dados.nome}
               </h1>
               <p className="text-sm text-muted-foreground font-medium">
                 {frase}
@@ -40,7 +48,10 @@ const Header = memo(({ frase }: Type) => {
             <ModeToggle />
             <button
               className="rounded-sm ring-1 hover:bg-emerald-400 ring-emerald-400/50 dark:hover:bg-primary/5 hover:ring-4 dark:hover:ring-emerald-400/60 dark:ring-emerald-600/60 transition-all duration-300 dark:bg-black/80 h-9 w-16 flex items-center flex-row justify-around px-1 bg-emerald-500 text-amber-50"
-              onClick={() => toast('desconectado com sucesso')}
+              onClick={() => {
+                toast('desconectado com sucesso');
+                HandleLogout();
+              }}
               type="button"
             >
               <LogOut className="h-4 w-4 mr-2 " />

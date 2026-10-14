@@ -1,14 +1,12 @@
-import { memo, useMemo, useState } from 'react';
+import { MapPin } from 'lucide-react';
+import { memo, useMemo } from 'react';
 import {
   Card,
-  CardHeader,
   CardContent,
-  CardTitle,
   CardDescription,
-  CardFooter,
+  CardHeader,
+  CardTitle,
 } from '../ui/card';
-import { Slider } from '../ui/slider';
-import { MapPin } from 'lucide-react';
 
 interface Types {
   message: string;
@@ -17,6 +15,7 @@ interface Types {
   uploadedImage: File | null;
   opacity: number;
   title: string;
+  url: string;
 }
 
 const Preview = memo(
@@ -27,6 +26,7 @@ const Preview = memo(
     uploadedImage,
     title,
     opacity,
+    url,
   }: Types) => {
     const Dates = useMemo(() => new Date().toLocaleDateString('pt-BR'), []);
 
@@ -44,9 +44,10 @@ const Preview = memo(
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 grid-rows-1 h-80 rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
+          <div className="relative flex items-center justify-center p-6 h-[28rem] rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
+            
             <div
-              className="col-start-1 row-start-1 w-full h-full transition-opacity duration-75"
+              className="absolute inset-0 transition-opacity duration-75 z-0 pointer-events-none"
               style={{
                 background: imageUrl
                   ? `url(${imageUrl}) center/cover no-repeat`
@@ -56,38 +57,50 @@ const Preview = memo(
             />
 
             <div
-              className="col-start-1 row-start-1 w-full h-full bg-black/20"
+              className="absolute inset-0 bg-black/20 z-0 pointer-events-none"
               style={{ opacity: opacity / 100 }}
             />
 
-            <div className="col-start-1 row-start-1 flex items-center justify-center p-6">
-              <div className="w-full max-w-lg rounded-xl shadow-xl p-6 bg-gray-900/20 backdrop-blur-sm">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <MapPin className="h-5 w-5 text-amber-50" />
-                  <span className="font-semibold text-amber-50">
-                    {selectedSector || 'Setor'}
-                  </span>
-                </div>
+            <div className="relative z-10 w-full max-w-lg rounded-xl shadow-xl p-6 bg-gray-900/20 backdrop-blur-sm">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <MapPin className="h-5 w-5 text-amber-50" />
+                <span className="font-semibold text-amber-50">
+                  {selectedSector || 'Setor'}
+                </span>
+              </div>
 
-                <h3 className="font-bold text-lg mb-3 text-gray-100 text-center">
-                  {title === '' ? 'Comunicado Administrativo' : title}
-                </h3>
+              <h3 className="font-bold text-lg mb-3 text-gray-100 text-center">
+                {title === '' ? 'Comunicado Administrativo' : title}
+              </h3>
 
-                <p className="text-gray-300 mb-4 wrap-break-word text-center">
-                  {message || 'Sua mensagem aparecerá aqui...'}
-                </p>
+              <p className="text-gray-300 mb-4 break-words text-center">
+                {message || 'Sua mensagem aparecerá aqui...'}
+              </p>
 
-                <div className="text-sm text-gray-400 border-t pt-3 text-center">
-                  <div>Administração: teste</div>
-                  <div className="text-xs mt-1">{Dates}</div>
-                </div>
+              <div className="text-sm text-gray-400 border-t pt-3 text-center">
+                <div>Administração: teste</div>
+                <div className="text-xs mt-1">{Dates}</div>
               </div>
             </div>
+
+            {url && (
+              <div className="absolute bottom-6 right-10 z-20 ring-4 ring-black/20 rounded-sm rin">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=3AA953&data=${encodeURIComponent(
+                    url
+                  )}`}
+                  alt="QR Code para o link fornecido"
+                  className="w-30 h-30 rounded bg-white p-1.5 shadow-md"
+                  loading="lazy"
+                />
+              </div>
+            )}
+
           </div>
         </CardContent>
       </Card>
     );
-  },
+  }
 );
 
 export default Preview;
