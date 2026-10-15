@@ -1,29 +1,42 @@
-import { API_BASE_URL } from '@/constants/environments';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { apiFetch } from '@/lib/api';
+import { getCurrentUser } from '@/lib/auth';
+
+interface Postagem {
+  id: number;
+  titulo?: string;
+  visibilidade?: string;
+  [key: string]: unknown;
+}
 
 export function useListAnnouncements() {
   const [filter, setFilter] = useState('recente');
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
-  const [data, setData] = useState([]);
-  const token = localStorage.getItem('access_token');
+  const [data, setData] = useState<Postagem[]>([]);
 
   const handleAnnouncement = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/postagem`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      setData(data);
+      const user = await getCurrentUser();
+
+      // Alunos veem as próprias postagens; admin/servidor veem a fila geral.
+      const endpoint = user?.role === 'aluno' ? '/postagens/me' : '/postagens/';
+
+      const response = await apiFetch(endpoint);
+
+      if (!response.ok) {
+        throw new Error(
+          `Não foi possível carregar os comunicados (${response.status}).`,
+        );
+      }
+
+      const result = await response.json();
+
+      setData(Array.isArray(result) ? result : []);
     } catch (error) {
       console.error(error);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     handleAnnouncement();
@@ -39,9 +52,9 @@ export function useListAnnouncements() {
     }
 
     if (filter === 'publicados') {
-      result = result.filter((item) => !!item.publicado_em);
+      result = result.filter((item) => item.visibilidade === 'publicada');
     } else if (filter === 'rascunhos') {
-      result = result.filter((item) => !item.publicado_em);
+      result = result.filter((item) => item.visibilidade !== 'publicada');
     }
 
     if (filter === 'recente') {

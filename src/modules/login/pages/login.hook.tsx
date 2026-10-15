@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { API_BASE_URL } from '@/constants/environments';
 
 export function useLogin() {
   const dados = {
@@ -26,7 +27,7 @@ export function useLogin() {
   const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
   const Suap = useCallback(async () => {
     try {
-      const response = await fetch('http://144.22.161.163/auth/suap/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/suap/login`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

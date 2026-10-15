@@ -1,50 +1,45 @@
-import { API_BASE_URL } from '@/constants/environments';
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { apiFetch } from '@/lib/api';
 
 interface Postagem {
   id: number;
   corpo: string;
   titulo: string;
-  gradiente_fundo?: string;
+  gradiente?: string;
   url?: string;
 }
+const DEFAULT_TEMPLATE =
+  'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))';
+
 export function useAnnouncement() {
   const { identify } = useParams();
-  const [data, setData] = useState<Postagem | null>(null);
   const [message, setMessage] = useState('');
   const [title, setTitle] = useState('');
   const [id, setId] = useState<number | null>(null);
-  const [template, setTemplate] = useState(
-    'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))',
-  );
+  const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
   const [url, setUrl] = useState('');
-
-  const token = localStorage.getItem('access_token');
 
   const handleAnnouncement = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/postagem/${identify}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await apiFetch(`/postagens/${identify}`);
+
+      if (!response.ok) {
+        throw new Error(
+          `Não foi possível carregar o comunicado (${response.status}).`,
+        );
+      }
 
       const result: Postagem = await response.json();
 
-      setData(result);
-
-      setMessage(result.corpo);
-      setTitle(result.titulo);
-      setId(result.id);
-      setTemplate(result.gradiente_fundo);
-      console.log(result.gradiente_fundo);
+      setMessage(result.corpo ?? '');
+      setTitle(result.titulo ?? '');
+      setId(result.id ?? null);
+      setTemplate(result.gradiente || DEFAULT_TEMPLATE);
     } catch (error) {
       console.error(error);
     }
-  }, [token, identify]);
+  }, [identify]);
 
   const [selectedSector, setSelectedSector] = useState('');
   const deferredMessage = useDeferredValue(message);

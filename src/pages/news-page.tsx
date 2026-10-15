@@ -7,15 +7,16 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { AdminCard } from '../components';
+import { API_BASE_URL } from '@/constants/environments';
 
 interface News {
   id: number;
   titulo: string;
   corpo: string;
-  avatar: string;
-  author: string;
-  gradiente_fundo: string;
-  qr_url: string;
+  gradiente?: string | null;
+  imagem?: string | null;
+  autor?: { nome?: string } | null;
+  tipo?: string;
 }
 
 export function NewsPage() {
@@ -29,14 +30,13 @@ export function NewsPage() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/carrossel/');
+      const response = await fetch(`${API_BASE_URL}/carrossel/?setor=DIAC`);
       const data = await response.json();
-      const activeNews = data.filter((item) => item.disponivel);
-      setNews(activeNews);
+      setNews(data);
       console.log(data);
 
-      if (activeNews.length > 0 && activeNews[0].gradiente_fundo) {
-        setBgColor(activeNews[0].gradiente_fundo);
+      if (data.length > 0 && data[0].gradiente) {
+        setBgColor(data[0].gradiente);
       }
     } catch (error) {
       console.log(error);
@@ -54,8 +54,8 @@ export function NewsPage() {
       const currentIndex = api.selectedScrollSnap();
       const currentCard = news[currentIndex];
 
-      if (currentCard?.gradiente_fundo) {
-        setBgColor(currentCard.gradiente_fundo);
+      if (currentCard?.gradiente) {
+        setBgColor(currentCard.gradiente);
       }
     });
   }, [api, news]);
@@ -78,8 +78,8 @@ export function NewsPage() {
                   <AdminCard
                     title={item.titulo}
                     resume={item.corpo}
-                    avatar={item.avatar}
-                    author={item.author}
+                    avatar={item.imagem ?? ''}
+                    author={item.autor?.nome ?? ''}
                   />
                 </CarouselItem>
               ))}

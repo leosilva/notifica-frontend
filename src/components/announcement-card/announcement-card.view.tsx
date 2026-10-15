@@ -2,6 +2,7 @@ import { Button } from '@base-ui/react';
 import { Eye, MapPin, Pencil, Save, Send, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { apiFetch } from '@/lib/api';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,7 +29,6 @@ import {
 } from '../ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
-  const token = localStorage.getItem('access_token');
   const textlimit = (texto, limite) => {
     if (!texto) return '';
     return texto.length > limite ? `${texto.slice(0, limite)}...` : texto;
@@ -40,16 +40,9 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/postagem/${announcement.id}/`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const response = await apiFetch(`/postagens/${announcement.id}/`, {
+        method: 'DELETE',
+      });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -91,7 +84,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
           style={{
-            background: announcement.gradiente_fundo,
+            background: announcement.gradiente,
           }}
         >
           <div className="absolute inset-0 bg-black/5" />
@@ -110,7 +103,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                 <div className="flex items-center justify-center gap-1 shrink-0">
                   <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
                   <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
-                    {announcement.setor || 'setor'}
+                    {announcement.setor || 'DIAC'}
                   </span>
                 </div>
 
@@ -123,10 +116,10 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
                 <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
                   <span className="text-gray-400 text-[9px] font-medium italic">
-                    Administração: {announcement.usuario?.nome || 'Admin'}
+                    Administração: {announcement.autor?.nome || 'Admin'}
                   </span>
                   <span className="text-gray-400 text-[9px] font-medium italic">
-                    {announcement.publicado_em || 'Recente'}
+                    {announcement.criado_em || 'Recente'}
                   </span>
                 </div>
               </div>
@@ -174,7 +167,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
               <div
                 className="relative h-137.5 w-full rounded-lg overflow-hidden border flex items-center justify-center shadow-inner"
                 style={{
-                  background: announcement.gradiente_fundo,
+                  background: announcement.gradiente,
                 }}
               >
                 <div className="absolute inset-0 bg-black/5" />
@@ -193,7 +186,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                       <div className="flex items-center justify-center gap-3 shrink-0">
                         <MapPin className="h-6 w-6 text-amber-100/80" />
                         <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
-                          {announcement.setor || 'Setor'}
+                          {announcement.setor || 'DIAC'}
                         </span>
                       </div>
 
@@ -207,10 +200,10 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
                       <div className="text-sm text-gray-400 border-t pt-3 text-center">
                         <div>
-                          Administração: {announcement.usuario?.nome || 'Admin'}
+                          Administração: {announcement.autor?.nome || 'Admin'}
                         </div>
                         <div className="text-xs mt-1">
-                          {announcement.publicado_em || 'Recente'}
+                          {announcement.criado_em || 'Recente'}
                         </div>
                       </div>
                     </div>
@@ -253,19 +246,19 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         </CardFooter>
         <p
           className={`text-right text-[11px] italic ${
-            announcement.disponivel === false
+            announcement.visibilidade !== 'publicada'
               ? 'text-amber-600 font-semibold'
               : ''
           }`}
         >
-          {announcement.disponivel ? (
+          {announcement.visibilidade === 'publicada' ? (
             <span className="text-emerald-600 non-italic not-italic">
               Publicado em:{' '}
             </span>
           ) : (
             'Ainda não publicado'
           )}
-          {announcement.disponivel && announcement.publicado_em}
+          {announcement.visibilidade === 'publicada' && announcement.criado_em}
         </p>
       </CardContent>
     </Card>

@@ -39,6 +39,7 @@ import {
 import { Textarea } from '../ui/textarea';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Upload } from '../upload';
+import { apiFetch } from '@/lib/api';
 
 const TEMPLATES = [
   {
@@ -112,11 +113,9 @@ interface Types {
   setUrl: (value: string) => void;
 }
 
-const token = localStorage.getItem('access_token');
-
 const AdminMessageArea = memo(
   ({
-    message,
+    message = '',
     setMessage,
     template,
     setTemplate,
@@ -146,11 +145,8 @@ const AdminMessageArea = memo(
 
     const fetchPublished = async (data: FormData) => {
       try {
-        await fetch('http://localhost:8000/postagens/', {
+        await apiFetch('/postagens/', {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: data,
         });
       } catch (error) {
@@ -160,11 +156,8 @@ const AdminMessageArea = memo(
 
     const fetchSaved = async (data: FormData) => {
       try {
-        await fetch('http://localhost:8000/postagens/', {
+        await apiFetch('/postagens/', {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: data,
         });
       } catch (error) {
@@ -174,11 +167,8 @@ const AdminMessageArea = memo(
 
     const updateSaved = async (postId: number, data: FormData) => {
       try {
-        await fetch(`http://localhost:8000/postagens/${postId}/`, {
+        await apiFetch(`/postagens/${postId}/`, {
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: data,
         });
       } catch (error) {
@@ -211,8 +201,8 @@ const AdminMessageArea = memo(
 
       apiFormData.append('titulo', formTitle === '' ? 'Comunicado Administrativo' : formTitle);
       apiFormData.append('corpo', formCorpo);
-      apiFormData.append('gradiente_fundo', template);
-      apiFormData.append('disponivel', String(action === 'publish'));
+      apiFormData.append('gradiente', template);
+      apiFormData.append('visibilidade', action === 'publish' ? 'publicada' : 'rascunho');
 
       if (uploadedImage) {
         apiFormData.append('imagem', uploadedImage);
@@ -330,15 +320,15 @@ const AdminMessageArea = memo(
                 <DropdownMenu>
                   <DropdownMenuTrigger
                     className="outline-none border-none ring-0"
-                    asChild
+                    render={
+                      <Button
+                        type="button"
+                        className="p-2 bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
+                        variant="outline"
+                      />
+                    }
                   >
-                    <Button
-                      type="button"
-                      className="p-2 bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
-                      variant="outline"
-                    >
-                      Selecione um template
-                    </Button>
+                    Selecione um template
                   </DropdownMenuTrigger>
 
                   <DropdownMenuPortal>

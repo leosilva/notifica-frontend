@@ -3,18 +3,43 @@ import { memo } from 'react';
 import { toast } from 'sonner';
 import { ModeToggle } from '../mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { API_BASE_URL } from '@/constants/environments';
+import { apiFetch } from '@/lib/api';
 
 interface Type {
   frase: string;
 }
 
 const Header = memo(({ frase }: Type) => {
-  const HandleLogout = () => {
-    localStorage.removeItem('acesstoken');
-    setTimeout(() => {
-      window.location.href = '/';
-    }, 1000);
+  const HandleLogout = async () => {
+    try {
+      await apiFetch('/auth/logout', { method: 'POST' });
+    } catch (error) {
+      console.error(error);
+    }
+
+    window.location.href = '/';
+  };
+
+  const dados = {
+    identificacao: '20251174010015',
+    nome_social: '',
+    nome_usual: 'Matheus Rodrigues',
+    nome_registro: 'Matheus Lemos Rodrigues',
+    nome: 'Matheus Rodrigues',
+    primeiro_nome: 'Matheus',
+    ultimo_nome: 'Rodrigues',
+    email: '',
+    email_secundario: 'lemosrodriguesmatheus@gmail.com',
+    email_google_classroom: 'lemos.matheus@escolar.ifrn.edu.br',
+    email_academico: 'matheus.lemos@academico.ifrn.edu.br',
+    campus: 'CM',
+    foto: 'https://suap.ifrn.edu.br/djtools/arquivo/edu/aluno/68850f85-afbf-4fd3-b2af-5bb059bae27f/foto/75x100/',
+    tipo_usuario: 'Aluno',
+    email_preferencial: 'lemosrodriguesmatheus@gmail.com',
+    cpf: '',
+    data_de_nascimento: '',
+    sexo: 'M',
+    passaporte: '',
   };
 
   return (
