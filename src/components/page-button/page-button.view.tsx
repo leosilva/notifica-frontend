@@ -1,5 +1,5 @@
-import { Button } from '../ui/button';
 import { Link } from 'react-router';
+import { Button } from '../ui/button';
 
 export default function PageButton({ frase, icon, to }) {
   return (

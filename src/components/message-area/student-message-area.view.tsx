@@ -1,27 +1,28 @@
+import { MessageSquare, PaletteIcon, Send, User } from 'lucide-react';
+import { memo, useMemo } from 'react';
+import { toast } from 'sonner';
+import { Button } from '../ui/button';
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from '../ui/card';
-import { Label } from '../ui/label';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { MessageSquare, User, Send, PaletteIcon } from 'lucide-react';
-import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
-import { Button } from '../ui/button';
-import { toast } from 'sonner';
-import { memo, useMemo } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { apiFetch } from '@/lib/api';
 
 const TEMPLATES = [
   {
@@ -74,26 +75,27 @@ interface Types {
 const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
     const fetchPublished = async () => {
-      const token = localStorage.getItem('access_token');
-
-      const payload = {
-        corpo: message,
-        gradiente_fundo: template,
-        disponivel: true,
-      };
+      const formData = new FormData();
+      formData.append('titulo', 'Comunicado de Estudante');
+      formData.append('corpo', message);
+      formData.append('gradiente', template);
+      formData.append('visibilidade', 'publicada');
 
       try {
-        const response = await fetch('http://localhost:8000/api/postagem/', {
+        const response = await apiFetch('/postagens/', {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
+          body: formData,
         });
 
         if (!response.ok) {
-          throw new Error('Erro ao enviar comunicado');
+          const errorData = await response.json().catch(() => null);
+          console.error('Detalhes do erro do backend:', errorData);
+
+          throw new Error(
+            errorData?.detail ||
+              errorData?.message ||
+              'Erro ao enviar comunicado',
+          );
         }
 
         return true;

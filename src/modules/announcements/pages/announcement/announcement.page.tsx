@@ -1,27 +1,34 @@
-import { useDeferredValue, useState } from 'react';
-import {
-  Header,
-  AdminMessageArea,
-  AdminPreview,
-  Upload,
-  PageButton,
-} from '../components';
+import Header from '@/components/header/header.view';
+import { useAnnouncement } from './announcement.hook';
+import AdminMessageArea from '@/components/message-area/admin-message-area.view';
+import PageButton from '@/components/page-button/page-button.view';
 import { SendHorizonal } from 'lucide-react';
-import { useLocation } from 'react-router';
+import { AdminPreview } from '@/components/preview';
+import { useEffect } from 'react';
+import { Button } from '@base-ui/react';
 
-export function AdminPage() {
-  const { state } = useLocation();
-  const [message, setMessage] = useState(state?.corpo || '');
-  const [title, setTitle] = useState(state?.titulo || '');
-  const [id, setId] = useState(state?.id || null);
-  const [template, setTemplate] = useState(
-    state?.template ||
-      'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))',
-  );
-  const [selectedSector, setSelectedSector] = useState('');
-  const deferredMessage = useDeferredValue(message);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [opacity, setOpacity] = useState<number>(100);
+export function AnnouncementPage() {
+  const {
+    message,
+    identify,
+    setMessage,
+    template,
+    setTemplate,
+    selectedSector,
+    setSelectedSector,
+    uploadedImage,
+    setUploadedImage,
+    title,
+    setTitle,
+    id,
+    opacity,
+    setOpacity,
+    deferredMessage,
+    handleAnnouncement,
+    url,
+    setUrl,
+  } = useAnnouncement();
+
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden ">
       <Header frase="Painel Administrativo" />
@@ -33,8 +40,6 @@ export function AdminPage() {
               setMessage={setMessage}
               template={template}
               setTemplate={setTemplate}
-              selectedSector={selectedSector}
-              setSelectedSector={setSelectedSector}
               uploadedImage={uploadedImage}
               setUploadedImage={setUploadedImage}
               title={title}
@@ -42,13 +47,16 @@ export function AdminPage() {
               id={id}
               opacity={opacity}
               setOpacity={setOpacity}
+              url={url}
+              setUrl={setUrl}
             />
           </div>
           <PageButton
-            to="comunicados"
+            to="/comunicados"
             frase="Ver Seus Comunicados Salvos"
             icon={<SendHorizonal />}
           />
+
           <AdminPreview
             message={deferredMessage}
             template={template}
@@ -56,6 +64,7 @@ export function AdminPage() {
             uploadedImage={uploadedImage}
             opacity={opacity}
             title={title}
+            url={url}
           />
         </div>
       </div>

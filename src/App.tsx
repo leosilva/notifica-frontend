@@ -1,8 +1,8 @@
 import { BrowserRouter } from 'react-router';
-import { AppRoutes } from './routes/app-routes';
 import { ThemeProvider } from './components/theme-provider';
-import { TooltipProvider } from './components/ui/tooltip';
 import { Toaster } from './components/ui/sonner';
+import { TooltipProvider } from './components/ui/tooltip';
+import { AppRoutes } from './routes/app-routes';
 import './App.css';
 
 function App() {

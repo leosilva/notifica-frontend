@@ -1,22 +1,15 @@
-import { Eye, Pencil, Trash2, MapPin, Send } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../ui/table';
 import { Button } from '@base-ui/react';
+import { Eye, MapPin, Pencil, Send, Trash2 } from 'lucide-react';
+import { Link } from 'react-router';
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '../ui/alert-dialog';
 import {
   Dialog,
@@ -25,8 +18,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
-import { Link } from 'react-router';
-import { it } from 'node:test';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table';
 
 export default function TabelaComunicados({ dados = [] }) {
   const actionButtonStyle = `flex items-center justify-center gap-1 text-white py-1.5 px-3 rounded-[6px] transition-all duration-300 active:scale-95 text-xs font-medium`;
@@ -53,24 +52,24 @@ export default function TabelaComunicados({ dados = [] }) {
               <TableCell className="font-medium">{item.titulo}</TableCell>
               <TableCell>
                 <span className="px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-[10px] font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
-                  {item.setor || 'setor'}
+                  {item.setor || 'DIAC'}
                 </span>
               </TableCell>
               <TableCell className="text-gray-600 dark:text-gray-400 break-words">
-                {item.usuario.nome}
+                {item.autor?.nome}
               </TableCell>
-              <TableCell>{item.dataCriacao}</TableCell>
+              <TableCell>{item.criado_em}</TableCell>
               <TableCell>
                 <span
                   className={
-                    item.disponivel === false
+                    item.visibilidade !== 'publicada'
                       ? 'text-amber-600 font-semibold'
                       : ''
                   }
                 >
-                  {item.disponivel === false
+                  {item.visibilidade !== 'publicada'
                     ? 'Pendente'
-                    : `${item.publicado_em}`}
+                    : `${item.criado_em}`}
                 </span>
               </TableCell>
 
@@ -85,7 +84,7 @@ export default function TabelaComunicados({ dados = [] }) {
                     to="/editar"
                     state={{
                       mensagem: item.corpo,
-                      template: `${item.gradiente_fundo}`,
+                      template: `${item.gradiente}`,
                       titulo: item.titulo,
                       id: item.id,
                     }}
@@ -119,7 +118,7 @@ export default function TabelaComunicados({ dados = [] }) {
                             <div className="flex items-center justify-center gap-3 shrink-0">
                               <MapPin className="h-6 w-6 text-amber-100/80" />
                               <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
-                                {item.setor}
+                                {item.setor || 'DIAC'}
                               </span>
                             </div>
                             <h3 className="font-bold text-gray-100 text-center leading-tight text-3xl">
@@ -130,7 +129,7 @@ export default function TabelaComunicados({ dados = [] }) {
                             </p>
                             <div className="border-t border-gray-800 mt-6 pt-6 text-center">
                               <span className="text-gray-500 text-base font-medium italic">
-                                Autor: {item.nome}
+                                Autor: {item.autor?.nome}
                               </span>
                             </div>
                           </div>
