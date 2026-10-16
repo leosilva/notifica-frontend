@@ -30,10 +30,34 @@ export function ListAnnouncementsPage() {
     setFilter,
     filteredAndSortedData,
   } = useListAnnouncements();
+    
+  
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/auth/me', {
+      method: 'GET',
+      credentials: 'include', 
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((resposta) => {
+        if (!resposta.ok) throw new Error('Erro na requisição');
+        return resposta.json();
+      })
+      .then((dados) => {
+        setData(dados);
+      })
+      .catch((erro) => {
+        console.error('Erro:', erro);
+      });
+  }, []);
+
 
   return (
     <div className="w-full h-auto min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden flex-col">
-      <Header frase="Seus comunicados" />
+      <Header frase="Seus comunicados" nome={data?.nome} foto={data?.foto}/>
       <main className="mx-auto sm:w-[90%] h-full p-4">
         <div className="bg-teal-50/60 dark:bg-emerald-950 rounded-2xl my-6 w-full p-6 shadow-sm shadow-emerald-900/10">
           <div className="py-6 justify-between flex flex-row items-center">

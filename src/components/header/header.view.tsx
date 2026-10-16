@@ -1,15 +1,18 @@
 import { LogOut } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { apiFetch } from '@/lib/api';
 import { ModeToggle } from '../mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { apiFetch } from '@/lib/api';
 
 interface Type {
   frase: string;
+  nome: string;
+  foto: string;
 }
 
-const Header = memo(({ frase }: Type) => {
+const Header = memo(({ frase, nome, foto }: Type) => {
+
   const HandleLogout = async () => {
     try {
       await apiFetch('/auth/logout', { method: 'POST' });
@@ -20,27 +23,6 @@ const Header = memo(({ frase }: Type) => {
     window.location.href = '/';
   };
 
-  const dados = {
-    identificacao: '20251174010015',
-    nome_social: '',
-    nome_usual: 'Matheus Rodrigues',
-    nome_registro: 'Matheus Lemos Rodrigues',
-    nome: 'Matheus Rodrigues',
-    primeiro_nome: 'Matheus',
-    ultimo_nome: 'Rodrigues',
-    email: '',
-    email_secundario: 'lemosrodriguesmatheus@gmail.com',
-    email_google_classroom: 'lemos.matheus@escolar.ifrn.edu.br',
-    email_academico: 'matheus.lemos@academico.ifrn.edu.br',
-    campus: 'CM',
-    foto: 'https://suap.ifrn.edu.br/djtools/arquivo/edu/aluno/68850f85-afbf-4fd3-b2af-5bb059bae27f/foto/75x100/',
-    tipo_usuario: 'Aluno',
-    email_preferencial: 'lemosrodriguesmatheus@gmail.com',
-    cpf: '',
-    data_de_nascimento: '',
-    sexo: 'M',
-    passaporte: '',
-  };
 
   return (
     <header className="relative z-10 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-lg w-full dark:bg-emerald-950">
@@ -49,7 +31,7 @@ const Header = memo(({ frase }: Type) => {
           <div className="flex items-center gap-4">
             <div className="relative">
               <Avatar className="h-12 w-12 ring-1 ring-primary/20 ring-offset- ring-offset-background">
-                <AvatarImage src={dados.foto} />
+                <AvatarImage src={foto} />
                 <AvatarFallback
                   className="font-bold text-white"
                   style={{
@@ -61,7 +43,7 @@ const Header = memo(({ frase }: Type) => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-emerald-400 dark:text-emerald-800">
-                Olá, {dados.nome}
+                Olá, {nome}
               </h1>
               <p className="text-sm text-muted-foreground font-medium">
                 {frase}

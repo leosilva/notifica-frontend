@@ -109,7 +109,7 @@ interface Types {
   id: number | null;
   opacity: number;
   setOpacity: (value: number) => void;
-  url?: string,
+  url?: string;
   setUrl: (value: string) => void;
 }
 
@@ -145,7 +145,7 @@ const AdminMessageArea = memo(
 
     const fetchPublished = async (data: FormData) => {
       try {
-        await apiFetch('/postagens/', {
+        await apiFetch('/noticias/', {
           method: 'POST',
           body: data,
         });
@@ -188,7 +188,9 @@ const AdminMessageArea = memo(
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const form = new FormData(e.currentTarget);
-      const action = (e.nativeEvent as SubmitEvent).submitter?.getAttribute('value');
+      const action = (e.nativeEvent as SubmitEvent).submitter?.getAttribute(
+        'value',
+      );
 
       const apiFormData = new FormData();
       const formTitle = form.get('titulo') as string;
@@ -199,14 +201,19 @@ const AdminMessageArea = memo(
         return;
       }
 
-      apiFormData.append('titulo', formTitle === '' ? 'Comunicado Administrativo' : formTitle);
+      apiFormData.append(
+        'titulo',
+        formTitle === '' ? 'Comunicado Administrativo' : formTitle,
+      );
       apiFormData.append('corpo', formCorpo);
-      apiFormData.append('gradiente', template);
-      apiFormData.append('visibilidade', action === 'publish' ? 'publicada' : 'rascunho');
+      // apiFormData.append('gradiente', template);
+      apiFormData.append(
+        'visibilidade',
+        action === 'publish' ? 'publicada' : 'rascunho',
+      );
 
       if (uploadedImage) {
         apiFormData.append('imagem', uploadedImage);
-        apiFormData.append('opacidade', form.get('opacidade') as string);
       }
 
       if (action === 'publish') {
@@ -226,6 +233,10 @@ const AdminMessageArea = memo(
           await fetchSaved(apiFormData);
           toast.success('mensagem salva com sucesso');
         }
+      }
+
+      for (const [key, value] of apiFormData.entries()) {
+        console.log(key, value);
       }
 
       setMessage('');
@@ -267,26 +278,25 @@ const AdminMessageArea = memo(
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <CardHeader>
             <CardTitle className="flex items-center gap-3 text-xl place-content-between">
-              <div className='flex justify-between w-full'>
-              <div className="flex flex-row items-center gap-4">
-                <div
-                  className="p-2 rounded-lg"
-                  style={{
-                    background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
-                  }}
-                >
-                  <Megaphone className="h-5 w-5 text-white" />
+              <div className="flex justify-between w-full">
+                <div className="flex flex-row items-center gap-4">
+                  <div
+                    className="p-2 rounded-lg"
+                    style={{
+                      background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
+                    }}
+                  >
+                    <Megaphone className="h-5 w-5 text-white" />
+                  </div>
+                  Comunicado
                 </div>
-                Comunicado
-
-              </div>
               </div>
             </CardTitle>
-            <CardDescription className='mb-4 mt-2'>Mensagem e setor de destino</CardDescription>
+            <CardDescription className="mb-4 mt-2">
+              Mensagem e setor de destino
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-
-
             <div className="flex flex-col gap-3">
               <Label className="py-2">Plano de fundo:</Label>
               <div className="flex flex-row">
@@ -316,7 +326,9 @@ const AdminMessageArea = memo(
               </div>
 
               <div className="flex flex-col gap-2 items-start">
-                <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
+                <span className="text-sm text-zinc-500 font-medium pl-1">
+                  ou
+                </span>
                 <DropdownMenu>
                   <DropdownMenuTrigger
                     className="outline-none border-none ring-0"
@@ -384,13 +396,13 @@ const AdminMessageArea = memo(
               </div>
             </div>
 
-                   <div>
+            <div>
               <Label className="py-2">URL (opcional)</Label>
               <Input
                 name="url"
                 className="w-full border border-black/15 p-1 bord mb-2 rounded-sm focus-visible:border-amber-50 "
                 value={url}
-                onChange={(e)=> setUrl(e.target.value)}
+                onChange={(e) => setUrl(e.target.value)}
                 id="url"
                 type="text"
                 placeholder="digite a url da sua noticia"

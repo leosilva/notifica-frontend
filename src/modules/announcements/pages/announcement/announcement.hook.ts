@@ -43,7 +43,7 @@ export function useAnnouncement() {
 
   const [selectedSector, setSelectedSector] = useState('');
   const deferredMessage = useDeferredValue(message);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [opacity, setOpacity] = useState<number>(100);
 
   useEffect(() => {

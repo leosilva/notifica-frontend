@@ -12,29 +12,11 @@ import {
 interface Types {
   message: string;
   template: string;
+  nome: string;
+  foto: string;
 }
-const dados = {
-  identificacao: '20251174010015',
-  nome_social: '',
-  nome_usual: 'Matheus Rodrigues',
-  nome_registro: 'Matheus Lemos Rodrigues',
-  nome: 'Matheus Rodrigues',
-  primeiro_nome: 'Matheus',
-  ultimo_nome: 'Rodrigues',
-  email: '',
-  email_secundario: 'lemosrodriguesmatheus@gmail.com',
-  email_google_classroom: 'lemos.matheus@escolar.ifrn.edu.br',
-  email_academico: 'matheus.lemos@academico.ifrn.edu.br',
-  campus: 'CM',
-  foto: 'https://suap.ifrn.edu.br/djtools/arquivo/edu/aluno/68850f85-afbf-4fd3-b2af-5bb059bae27f/foto/75x100/',
-  tipo_usuario: 'Aluno',
-  email_preferencial: 'lemosrodriguesmatheus@gmail.com',
-  cpf: '712.799.554-06',
-  data_de_nascimento: '2009-11-18',
-  sexo: 'M',
-  passaporte: '',
-};
-const preview = memo(({ message, template }: Types) => {
+
+const preview = memo(({ message, template, foto, nome }: Types) => {
   return (
     <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 mt-2 transform-gpu">
       <CardHeader className="pb-6  ">
@@ -83,10 +65,10 @@ const preview = memo(({ message, template }: Types) => {
                   </p>
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
                     <Avatar className="h-6 w-6">
-                      <AvatarImage src={dados.foto} alt="img" />
+                      <AvatarImage src={foto} alt="img" />
                       <AvatarFallback className="text-xs">oi</AvatarFallback>
                     </Avatar>
-                    <span className="font-medium">Por: {dados.nome}</span>
+                    <span className="font-medium">Por: {nome}</span>
                   </div>
                 </div>
               </div>
