@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AnnouncementCard,
   AnnouncementTable,
-  Header,
   PageButton,
 } from '@/components';
 import { Button } from '@/components/ui/button';
@@ -19,6 +18,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { useListAnnouncements } from './list-announcements.hook';
+import { Header } from '@/modules/components';
+
 
 export function ListAnnouncementsPage() {
   const {

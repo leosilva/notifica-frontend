@@ -1,0 +1,1 @@
+export {default as AnnouncementMessage} from './announcement-message.view'

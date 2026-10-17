@@ -1,11 +1,7 @@
-import Header from '@/components/header/header.view';
 import { useAnnouncement } from './announcement.hook';
-import AdminMessageArea from '@/components/message-area/admin-message-area.view';
-import PageButton from '@/components/page-button/page-button.view';
+import {AnnouncementMessage, AnnouncementPreview, PageButton, Header}  from '../../../components';
 import { SendHorizonal } from 'lucide-react';
-import { AdminPreview } from '@/components/preview';
 import { useEffect, useState } from 'react';
-import { Button } from '@base-ui/react';
 
 export function AnnouncementPage() {
   const {
@@ -58,7 +54,7 @@ export function AnnouncementPage() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 gap-8">
           <div className="flex flex-col lg:flex-row w-full justify-between gap-3">
-            <AdminMessageArea
+            <AnnouncementMessage
               message={message}
               setMessage={setMessage}
               template={template}
@@ -80,7 +76,7 @@ export function AnnouncementPage() {
             icon={<SendHorizonal />}
           />
 
-          <AdminPreview
+          <AnnouncementPreview
             message={deferredMessage}
             template={template}
             selectedSector={selectedSector}

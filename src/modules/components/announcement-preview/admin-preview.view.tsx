@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../ui/card';
+} from '@/components/ui/card';
 
 interface Types {
   message: string;

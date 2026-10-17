@@ -1,9 +1,9 @@
 import { useDeferredValue, useEffect, useState } from 'react';
 import {
-  Header,
   StudentMessageArea,
   StudentPreview,
-} from '../../../components';
+} from '@/components';
+import { Header } from '@/modules/components';
 
 export function PostPage() {
 

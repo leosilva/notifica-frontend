@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/carousel';
 import { AdminCard } from '../components';
 import { API_BASE_URL } from '@/constants/environments';
+import {default as StudentCard} from '@/components/carousel-card/student-card.view'
 
 interface News {
   id: number;
@@ -15,7 +16,9 @@ interface News {
   corpo: string;
   gradiente?: string | null;
   imagem?: string | null;
-  autor?: { nome?: string } | null;
+  autor?: {
+    role: any; nome?: string 
+} | null;
   tipo?: string;
 }
 
@@ -75,13 +78,15 @@ export function NewsPage() {
             <CarouselContent>
               {news.map((item, index) => (
                 <CarouselItem key={item.id || index}>
+                  {item.autor.role === 'servidor' ?
                   <AdminCard
                     title={item.titulo}
                     resume={item.corpo}
                     avatar={item.imagem ?? ''}
                     author={item.autor?.nome ?? ''}
-                  />
-                </CarouselItem>
+                  /> :
+                  <StudentCard author={item.autor.nome} avatar='' resume={item.corpo} ></StudentCard>}
+                </CarouselItem> 
               ))}
             </CarouselContent>
           </Carousel>

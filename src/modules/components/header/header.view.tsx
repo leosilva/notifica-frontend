@@ -2,8 +2,8 @@ import { LogOut } from 'lucide-react';
 import { memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api';
-import { ModeToggle } from '../mode-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { ModeToggle } from '@/components/mode-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface Type {
   frase: string;
