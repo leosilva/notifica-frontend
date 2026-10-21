@@ -5,15 +5,12 @@ interface AdmincardProps {
   resume: string;
   avatar: string;
   author: string;
-  data: Date;
 }
 
 export default function Carouselcard({
   title,
   resume,
-  avatar,
   author,
-  data,
 }: AdmincardProps) {
   return (
     <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm">

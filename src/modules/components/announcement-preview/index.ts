@@ -1,1 +1,1 @@
-export {default as AnnouncementPreview} from './admin-preview.view'
+export { default as AnnouncementPreview } from './admin-preview.view';

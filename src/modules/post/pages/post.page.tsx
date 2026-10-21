@@ -1,12 +1,8 @@
 import { useDeferredValue, useEffect, useState } from 'react';
-import {
-  StudentMessageArea,
-  StudentPreview,
-} from '@/components';
+import { StudentMessageArea, StudentPreview } from '@/components';
 import { Header } from '@/modules/components';
 
 export function PostPage() {
-
   const [data, setData] = useState(null);
   const [message, setMessage] = useState('');
   const [template, setTemplate] = useState(
@@ -16,7 +12,7 @@ export function PostPage() {
   useEffect(() => {
     fetch('http://localhost:8000/auth/me', {
       method: 'GET',
-      credentials: 'include', 
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -43,7 +39,12 @@ export function PostPage() {
             template={template}
             setTemplate={setTemplate}
           />
-          <StudentPreview message={deferredMessage} template={template} nome={data?.nome} foto={data?.foto}/>
+          <StudentPreview
+            message={deferredMessage}
+            template={template}
+            nome={data?.nome}
+            foto={data?.foto}
+          />
         </div>
       </div>
     </div>

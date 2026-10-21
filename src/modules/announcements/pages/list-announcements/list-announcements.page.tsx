@@ -1,10 +1,5 @@
 import { Funnel, Plus, Square, TableProperties, Undo2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  AnnouncementCard,
-  AnnouncementTable,
-  PageButton,
-} from '@/components';
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import {
@@ -18,8 +13,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { useListAnnouncements } from './list-announcements.hook';
-import { Header } from '@/modules/components';
-
+import {
+  Header,
+  AnnouncementCard,
+  AnnouncementTable,
+  PageButton,
+} from '@/modules/components';
 
 export function ListAnnouncementsPage() {
   const {
@@ -31,14 +30,13 @@ export function ListAnnouncementsPage() {
     setFilter,
     filteredAndSortedData,
   } = useListAnnouncements();
-    
-  
+
   const [data, setData] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:8000/auth/me', {
       method: 'GET',
-      credentials: 'include', 
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -53,13 +51,12 @@ export function ListAnnouncementsPage() {
       .catch((erro) => {
         console.error('Erro:', erro);
       });
-    console.log()
+    console.log();
   }, []);
-
 
   return (
     <div className="w-full h-auto min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden flex-col">
-      <Header frase="Seus comunicados" nome={data?.nome} foto={data?.foto}/>
+      <Header frase="Seus comunicados" nome={data?.nome} foto={data?.foto} />
       <main className="mx-auto sm:w-[90%] h-full p-4">
         <div className="bg-teal-50/60 dark:bg-emerald-950 rounded-2xl my-6 w-full p-6 shadow-sm shadow-emerald-900/10">
           <div className="py-6 justify-between flex flex-row items-center">

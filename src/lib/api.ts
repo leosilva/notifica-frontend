@@ -112,7 +112,7 @@ export async function apiFetch(
   if (!refreshed) {
     return response;
   }
-  console.log(response)
+  console.log(response);
 
   return send(path, options, ACCESS_CSRF_COOKIE_NAME);
 }

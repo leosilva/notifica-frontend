@@ -12,21 +12,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../ui/alert-dialog';
+} from '../../../components/ui/alert-dialog';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../ui/card';
+} from '../../../components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
+} from '../../../components/ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
   const [user, setUser] = useState(Object);
@@ -105,8 +105,8 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
   transition-all duration-300 active:scale-100
   `;
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')))
-  }, [])
+    setUser(JSON.parse(localStorage.getItem('user')));
+  }, []);
 
   return (
     <Card
@@ -239,9 +239,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                       </p>
 
                       <div className="text-sm text-gray-400 border-t pt-3 text-center">
-                        <div>
-                          Administração: {user?.nome || 'Admin'}
-                        </div>
+                        <div>Administração: {user?.nome || 'Admin'}</div>
                         <div className="text-xs mt-1">
                           {announcement.criado_em || 'Recente'}
                         </div>

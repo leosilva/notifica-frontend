@@ -10,14 +10,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '../ui/alert-dialog';
+} from '../../../components/ui/alert-dialog';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../ui/dialog';
+} from '../../../components/ui/dialog';
 import {
   Table,
   TableBody,
@@ -25,7 +25,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '../ui/table';
+} from '../../../components/ui/table';
 import { use, useEffect, useState } from 'react';
 
 export default function TabelaComunicados({ dados = [] }) {
@@ -42,8 +42,8 @@ export default function TabelaComunicados({ dados = [] }) {
   }
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')))
-  }, [])
+    setUser(JSON.parse(localStorage.getItem('user')));
+  }, []);
 
   return (
     <div className="rounded-md border bg-white/20 dark:bg-black/30 overflow-hidden">
@@ -62,7 +62,8 @@ export default function TabelaComunicados({ dados = [] }) {
           {dados.map((item, index) => {
             const titulo = item.titulo || 'Título não informado';
             const setor = item.setor || 'DIAC';
-            const autorNome = item.autor?.nome || item.nome || 'Autor desconhecido';
+            const autorNome =
+              item.autor?.nome || item.nome || 'Autor desconhecido';
             const criadoEm = item.criado_em || 'Data desconhecida';
             const templateFundo = item.template || item.gradiente || '#18181b';
             const corpo = item.corpo || 'Sem conteúdo cadastrado.';
@@ -90,9 +91,7 @@ export default function TabelaComunicados({ dados = [] }) {
                         : ''
                     }
                   >
-                    {item.visibilidade !== 'publicada'
-                      ? 'Pendente'
-                      : criadoEm}
+                    {item.visibilidade !== 'publicada' ? 'Pendente' : criadoEm}
                   </span>
                 </TableCell>
 
@@ -176,8 +175,7 @@ export default function TabelaComunicados({ dados = [] }) {
                           </AlertDialogTitle>
                           <AlertDialogDescription className="text-sm">
                             Você deseja realmente apagar o comunicado{' '}
-                            <strong>"{titulo}"</strong>? Esta ação é
-                            definitiva.
+                            <strong>"{titulo}"</strong>? Esta ação é definitiva.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <div className="w-full flex justify-center gap-3 mt-4">

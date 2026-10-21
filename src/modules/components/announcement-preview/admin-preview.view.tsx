@@ -29,15 +29,15 @@ const Preview = memo(
     url,
   }: Types) => {
     const Dates = useMemo(() => new Date().toLocaleDateString('pt-BR'), []);
-    const[user, setUser] = useState(Object);
+    const [user, setUser] = useState(Object);
 
     const imageUrl = useMemo(() => {
       if (!uploadedImage) return null;
       return URL.createObjectURL(uploadedImage);
     }, [uploadedImage]);
     useEffect(() => {
-      setUser(JSON.parse(localStorage.getItem("user")));
-    }, [])
+      setUser(JSON.parse(localStorage.getItem('user')));
+    }, []);
 
     return (
       <Card className="mt-8 transform-gpu bg-teal-50 dark:bg-emerald-950">
@@ -49,7 +49,6 @@ const Preview = memo(
         </CardHeader>
         <CardContent>
           <div className="relative flex items-center justify-center p-6 h-[28rem] rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
-            
             <div
               className="absolute inset-0 transition-opacity duration-75 z-0 pointer-events-none"
               style={{
@@ -91,7 +90,7 @@ const Preview = memo(
               <div className="absolute bottom-6 right-10 z-20 ring-4 ring-black/20 rounded-sm rin">
                 <img
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=3AA953&data=${encodeURIComponent(
-                    url
+                    url,
                   )}`}
                   alt="QR Code para o link fornecido"
                   className="w-30 h-30 rounded bg-white p-1.5 shadow-md"
@@ -99,12 +98,11 @@ const Preview = memo(
                 />
               </div>
             )}
-
           </div>
         </CardContent>
       </Card>
     );
-  }
+  },
 );
 
 export default Preview;

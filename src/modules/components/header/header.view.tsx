@@ -12,7 +12,6 @@ interface Type {
 }
 
 const Header = memo(({ frase, nome, foto }: Type) => {
-
   const HandleLogout = async () => {
     try {
       await apiFetch('/auth/logout', { method: 'POST' });
@@ -22,7 +21,6 @@ const Header = memo(({ frase, nome, foto }: Type) => {
 
     window.location.href = '/';
   };
-
 
   return (
     <header className="relative z-10 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-lg w-full dark:bg-emerald-950">

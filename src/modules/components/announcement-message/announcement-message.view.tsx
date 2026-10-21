@@ -1,9 +1,4 @@
-import {
-  Megaphone,
-  Save,
-  Send,
-  Sliders,
-} from 'lucide-react';
+import { Megaphone, Save, Send, Sliders } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -104,18 +99,14 @@ const AdminMessageArea = memo((props: Types) => {
     setUrl,
   } = props;
 
-  const {
-    removeImage,
-    handleMessageChange,
-    handleTitleChange,
-    handleSubmit,
-  } = useAnnouncementMessage({
-    setMessage,
-    setTitle,
-    uploadedImage,
-    setUploadedImage,
-    id,
-  });
+  const { removeImage, handleMessageChange, handleTitleChange, handleSubmit } =
+    useAnnouncementMessage({
+      setMessage,
+      setTitle,
+      uploadedImage,
+      setUploadedImage,
+      id,
+    });
 
   const Templates = useMemo(() => {
     return TEMPLATES.map((info) => {
@@ -179,7 +170,9 @@ const AdminMessageArea = memo((props: Types) => {
 
               <div
                 className={`flex items-center gap-3 w-auto px-1 transition-opacity duration-300 ${
-                  uploadedImage ? 'opacity-100' : 'opacity-40 pointer-events-none'
+                  uploadedImage
+                    ? 'opacity-100'
+                    : 'opacity-40 pointer-events-none'
                 }`}
               >
                 <Sliders className="h-3.5 w-3.5 text-zinc-500" />
@@ -200,9 +193,7 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
 
             <div className="flex flex-col gap-2 items-start">
-              <span className="text-sm text-zinc-500 font-medium pl-1">
-                ou
-              </span>
+              <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
               <DropdownMenu>
                 <DropdownMenuTrigger
                   className="outline-none border-none ring-0"
@@ -288,7 +279,7 @@ const AdminMessageArea = memo((props: Types) => {
               type="submit"
               name="action"
               value="save"
-              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 text-xl p-6 flex items-center justify-center"
+              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 hover:bg-emerald-500 text-xl p-6 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600"
             >
               <Save className="text-emerald-50 h-full mr-2" />
               Salvar Comunicado
@@ -297,7 +288,7 @@ const AdminMessageArea = memo((props: Types) => {
               type="submit"
               name="action"
               value="publish"
-              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 text-emerald-50 flex items-center justify-center"
+              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 hover:bg-emerald-500 text-emerald-50 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600"
             >
               <Send className="mr-2" />
               Salvar e Publicar Comunicado

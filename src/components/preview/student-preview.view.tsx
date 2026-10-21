@@ -16,13 +16,11 @@ interface Types {
   foto: string;
 }
 
-
-
 const preview = memo(({ message, template, foto, nome }: Types) => {
   const [user, setUser] = useState(Object);
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')))
-  }, [])
+    setUser(JSON.parse(localStorage.getItem('user')));
+  }, []);
   return (
     <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 mt-2 transform-gpu">
       <CardHeader className="pb-6  ">
@@ -53,9 +51,7 @@ const preview = memo(({ message, template, foto, nome }: Types) => {
               <div className="text-center max-w-lg w-full">
                 <div className="bg-gray-900/30 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-black/5">
                   <div className="flex items-center justify-center mb-4">
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10"
-                    >
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
                       <MessageSquare className="h-6 w-6 text-white" />
                     </div>
                   </div>

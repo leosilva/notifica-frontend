@@ -13,8 +13,8 @@ import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
 export function LoginPage() {
   const SuapLogin = () => {
-    window.location.href = `${API_BASE_URL}/auth/suap/login`
-  }
+    window.location.href = `${API_BASE_URL}/auth/suap/login`;
+  };
   const { Suap, aviso } = useLogin();
   return (
     <div className="relative w-full h-screen flex justify-center items-center flex-col">
@@ -37,7 +37,7 @@ export function LoginPage() {
               Sistema integrado de comunicação acadêmica
             </CardDescription>
           </CardHeader>
-          <CardContent className='flex justify-center'>
+          <CardContent className="flex justify-center">
             {aviso.mensagem && (
               <div
                 className={`mb-4 p-3 rounded text-sm font-medium text-center ${
@@ -50,7 +50,12 @@ export function LoginPage() {
               </div>
             )}
 
-            <Button onClick={SuapLogin} className="bg-emerald-50/5 hover:bg-emerald-50 text-emerald-600 font-extrabold ring-2 dark:hover:bg-emerald-950 ring-emerald-300/40 text-2xl p-6">Logar com SUAP</Button>
+            <Button
+              onClick={SuapLogin}
+              className="bg-emerald-50/5 hover:bg-emerald-50 text-emerald-600 font-extrabold ring-2 dark:hover:bg-emerald-950 ring-emerald-300/40 text-2xl p-6"
+            >
+              Logar com SUAP
+            </Button>
           </CardContent>
         </Card>
       </main>

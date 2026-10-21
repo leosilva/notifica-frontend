@@ -6,9 +6,8 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { AdminCard } from '../components';
 import { API_BASE_URL } from '@/constants/environments';
-import {default as StudentCard} from '@/components/carousel-card/student-card.view'
+import { StudentCard, AdminCard } from '../modules/components/carousel-card';
 
 interface News {
   id: number;
@@ -17,8 +16,10 @@ interface News {
   gradiente?: string | null;
   imagem?: string | null;
   autor?: {
-    role: any; nome?: string 
-} | null;
+    atualizado_em: Date;
+    role: any;
+    nome?: string;
+  } | null;
   tipo?: string;
   atualizado_em: Date;
 }
@@ -67,7 +68,7 @@ export function NewsPage() {
   return (
     <div
       className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
-      style={{ background: bgColor || '#000000'}}
+      style={{ background: bgColor || '#000000' }}
     >
       <div className="w-full max-w-[60vw] mx-auto relative z-10">
         {!!news.length && (
@@ -79,16 +80,20 @@ export function NewsPage() {
             <CarouselContent>
               {news.map((item, index) => (
                 <CarouselItem key={item.id || index}>
-                  {item.autor.role === 'servidor' ?
-                  <AdminCard
-                    title={item.titulo}
-                    resume={item.corpo}
-                    avatar={item.imagem ?? ''}
-                    author={item.autor?.nome ?? ''}
-                    data={item.autor.atualizado_em ?? ''}
-                  /> :
-                  <StudentCard author={item.autor.nome} avatar='' resume={item.corpo} ></StudentCard>}
-                </CarouselItem> 
+                  {item.autor.role === 'servidor' ? (
+                    <AdminCard
+                      title={item.titulo}
+                      resume={item.corpo}
+                      avatar={item.imagem ?? ''}
+                      author={item.autor?.nome ?? ''}
+                    />
+                  ) : (
+                    <StudentCard
+                        author={item.autor.nome}
+                        avatar=""
+                        resume={item.corpo}                  ></StudentCard>
+                  )}
+                </CarouselItem>
               ))}
             </CarouselContent>
           </Carousel>

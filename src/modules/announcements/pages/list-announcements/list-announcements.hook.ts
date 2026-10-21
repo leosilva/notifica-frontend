@@ -17,23 +17,23 @@ export function useListAnnouncements() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [data, setData] = useState<Postagem[]>([]);
-const handleAnnouncement = useCallback(async () => {
-  try {
-    const response = await apiFetch('/noticias');
+  const handleAnnouncement = useCallback(async () => {
+    try {
+      const response = await apiFetch('/noticias');
 
-    if (!response.ok) {
-      throw new Error(
-        `Não foi possível carregar os comunicados (${response.status}).`,
-      );
+      if (!response.ok) {
+        throw new Error(
+          `Não foi possível carregar os comunicados (${response.status}).`,
+        );
+      }
+
+      const result = await response.json();
+
+      setData(Array.isArray(result) ? result : []);
+    } catch (error) {
+      console.error(error);
     }
-
-    const result = await response.json();
-
-    setData(Array.isArray(result) ? result : []);
-  } catch (error) {
-    console.error(error);
-  }
-}, []);
+  }, []);
 
   useEffect(() => {
     handleAnnouncement();
