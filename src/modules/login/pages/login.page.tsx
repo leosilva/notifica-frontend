@@ -1,5 +1,4 @@
 import { GraduationCap } from 'lucide-react';
-import { API_BASE_URL } from '@/constants/environments';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '../../../components/mode-toggle';
 import {
@@ -13,7 +12,7 @@ import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
 export function LoginPage() {
   const SuapLogin = () => {
-    window.location.href = `${API_BASE_URL}/auth/suap/login`;
+    window.location.href = `/api/auth/suap/login`;
   };
   const { Suap, aviso } = useLogin();
   return (

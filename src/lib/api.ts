@@ -1,4 +1,3 @@
-import { API_BASE_URL } from '@/constants/environments';
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
@@ -29,7 +28,7 @@ function getCookie(name: string): string | null {
 }
 
 function resolveUrl(path: string): string {
-  return path.startsWith('http') ? path : `${API_BASE_URL}${path}`;
+  return path.startsWith('http') ? path : `/api/${path}`;
 }
 
 function buildHeaders(options: RequestInit, csrfCookieName: string): Headers {

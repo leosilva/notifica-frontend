@@ -6,7 +6,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
-import { API_BASE_URL } from '@/constants/environments';
 import { StudentCard, AdminCard } from '../modules/components/carousel-card';
 
 interface News {
@@ -35,7 +34,7 @@ export function NewsPage() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/carrossel`);
+      const response = await fetch(`/api/carrossel`);
       const data = await response.json();
       setNews(data);
       console.log(data);
