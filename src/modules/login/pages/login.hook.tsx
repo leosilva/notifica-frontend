@@ -6,7 +6,7 @@ export function useLogin() {
   const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
   const Suap = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/suap/login`, {
+      const response = await fetch(`/api/auth/suap/login`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
