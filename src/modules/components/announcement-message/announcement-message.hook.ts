@@ -39,7 +39,7 @@ export function useAnnouncementMessage({setMessage,setTitle, setUploadedImage, u
 
     const fetchSaved = async (data: FormData) => {
       try {
-        await apiFetch('/postagens/', {
+        await apiFetch('/noticias/', {
           method: 'POST',
           body: data,
         });
@@ -50,7 +50,7 @@ export function useAnnouncementMessage({setMessage,setTitle, setUploadedImage, u
 
     const updateSaved = async (postId: number, data: FormData) => {
       try {
-        await apiFetch(`/postagens/${postId}/`, {
+        await apiFetch(`/noticias/${postId}/`, {
           method: 'PUT',
           body: data,
         });

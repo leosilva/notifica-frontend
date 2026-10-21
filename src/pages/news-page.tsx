@@ -20,6 +20,7 @@ interface News {
     role: any; nome?: string 
 } | null;
   tipo?: string;
+  atualizado_em: Date;
 }
 
 export function NewsPage() {
@@ -33,7 +34,7 @@ export function NewsPage() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/carrossel/?setor=DIAC`);
+      const response = await fetch(`${API_BASE_URL}/carrossel`);
       const data = await response.json();
       setNews(data);
       console.log(data);
@@ -66,7 +67,7 @@ export function NewsPage() {
   return (
     <div
       className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
-      style={{ background: bgColor }}
+      style={{ background: bgColor || '#000000'}}
     >
       <div className="w-full max-w-[60vw] mx-auto relative z-10">
         {!!news.length && (
@@ -84,6 +85,7 @@ export function NewsPage() {
                     resume={item.corpo}
                     avatar={item.imagem ?? ''}
                     author={item.autor?.nome ?? ''}
+                    data={item.autor.atualizado_em ?? ''}
                   /> :
                   <StudentCard author={item.autor.nome} avatar='' resume={item.corpo} ></StudentCard>}
                 </CarouselItem> 

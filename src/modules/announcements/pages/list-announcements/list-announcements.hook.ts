@@ -6,6 +6,9 @@ interface Postagem {
   id: number;
   titulo?: string;
   visibilidade?: string;
+  autor: {
+    nome: string;
+  };
   [key: string]: unknown;
 }
 
@@ -14,29 +17,23 @@ export function useListAnnouncements() {
   const [searchTerm, setSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [data, setData] = useState<Postagem[]>([]);
+const handleAnnouncement = useCallback(async () => {
+  try {
+    const response = await apiFetch('/noticias');
 
-  const handleAnnouncement = useCallback(async () => {
-    try {
-      const user = await getCurrentUser();
-
-      // Alunos veem as próprias postagens; admin/servidor veem a fila geral.
-      const endpoint = user?.role === 'aluno' ? '/postagens/me' : '/postagens/';
-
-      const response = await apiFetch(endpoint);
-
-      if (!response.ok) {
-        throw new Error(
-          `Não foi possível carregar os comunicados (${response.status}).`,
-        );
-      }
-
-      const result = await response.json();
-
-      setData(Array.isArray(result) ? result : []);
-    } catch (error) {
-      console.error(error);
+    if (!response.ok) {
+      throw new Error(
+        `Não foi possível carregar os comunicados (${response.status}).`,
+      );
     }
-  }, []);
+
+    const result = await response.json();
+
+    setData(Array.isArray(result) ? result : []);
+  } catch (error) {
+    console.error(error);
+  }
+}, []);
 
   useEffect(() => {
     handleAnnouncement();
@@ -65,7 +62,7 @@ export function useListAnnouncements() {
 
     return result;
   }, [data, filter, searchTerm]);
-
+  console.log(filteredAndSortedData);
   return {
     filteredAndSortedData,
     viewMode,

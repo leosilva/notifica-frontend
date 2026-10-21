@@ -53,6 +53,7 @@ export function ListAnnouncementsPage() {
       .catch((erro) => {
         console.error('Erro:', erro);
       });
+    console.log()
   }, []);
 
 

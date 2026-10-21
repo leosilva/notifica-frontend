@@ -1,5 +1,5 @@
 import { MapPin } from 'lucide-react';
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -29,11 +29,15 @@ const Preview = memo(
     url,
   }: Types) => {
     const Dates = useMemo(() => new Date().toLocaleDateString('pt-BR'), []);
+    const[user, setUser] = useState(Object);
 
     const imageUrl = useMemo(() => {
       if (!uploadedImage) return null;
       return URL.createObjectURL(uploadedImage);
     }, [uploadedImage]);
+    useEffect(() => {
+      setUser(JSON.parse(localStorage.getItem("user")));
+    }, [])
 
     return (
       <Card className="mt-8 transform-gpu bg-teal-50 dark:bg-emerald-950">
@@ -78,7 +82,7 @@ const Preview = memo(
               </p>
 
               <div className="text-sm text-gray-400 border-t pt-3 text-center">
-                <div>Administração: teste</div>
+                <div>Administração: {user.nome}</div>
                 <div className="text-xs mt-1">{Dates}</div>
               </div>
             </div>

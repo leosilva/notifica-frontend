@@ -5,6 +5,7 @@ interface AdmincardProps {
   resume: string;
   avatar: string;
   author: string;
+  data: Date;
 }
 
 export default function Carouselcard({
@@ -12,6 +13,7 @@ export default function Carouselcard({
   resume,
   avatar,
   author,
+  data,
 }: AdmincardProps) {
   return (
     <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm">
@@ -31,8 +33,8 @@ export default function Carouselcard({
 
       {/* Rodapé */}
       <div className="text-gray-400 border-t border-gray-400 text-3xl pt-5 text-center">
-        <div>Administração: Roberto Carlos</div>
-        <div className="text-lg p-2">16/06/2026</div>
+        <div>Administração: {author}</div>
+        <div className="text-lg p-2">18/10/2026</div>
       </div>
     </div>
   );

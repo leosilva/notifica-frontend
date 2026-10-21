@@ -2,6 +2,7 @@ import { useAnnouncement } from './announcement.hook';
 import {AnnouncementMessage, AnnouncementPreview, PageButton, Header}  from '../../../components';
 import { SendHorizonal } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { json } from 'stream/consumers';
 
 export function AnnouncementPage() {
   const {
@@ -42,6 +43,7 @@ export function AnnouncementPage() {
       })
       .then((dados) => {
         setData(dados);
+        localStorage.setItem("user", JSON.stringify(dados))
       })
       .catch((erro) => {
         console.error('Erro:', erro);

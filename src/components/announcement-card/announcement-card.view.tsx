@@ -1,6 +1,6 @@
 import { Button } from '@base-ui/react';
 import { Eye, MapPin, Pencil, Save, Send, Trash } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { apiFetch } from '@/lib/api';
 import {
@@ -29,6 +29,7 @@ import {
 } from '../ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
+  const [user, setUser] = useState(Object);
   const textlimit = (texto, limite) => {
     if (!texto) return '';
     return texto.length > limite ? `${texto.slice(0, limite)}...` : texto;
@@ -36,11 +37,46 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const handlePublish = async (e) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData();
+      formData.append('titulo', announcement.titulo || '');
+      formData.append('corpo', announcement.corpo || '');
+      formData.append('visibilidade', 'publicada');
+      if (announcement.setor) {
+        formData.append('setor', announcement.setor);
+      }
+
+      const response = await apiFetch('/noticias/', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erro ao publicar comunicado');
+      }
+
+      alert('Comunicado publicado com sucesso!');
+
+      if (onUpdate) {
+        onUpdate();
+      } else {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Erro na requisição de publicação:', error);
+      alert(`Não foi possível publicar: ${error.message}`);
+    }
+  };
+
   const fetchDelete = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await apiFetch(`/postagens/${announcement.id}/`, {
+      const response = await apiFetch(`/noticias/${announcement.id}/`, {
         method: 'DELETE',
       });
 
@@ -68,6 +104,9 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
   py-[10px] rounded-[6px] 
   transition-all duration-300 active:scale-100
   `;
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('user')))
+  }, [])
 
   return (
     <Card
@@ -116,7 +155,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
                 <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
                   <span className="text-gray-400 text-[9px] font-medium italic">
-                    Administração: {announcement.autor?.nome || 'Admin'}
+                    Administração: {user?.nome || 'Admin'}
                   </span>
                   <span className="text-gray-400 text-[9px] font-medium italic">
                     {announcement.criado_em || 'Recente'}
@@ -131,6 +170,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
           <Button
             title="Publicar"
             className={`${bubbleButtonStyle} w-full h-full bg-emerald-400`}
+            onClick={handlePublish}
           >
             <Send size={20} />
           </Button>
@@ -200,7 +240,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
                       <div className="text-sm text-gray-400 border-t pt-3 text-center">
                         <div>
-                          Administração: {announcement.autor?.nome || 'Admin'}
+                          Administração: {user?.nome || 'Admin'}
                         </div>
                         <div className="text-xs mt-1">
                           {announcement.criado_em || 'Recente'}

@@ -1,5 +1,5 @@
 import { Eye, MessageSquare } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   Card,
@@ -16,7 +16,13 @@ interface Types {
   foto: string;
 }
 
+
+
 const preview = memo(({ message, template, foto, nome }: Types) => {
+  const [user, setUser] = useState(Object);
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem('user')))
+  }, [])
   return (
     <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 mt-2 transform-gpu">
       <CardHeader className="pb-6  ">
@@ -48,27 +54,21 @@ const preview = memo(({ message, template, foto, nome }: Types) => {
                 <div className="bg-gray-900/30 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-black/5">
                   <div className="flex items-center justify-center mb-4">
                     <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center"
-                      style={{
-                        background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
-                      }}
+                      className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10"
                     >
                       <MessageSquare className="h-6 w-6 text-white" />
                     </div>
                   </div>
-                  <h3 className="font-bold text-xl mb-4 text-gray-100">
-                    Comunicado Estudantil
-                  </h3>
-                  <p className="text-gray-300 text-lg leading-relaxed mb-6 wrap-break-word hyphens-auto overflow-wrap-anywhere max-w-full">
+                  <p className="text-gray-300 text-xl leading-relaxed mb-6 wrap-break-word hyphens-auto overflow-wrap-anywhere max-w-full">
                     {message ||
                       'Sua mensagem aparecerá aqui... Digite algo inspirador!'}
                   </p>
-                  <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+                  <div className="flex items-center justify-center gap-2 text-sm text-gray-400 border-t border-white/10 p-2">
                     <Avatar className="h-6 w-6">
                       <AvatarImage src={foto} alt="img" />
                       <AvatarFallback className="text-xs">oi</AvatarFallback>
                     </Avatar>
-                    <span className="font-medium">Por: {nome}</span>
+                    <span className="font-medium">Por: {user.nome}</span>
                   </div>
                 </div>
               </div>
