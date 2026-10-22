@@ -74,10 +74,14 @@ interface Types {
 }
 const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
-    const fetchPublished = async () => {
+const fetchPublished = async () => {
   try {
-    const response = await apiFetch('/postagens/', {
+    const response = await fetch('/api/postagens/', { 
       method: 'POST',
+      credentials: 'include', 
+      headers: {
+        'Content-Type': 'application/json', 
+      },
       body: JSON.stringify({
         titulo: 'Comunicado de Estudante',
         corpo: message,
