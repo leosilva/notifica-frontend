@@ -75,35 +75,34 @@ interface Types {
 const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
     const fetchPublished = async () => {
-      const formData = new FormData();
-      formData.append('titulo', 'Comunicado de Estudante');
-      formData.append('corpo', message);
-      formData.append('gradiente', template);
-      formData.append('visibilidade', 'publicada');
+  try {
+    const response = await apiFetch('/postagens/', {
+      method: 'POST',
+      body: JSON.stringify({
+        titulo: 'Comunicado de Estudante',
+        corpo: message,
+        gradiente: template,
+        visibilidade: 'publicada',
+      }),
+    });
 
-      try {
-        const response = await apiFetch('/postagens/', {
-          method: 'POST',
-          body: formData,
-        });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      console.error('Detalhes do erro do backend:', errorData);
 
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => null);
-          console.error('Detalhes do erro do backend:', errorData);
+      throw new Error(
+        errorData?.detail ||
+          errorData?.message ||
+          'Erro ao enviar comunicado',
+      );
+    }
 
-          throw new Error(
-            errorData?.detail ||
-              errorData?.message ||
-              'Erro ao enviar comunicado',
-          );
-        }
-
-        return true;
-      } catch (error) {
-        console.error(error);
-        return false;
-      }
-    };
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
 
     const handleSendMessage = async () => {
       if (message.length === 0) {
