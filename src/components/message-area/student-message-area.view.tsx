@@ -76,7 +76,7 @@ const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
 const fetchPublished = async () => {
   try {
-    const response = await fetch('/api/postagens/', { 
+    const response = await fetch('/api/postagens', { 
       method: 'POST',
       credentials: 'include', 
       headers: {
