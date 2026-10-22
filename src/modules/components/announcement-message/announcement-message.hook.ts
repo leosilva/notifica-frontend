@@ -33,7 +33,7 @@ export function useAnnouncementMessage({
 
   const fetchPublished = async (data: FormData) => {
     try {
-      await apiFetch('/noticias/', {
+      await apiFetch('/noticias', {
         method: 'POST',
         body: data,
       });
@@ -44,7 +44,7 @@ export function useAnnouncementMessage({
 
   const fetchSaved = async (data: FormData) => {
     try {
-      await apiFetch('/noticias/', {
+      await apiFetch('/noticias', {
         method: 'POST',
         body: data,
       });
@@ -55,7 +55,7 @@ export function useAnnouncementMessage({
 
   const updateSaved = async (postId: number, data: FormData) => {
     try {
-      await apiFetch(`/noticias/${postId}/`, {
+      await apiFetch(`/noticias/${postId}`, {
         method: 'PUT',
         body: data,
       });
