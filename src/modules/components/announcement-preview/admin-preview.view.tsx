@@ -81,7 +81,7 @@ const Preview = memo(
               </p>
 
               <div className="text-sm text-gray-400 border-t pt-3 text-center">
-                <div>Administração: {user.nome}</div>
+                <div>Administração: {user?.nome}</div>
                 <div className="text-xs mt-1">{Dates}</div>
               </div>
             </div>

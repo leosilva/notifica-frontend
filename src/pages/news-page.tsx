@@ -88,7 +88,7 @@ export function NewsPage() {
                     />
                   ) : (
                     <StudentCard
-                        author={item.autor.nome}
+                        author={item.autor?.nome}
                         avatar=""
                         resume={item.corpo}                  ></StudentCard>
                   )}

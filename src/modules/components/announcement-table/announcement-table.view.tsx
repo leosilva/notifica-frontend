@@ -63,7 +63,7 @@ export default function TabelaComunicados({ dados = [] }) {
             const titulo = item.titulo || 'Título não informado';
             const setor = item.setor || 'DIAC';
             const autorNome =
-              item.autor?.nome || item.nome || 'Autor desconhecido';
+              item.autor?.nome || item?.nome || 'Autor desconhecido';
             const criadoEm = item.criado_em || 'Data desconhecida';
             const templateFundo = item.template || item.gradiente || '#18181b';
             const corpo = item.corpo || 'Sem conteúdo cadastrado.';
