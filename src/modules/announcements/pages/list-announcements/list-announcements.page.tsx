@@ -34,7 +34,7 @@ export function ListAnnouncementsPage() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/auth/me', {
+    fetch('http://api/auth/me', {
       method: 'GET',
       credentials: 'include',
       headers: {

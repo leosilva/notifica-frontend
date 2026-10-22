@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { API_BASE_URL } from '@/constants/environments';
 
 export function useLogin() {
   const [isLoading, setIsLoading] = useState(false);

@@ -10,7 +10,7 @@ export function PostPage() {
   );
   const deferredMessage = useDeferredValue(message);
   useEffect(() => {
-    fetch('http://localhost:8000/auth/me', {
+    fetch('/api/auth/me', {
       method: 'GET',
       credentials: 'include',
       headers: {

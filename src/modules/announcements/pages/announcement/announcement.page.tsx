@@ -34,7 +34,7 @@ export function AnnouncementPage() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/auth/me', {
+    fetch('/api/auth/me', {
       method: 'GET',
       credentials: 'include',
       headers: {
