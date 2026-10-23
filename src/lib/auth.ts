@@ -39,12 +39,8 @@ export function useRefresh() {
     setAviso({ mensagem: '', tipo: '' });
 
     try {
-      const response = await fetch('/api/auth/refresh', {
+      const response = await apiFetch('/auth/refresh', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', 
       });
 
       if (!response.ok) {
