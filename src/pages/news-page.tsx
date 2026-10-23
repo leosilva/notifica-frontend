@@ -37,6 +37,7 @@ export function NewsPage() {
       const response = await fetch(`/api/carrossel`);
       const data = await response.json();
       setNews(data);
+      console.log(data);
 
       if (data.length > 0 && data[0].gradiente) {
         setBgColor(data[0].gradiente);
