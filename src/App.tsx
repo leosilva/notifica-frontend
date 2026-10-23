@@ -9,21 +9,20 @@ import { useEffect } from 'react';
 
 function App() {
   
-  const { refresh, aviso: refreshAviso } = useRefresh();
+  const { refresh } = useRefresh();
 
   useEffect(() => {
-    const QUINZE_MINUTOS = 15 * 60 * 1000;
+    const refresh_timer  = 15 * 60 * 1000;
 
     refresh();
 
     const interval = setInterval(() => {
       refresh();
-    }, QUINZE_MINUTOS);
+    }, refresh_timer  );
 
     return () => clearInterval(interval);
   }, [refresh]);
 
-  const avisoAtual = refreshAviso.mensagem;
 
   return (
     <BrowserRouter>

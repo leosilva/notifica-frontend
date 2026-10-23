@@ -1,5 +1,5 @@
 import { MessageSquare, PaletteIcon, Send, User } from 'lucide-react';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import {
@@ -16,7 +16,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Label } from '../ui/label';
@@ -66,14 +65,18 @@ const TEMPLATES = [
     color: 'linear-gradient(135deg, rgb(51, 65, 85), rgb(15, 23, 42))',
   },
 ];
+
 interface Types {
   message: string;
   setMessage: (value: string) => void;
   template: string;
   setTemplate: (value: string) => void;
 }
+
 const StudentMessageArea = memo(
   ({ message, setMessage, template, setTemplate }: Types) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const fetchPublished = async () => {
       const formData = new FormData();
       formData.append('titulo', 'Comunicado de Estudante');
@@ -111,25 +114,32 @@ const StudentMessageArea = memo(
         return;
       }
 
+      setIsSubmitting(true);
       const toastId = toast.loading('Publicando comunicado...');
 
-      const success = await fetchPublished();
+      try {
+        const success = await fetchPublished();
 
-      if (success) {
-        toast.success('Mensagem enviada com sucesso', { id: toastId });
-        setMessage('');
-      } else {
-        toast.error('Não foi possível enviar o comunicado. Tente novamente.', {
-          id: toastId,
-        });
+        if (success) {
+          toast.success('Mensagem enviada com sucesso', { id: toastId });
+          setMessage('');
+        } else {
+          toast.error('Não foi possível enviar o comunicado. Tente novamente.', {
+            id: toastId,
+          });
+        }
+      } finally {
+        setIsSubmitting(false);
       }
     };
+
     const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const value = e.target.value;
       if (value.length <= 80) {
         setMessage(value);
       }
     };
+
     const Templates = useMemo(() => {
       return TEMPLATES.map((info) => {
         const isSelected = template === info.color;
@@ -156,11 +166,11 @@ const StudentMessageArea = memo(
           </button>
         );
       });
-      // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     }, [template, setTemplate]);
+
     return (
       <Card className="xl:col-span-2 bg-card/80 border-0 dark:bg-emerald-950 transform-gpu">
-        <CardHeader className="pb-6  ">
+        <CardHeader className="pb-6">
           <CardTitle className="flex items-center gap-3 text-xl place-content-between">
             <div className="flex flex-row items-center gap-4">
               <div
@@ -229,7 +239,7 @@ const StudentMessageArea = memo(
               maxLength={80}
               onChange={handleMessageChange}
             />
-            <div className="flex justify-between items-center text-sm ">
+            <div className="flex justify-between items-center text-sm">
               <span className="text-muted-foreground font-medium">
                 Caracteres restantes:
               </span>
@@ -249,16 +259,18 @@ const StudentMessageArea = memo(
             </div>
           </div>
           <Button
-            className="w-full h-12 font-semibold rounded-xl transition-all duration-300 transform hover:ring-1 hover:dark:ring-emerald-400/90 hover:ring-emerald-700/90 border-0 outline-none dark:bg-emerald-800 bg-emerald-400 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-amber-50"
+            className="w-full h-12 font-semibold rounded-xl transition-all duration-300 transform hover:ring-1 hover:dark:ring-emerald-400/90 hover:ring-emerald-700/90 border-0 outline-none dark:bg-emerald-800 bg-emerald-400 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-amber-50 disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
+            disabled={isSubmitting}
             onClick={handleSendMessage}
           >
             <Send className="mr-2 h-5 w-5 inline text-amber-50" />
-            Publicar Comunicado
+            {isSubmitting ? 'Publicando...' : 'Publicar Comunicado'}
           </Button>
         </CardContent>
       </Card>
     );
   },
 );
+
 export default StudentMessageArea;
