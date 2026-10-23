@@ -1,12 +1,12 @@
 import { apiFetch } from '@/lib/api';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 export interface TypesHook {
   setMessage: (value: string) => void;
   setUploadedImage: React.Dispatch<React.SetStateAction<File | null>>;
   setTitle: (value: string) => void;
-  id: number;
+  id: number | null;
   uploadedImage: File | null;
 }
 
@@ -17,6 +17,8 @@ export function useAnnouncementMessage({
   uploadedImage,
   id,
 }: TypesHook) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length <= 150) {
@@ -89,48 +91,59 @@ export function useAnnouncementMessage({
       return;
     }
 
-    apiFormData.append(
-      'titulo',
-      formTitle === '' ? 'Comunicado Administrativo' : formTitle,
-    );
-    apiFormData.append('corpo', formCorpo);
-    // apiFormData.append('gradiente', template);
-    apiFormData.append(
-      'visibilidade',
-      action === 'publish' ? 'publicada' : 'rascunho',
-    );
+    setIsSubmitting(true);
 
-    if (uploadedImage) {
-      apiFormData.append('imagem', uploadedImage);
-    }
+    try {
+      apiFormData.append(
+        'titulo',
+        formTitle === '' ? 'Comunicado Administrativo' : formTitle,
+      );
+      apiFormData.append('corpo', formCorpo);
+      apiFormData.append(
+        'visibilidade',
+        action === 'publish' ? 'publicada' : 'rascunho',
+      );
 
-    if (action === 'publish') {
-      if (id !== null) {
-        await updateSaved(id, apiFormData);
-        await fetchPublished(apiFormData);
-        toast.success('mensagem atualizada e publicada com sucesso');
-      } else {
-        await fetchPublished(apiFormData);
-        toast.success('mensagem publicada com sucesso');
+      if (uploadedImage) {
+        apiFormData.append('imagem', uploadedImage);
       }
-    } else {
-      if (id !== null) {
-        await updateSaved(id, apiFormData);
-        toast.success('mensagem atualizada com sucesso');
+
+      if (action === 'publish') {
+        if (id !== null) {
+          await updateSaved(id, apiFormData);
+          await fetchPublished(apiFormData);
+          toast.success('mensagem atualizada e publicada com sucesso');
+        } else {
+          await fetchPublished(apiFormData);
+          toast.success('mensagem publicada com sucesso');
+        }
       } else {
-        await fetchSaved(apiFormData);
-        toast.success('mensagem salva com sucesso');
+        if (id !== null) {
+          await updateSaved(id, apiFormData);
+          toast.success('mensagem atualizada com sucesso');
+        } else {
+          await fetchSaved(apiFormData);
+          toast.success('mensagem salva com sucesso');
+        }
       }
-    }
 
-    for (const [key, value] of apiFormData.entries()) {
-      console.log(key, value);
-    }
+      for (const [key, value] of apiFormData.entries()) {
+        console.log(key, value);
+      }
 
-    setMessage('');
-    setTitle('');
-    removeImage();
+      setMessage('');
+      setTitle('');
+      removeImage();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  return { removeImage, handleSubmit, handleTitleChange, handleMessageChange };
+  return {
+    removeImage,
+    handleSubmit,
+    handleTitleChange,
+    handleMessageChange,
+    isSubmitting,
+  } as const;
 }

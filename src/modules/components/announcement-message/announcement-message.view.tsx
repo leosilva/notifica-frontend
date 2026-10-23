@@ -99,14 +99,19 @@ const AdminMessageArea = memo((props: Types) => {
     setUrl,
   } = props;
 
-  const { removeImage, handleMessageChange, handleTitleChange, handleSubmit } =
-    useAnnouncementMessage({
-      setMessage,
-      setTitle,
-      uploadedImage,
-      setUploadedImage,
-      id,
-    });
+  const {
+    removeImage,
+    handleMessageChange,
+    handleTitleChange,
+    handleSubmit,
+    isSubmitting,
+  } = useAnnouncementMessage({
+    setMessage,
+    setTitle,
+    uploadedImage,
+    setUploadedImage,
+    id,
+  });
 
   const Templates = useMemo(() => {
     return TEMPLATES.map((info) => {
@@ -279,19 +284,21 @@ const AdminMessageArea = memo((props: Types) => {
               type="submit"
               name="action"
               value="save"
-              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 hover:bg-emerald-500 text-xl p-6 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600"
+              disabled={isSubmitting}
+              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 hover:bg-emerald-500 text-xl p-6 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="text-emerald-50 h-full mr-2" />
-              Salvar Comunicado
+              {isSubmitting ? 'Salvando...' : 'Salvar Comunicado'}
             </Button>
             <Button
               type="submit"
               name="action"
               value="publish"
-              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 hover:bg-emerald-500 text-emerald-50 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600"
+              disabled={isSubmitting}
+              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 hover:bg-emerald-500 text-emerald-50 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="mr-2" />
-              Salvar e Publicar Comunicado
+              {isSubmitting ? 'Publicando...' : 'Salvar e Publicar Comunicado'}
             </Button>
           </div>
         </CardContent>

@@ -27,3 +27,40 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     return null;
   }
 }
+
+import { useCallback, useState } from 'react';
+
+export function useRefresh() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
+
+  const refresh = useCallback(async () => {
+    setIsLoading(true);
+    setAviso({ mensagem: '', tipo: '' });
+
+    try {
+      const response = await fetch('/api/auth/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', 
+      });
+
+      if (!response.ok) {
+        throw new Error('Sessão expirada');
+      }
+
+      const data = await response.json();
+      console.log('Token renovado automaticamente:', data);
+      return data;
+    } catch (error) {
+      console.error(error);
+      setAviso({ mensagem: 'Sessão expirada. Faça login novamente.', tipo: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  return { refresh, isLoading, aviso };
+}

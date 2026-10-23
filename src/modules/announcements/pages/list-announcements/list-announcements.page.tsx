@@ -34,7 +34,7 @@ export function ListAnnouncementsPage() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://api/auth/me', {
+    fetch('/api/auth/me', {
       method: 'GET',
       credentials: 'include',
       headers: {
