@@ -30,6 +30,12 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
 import { useCallback, useState } from 'react';
 
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
 export function useRefresh() {
   const [isLoading, setIsLoading] = useState(false);
   const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
@@ -39,8 +45,15 @@ export function useRefresh() {
     setAviso({ mensagem: '', tipo: '' });
 
     try {
-      const response = await apiFetch('/auth/refresh', {
+      const csrfToken = getCookie('csrf_refresh_token');
+
+      const response = await fetch('/api/auth/refresh', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(csrfToken && { 'X-CSRF-TOKEN': csrfToken }),
+        },
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -48,7 +61,6 @@ export function useRefresh() {
       }
 
       const data = await response.json();
-      console.log('Token renovado automaticamente:', data);
       return data;
     } catch (error) {
       console.error(error);
