@@ -76,7 +76,7 @@ export function NewsPage() {
             plugins={[autoplay]}
             opts={{ loop: true, watchDrag: false }}
           >
-            <CarouselContent>
+            <CarouselContent className='flex items-center justify-center'>
               {news.map((item, index) => (
                 <CarouselItem key={item.id || index}>
                   {item.autor.role === 'servidor' ? (

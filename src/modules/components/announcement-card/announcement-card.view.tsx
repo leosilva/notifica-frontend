@@ -49,7 +49,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         formData.append('setor', announcement.setor);
       }
 
-      const response = await apiFetch('/noticias/', {
+      const response = await apiFetch('/noticias', {
         method: 'POST',
         body: formData,
       });
@@ -76,7 +76,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
     e.preventDefault();
 
     try {
-      const response = await apiFetch(`/noticias/${announcement.id}/`, {
+      const response = await apiFetch(`/noticias/${announcement.id}`, {
         method: 'DELETE',
       });
 
