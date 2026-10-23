@@ -37,7 +37,6 @@ export function NewsPage() {
       const response = await fetch(`/api/carrossel`);
       const data = await response.json();
       setNews(data);
-      console.log(data);
 
       if (data.length > 0 && data[0].gradiente) {
         setBgColor(data[0].gradiente);
@@ -54,15 +53,25 @@ export function NewsPage() {
   useEffect(() => {
     if (!api || news.length === 0) return;
 
-    api.on('select', () => {
+    const handleSelect = () => {
       const currentIndex = api.selectedScrollSnap();
       const currentCard = news[currentIndex];
 
       if (currentCard?.gradiente) {
         setBgColor(currentCard.gradiente);
       }
-    });
-  }, [api, news]);
+
+      if (currentIndex === news.length - 1) {
+        fetchNews();
+      }
+    };
+
+    api.on('select', handleSelect);
+
+    return () => {
+      api.off('select', handleSelect);
+    };
+  }, [api, news, fetchNews]);
 
   return (
     <div
@@ -79,7 +88,7 @@ export function NewsPage() {
             <CarouselContent>
               {news.map((item, index) => (
                 <CarouselItem key={item.id || index}>
-                  {item.autor.role === 'servidor' ? (
+                  {item.autor?.role === 'servidor' ? (
                     <AdminCard
                       title={item.titulo}
                       resume={item.corpo}
@@ -88,9 +97,10 @@ export function NewsPage() {
                     />
                   ) : (
                     <StudentCard
-                        author={item.autor?.nome}
-                        avatar=""
-                        resume={item.corpo}                  ></StudentCard>
+                      author={item.autor?.nome}
+                      avatar=""
+                      resume={item.corpo}
+                    />
                   )}
                 </CarouselItem>
               ))}
