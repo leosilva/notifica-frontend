@@ -113,17 +113,21 @@ export function useAnnouncementMessage({
           await updateSaved(id, apiFormData);
           await fetchPublished(apiFormData);
           toast.success('mensagem atualizada e publicada com sucesso');
+          window.location.href = "/comunicados"
         } else {
           await fetchPublished(apiFormData);
           toast.success('mensagem publicada com sucesso');
+          window.location.href = "/comunicados"
         }
       } else {
         if (id !== null) {
           await updateSaved(id, apiFormData);
           toast.success('mensagem atualizada com sucesso');
+          window.location.href = "/comunicados"
         } else {
           await fetchSaved(apiFormData);
           toast.success('mensagem salva com sucesso');
+          window.location.href = "/comunicados"
         }
       }
       
@@ -136,7 +140,7 @@ export function useAnnouncementMessage({
       removeImage();
     } finally {
       setIsSubmitting(false);
-      window.location.href = "/comunicados"
+  
     }
   };
 
