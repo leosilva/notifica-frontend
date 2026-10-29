@@ -8,6 +8,7 @@ interface Postagem {
   titulo: string;
   gradiente?: string;
   url?: string;
+  imagem?: File;
 }
 const DEFAULT_TEMPLATE =
   'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))';
@@ -19,6 +20,8 @@ export function useAnnouncement() {
   const [id, setId] = useState<number | null>(null);
   const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
   const [url, setUrl] = useState('');
+  
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const handleAnnouncement = useCallback(async () => {
     try {
@@ -36,6 +39,8 @@ export function useAnnouncement() {
       setTitle(result.titulo ?? '');
       setId(result.id ?? null);
       setTemplate(result.gradiente || DEFAULT_TEMPLATE);
+      setUploadedImage(result.imagem)
+
     } catch (error) {
       console.error(error);
     }
@@ -43,7 +48,6 @@ export function useAnnouncement() {
 
   const [selectedSector, setSelectedSector] = useState('');
   const deferredMessage = useDeferredValue(message);
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [opacity, setOpacity] = useState<number>(100);
 
   useEffect(() => {
