@@ -108,29 +108,28 @@ export function useAnnouncementMessage({
         apiFormData.append('imagem', uploadedImage);
       }
 
-      if (action === 'publish') {
-        if (id !== null) {
-          await updateSaved(id, apiFormData);
-          await fetchPublished(apiFormData);
-          toast.success('mensagem atualizada e publicada com sucesso');
-          window.location.href = "/comunicados"
-        } else {
-          await fetchPublished(apiFormData);
-          toast.success('mensagem publicada com sucesso');
-          window.location.href = "/comunicados"
-        }
-      } else {
-        if (id !== null) {
-          await updateSaved(id, apiFormData);
-          toast.success('mensagem atualizada com sucesso');
-          window.location.href = "/comunicados"
-        } else {
-          await fetchSaved(apiFormData);
-          toast.success('mensagem salva com sucesso');
-          window.location.href = "/comunicados"
-        }
-      }
-      
+if (action === 'publish') {
+  if (id !== null) {
+    await updateSaved(id, apiFormData);
+    await fetchPublished(apiFormData);
+    toast.success('mensagem atualizada e publicada com sucesso');
+  } else {
+    await fetchPublished(apiFormData);
+    toast.success('mensagem publicada com sucesso');
+  }
+} else {
+  if (id !== null) {
+    await updateSaved(id, apiFormData);
+    toast.success('mensagem atualizada com sucesso');
+  } else {
+    await fetchSaved(apiFormData);
+    toast.success('mensagem salva com sucesso');
+  }
+}
+
+setTimeout(() => {
+  window.location.href = "/comunicados";
+}, 1500);
       for (const [key, value] of apiFormData.entries()) {
         console.log(key, value);
       }
