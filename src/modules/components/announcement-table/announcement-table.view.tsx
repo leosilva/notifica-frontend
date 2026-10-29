@@ -1,6 +1,8 @@
 import { Button } from '@base-ui/react';
 import { Eye, MapPin, Pencil, Send, Trash2 } from 'lucide-react';
 import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
+import { apiFetch } from '@/lib/api';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,21 +28,27 @@ import {
   TableHeader,
   TableRow,
 } from '../../../components/ui/table';
-import { use, useEffect, useState } from 'react';
-import { apiFetch } from '@/lib/api';
 
 export default function TabelaComunicados({ dados = [] }) {
-  const [user, setUser] = useState(Object);
+  const [user, setUser] = useState({});
+  const [localDados, setLocalDados] = useState(dados);
+  useEffect(() => {
+    setLocalDados(dados);
+  }, [dados]);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Erro ao ler usuário do localStorage', e);
+      }
+    }
+  }, []);
 
   const actionButtonStyle = `flex items-center justify-center gap-1 text-white py-1.5 px-3 rounded-[6px] transition-all duration-300 active:scale-95 text-xs font-medium`;
 
-  if (!Array.isArray(dados) || dados.length === 0) {
-    return (
-      <div className="rounded-md border bg-white/20 dark:bg-black/30 p-8 text-center text-gray-500 dark:text-gray-400">
-        Nenhum comunicado encontrado ou dados indisponíveis.
-      </div>
-    );
-  }
   const fetchDelete = async (id) => {
     try {
       const response = await apiFetch(`/noticias/${id}`, {
@@ -54,16 +62,20 @@ export default function TabelaComunicados({ dados = [] }) {
 
       alert('Comunicado excluído com sucesso!');
 
-      window.location.reload();
+      setLocalDados((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
     }
   };
 
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem('user')));
-  }, []);
+  if (!Array.isArray(localDados) || localDados.length === 0) {
+    return (
+      <div className="rounded-md border bg-white/20 dark:bg-black/30 p-8 text-center text-gray-500 dark:text-gray-400">
+        Nenhum comunicado encontrado ou dados indisponíveis.
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-md border bg-white/20 dark:bg-black/30 overflow-hidden">
@@ -79,11 +91,9 @@ export default function TabelaComunicados({ dados = [] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dados.map((item, index) => {
+          {localDados.map((item, index) => {
             const titulo = item.titulo || 'Título não informado';
             const setor = item.setor || 'DIAC';
-            const autorNome =
-              item.autor?.nome || item?.nome || 'Autor desconhecido';
             const criadoEm = item.criado_em || 'Data desconhecida';
             const templateFundo = item.template || item.gradiente || '#18181b';
             const corpo = item.corpo || 'Sem conteúdo cadastrado.';
@@ -100,7 +110,7 @@ export default function TabelaComunicados({ dados = [] }) {
                   </span>
                 </TableCell>
                 <TableCell className="text-gray-600 dark:text-gray-400 break-words">
-                  {user.nome}
+                  {user?.nome || 'Admin'}
                 </TableCell>
                 <TableCell>{criadoEm}</TableCell>
                 <TableCell>
@@ -171,7 +181,7 @@ export default function TabelaComunicados({ dados = [] }) {
                               </p>
                               <div className="border-t border-gray-800 mt-6 pt-6 text-center">
                                 <span className="text-gray-500 text-base font-medium italic">
-                                  Autor: {user.nome}
+                                  Autor: {user?.nome || 'Admin'}
                                 </span>
                               </div>
                             </div>
@@ -202,7 +212,10 @@ export default function TabelaComunicados({ dados = [] }) {
                           <AlertDialogCancel variant="outline">
                             Não, cancelar
                           </AlertDialogCancel>
-                          <AlertDialogAction variant="destructive" onClick={() => fetchDelete(item.id)}>
+                          <AlertDialogAction
+                            variant="destructive"
+                            onClick={() => fetchDelete(item.id)}
+                          >
                             Sim, excluir
                           </AlertDialogAction>
                         </div>
