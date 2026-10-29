@@ -126,17 +126,17 @@ export function useAnnouncementMessage({
           toast.success('mensagem salva com sucesso');
         }
       }
-      window.location.href = "/comunicados"
-
+      
       for (const [key, value] of apiFormData.entries()) {
         console.log(key, value);
       }
-
+      
       setMessage('');
       setTitle('');
       removeImage();
     } finally {
       setIsSubmitting(false);
+      window.location.href = "/comunicados"
     }
   };
 
