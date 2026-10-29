@@ -120,21 +120,15 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
           style={{
-            background: announcement.gradiente,
+                    background: announcement.imagem
+                  ? `url(${announcement.imagem}) center/cover no-repeat`
+                  : announcement.gradiente,
           }}
         >
           <div className="absolute inset-0 bg-black/5" />
 
           <div className="relative z-10 w-full max-w-55">
-            {announcement.imagem ? (
-              <div className="relative w-full h-full p-2">
-                <img
-                  src={announcement.imagem}
-                  alt="Upload Preview"
-                  className="w-full h-full object-contain rounded-md"
-                />
-              </div>
-            ) : (
+        
               <div className="bg-gray-900/20 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
                 <div className="flex items-center justify-center gap-1 shrink-0">
                   <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
@@ -158,9 +152,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                     {announcement.criado_em || 'Recente'}
                   </span>
                 </div>
-              </div>
-            )}
-          </div>
+              </div>          </div>
         </div>
 
         <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-4 overflow-hidden transition-all duration-300 ease-in-out max-h-20 opacity-100 py-2 mt-2">

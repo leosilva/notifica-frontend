@@ -54,7 +54,7 @@ export default function TabelaComunicados({ dados = [] }) {
 
       alert('Comunicado excluído com sucesso!');
 
-        window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
