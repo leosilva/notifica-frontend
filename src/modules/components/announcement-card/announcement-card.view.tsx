@@ -45,7 +45,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
       formData.append('titulo', announcement.titulo || '');
       formData.append('corpo', announcement.corpo || '');
       formData.append('visibilidade', 'publicada');
-      formData.append('imagem', announcement.imagem)
+      formData.append('imagem', announcement.imagem);
       if (announcement.setor) {
         formData.append('setor', announcement.setor);
       }
@@ -90,7 +90,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
       setIsAlertOpen(false);
 
-        window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
@@ -120,39 +120,39 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
         <div
           className="relative h-48 w-full rounded-lg overflow-hidden flex items-center justify-center shadow-inner"
           style={{
-                    background: announcement.imagem
-                  ? `url(${announcement.imagem}) center/cover no-repeat`
-                  : announcement.gradiente,
+            background: announcement.imagem
+              ? `url(${announcement.imagem}) center/cover no-repeat`
+              : announcement.gradiente,
           }}
         >
           <div className="absolute inset-0 bg-black/5" />
 
           <div className="relative z-10 w-full max-w-55">
-        
-              <div className="bg-gray-900/20 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
-                <div className="flex items-center justify-center gap-1 shrink-0">
-                  <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
-                  <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
-                    {announcement.setor || ''}
-                  </span>
-                </div>
+            <div className="bg-gray-900/20 rounded-md p-2 shadow-lg flex flex-col gap-1.5 ">
+              <div className="flex items-center justify-center gap-1 shrink-0">
+                <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
+                <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
+                  {announcement.setor || ''}
+                </span>
+              </div>
 
-                <h3 className="font-bold text-gray-100 text-center leading-tight text-[11px] break-words">
-                  {announcement.titulo}
-                </h3>
-                <p className="text-gray-400 text-center wrap-break-word text-[10px] line-clamp-2 leading-snug">
-                  {announcement.corpo}
-                </p>
+              <h3 className="font-bold text-gray-100 text-center leading-tight text-[11px] break-words">
+                {announcement.titulo}
+              </h3>
+              <p className="text-gray-400 text-center wrap-break-word text-[10px] line-clamp-2 leading-snug">
+                {announcement.corpo}
+              </p>
 
-                <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
-                  <span className="text-gray-400 text-[9px] font-medium italic">
-                    Administração: {user?.nome || ''}
-                  </span>
-                  <span className="text-gray-400 text-[9px] font-medium italic">
-                    {announcement.criado_em || 'Recente'}
-                  </span>
-                </div>
-              </div>          </div>
+              <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
+                <span className="text-gray-400 text-[9px] font-medium italic">
+                  Administração: {user?.nome || ''}
+                </span>
+                <span className="text-gray-400 text-[9px] font-medium italic">
+                  {announcement.criado_em || 'Recente'}
+                </span>
+              </div>
+            </div>{' '}
+          </div>
         </div>
 
         <CardFooter className="bg-transparent border-0 p-0 gap-1 grid grid-cols-4 overflow-hidden transition-all duration-300 ease-in-out max-h-20 opacity-100 py-2 mt-2">

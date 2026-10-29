@@ -25,7 +25,6 @@ export default function Carouselcard({
           </p>
         </div>
 
-
         <div className="flex items-center justify-center gap-4 pt-6 border-t border-white/10 w-full text-gray-400 text-base shrink-0">
           <Avatar className="w-10 h-10">
             <AvatarImage src={avatar} alt={author} />

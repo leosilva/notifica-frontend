@@ -1,10 +1,10 @@
 export type Role = 'admin' | 'servidor' | 'aluno';
 export interface CurrentUser {
-    id: number;
-    nome: string;
-    matricula: string;
-    email: string;
-    role: Role;
+  id: number;
+  nome: string;
+  matricula: string;
+  email: string;
+  role: Role;
 }
 /**
  * Busca o usuário autenticado em `GET /auth/me`.

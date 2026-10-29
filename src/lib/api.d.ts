@@ -10,4 +10,7 @@
  * `POST /auth/refresh` (cookie de refresh) e repete a requisição original uma
  * única vez.
  */
-export declare function apiFetch(path: string, options?: RequestInit): Promise<Response>;
+export declare function apiFetch(
+  path: string,
+  options?: RequestInit,
+): Promise<Response>;

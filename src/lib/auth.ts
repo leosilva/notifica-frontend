@@ -64,7 +64,10 @@ export function useRefresh() {
       return data;
     } catch (error) {
       console.error(error);
-      setAviso({ mensagem: 'Sessão expirada. Faça login novamente.', tipo: 'error' });
+      setAviso({
+        mensagem: 'Sessão expirada. Faça login novamente.',
+        tipo: 'error',
+      });
     } finally {
       setIsLoading(false);
     }

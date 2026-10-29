@@ -1,4 +1,3 @@
-
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
 const CSRF_HEADER_NAME = 'X-CSRF-TOKEN';

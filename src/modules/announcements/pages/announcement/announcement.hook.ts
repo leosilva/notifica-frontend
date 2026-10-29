@@ -20,7 +20,7 @@ export function useAnnouncement() {
   const [id, setId] = useState<number | null>(null);
   const [template, setTemplate] = useState(DEFAULT_TEMPLATE);
   const [url, setUrl] = useState('');
-  
+
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const handleAnnouncement = useCallback(async () => {
@@ -39,8 +39,7 @@ export function useAnnouncement() {
       setTitle(result.titulo ?? '');
       setId(result.id ?? null);
       setTemplate(result.gradiente || DEFAULT_TEMPLATE);
-      setUploadedImage(result.imagem)
-
+      setUploadedImage(result.imagem);
     } catch (error) {
       console.error(error);
     }

@@ -124,9 +124,12 @@ const StudentMessageArea = memo(
           toast.success('Mensagem enviada com sucesso', { id: toastId });
           setMessage('');
         } else {
-          toast.error('Não foi possível enviar o comunicado. Tente novamente.', {
-            id: toastId,
-          });
+          toast.error(
+            'Não foi possível enviar o comunicado. Tente novamente.',
+            {
+              id: toastId,
+            },
+          );
         }
       } finally {
         setIsSubmitting(false);
