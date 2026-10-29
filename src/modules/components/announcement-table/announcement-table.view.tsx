@@ -27,6 +27,7 @@ import {
   TableRow,
 } from '../../../components/ui/table';
 import { use, useEffect, useState } from 'react';
+import { apiFetch } from '@/lib/api';
 
 export default function TabelaComunicados({ dados = [] }) {
   const [user, setUser] = useState(Object);
@@ -40,6 +41,25 @@ export default function TabelaComunicados({ dados = [] }) {
       </div>
     );
   }
+  const fetchDelete = async (id) => {
+    try {
+      const response = await apiFetch(`/noticias/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erro ao deletar comunicado');
+      }
+
+      alert('Comunicado excluído com sucesso!');
+
+        window.location.reload();
+    } catch (error) {
+      console.error('Erro na requisição de exclusão:', error);
+      alert(`Não foi possível excluir: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem('user')));
@@ -182,7 +202,7 @@ export default function TabelaComunicados({ dados = [] }) {
                           <AlertDialogCancel variant="outline">
                             Não, cancelar
                           </AlertDialogCancel>
-                          <AlertDialogAction variant="destructive">
+                          <AlertDialogAction variant="destructive" onClick={() => fetchDelete(item.id)}>
                             Sim, excluir
                           </AlertDialogAction>
                         </div>

@@ -45,6 +45,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
       formData.append('titulo', announcement.titulo || '');
       formData.append('corpo', announcement.corpo || '');
       formData.append('visibilidade', 'publicada');
+      formData.append('imagem', announcement.imagem)
       if (announcement.setor) {
         formData.append('setor', announcement.setor);
       }
@@ -89,11 +90,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
       setIsAlertOpen(false);
 
-      if (onUpdate) {
-        onUpdate();
-      } else {
         window.location.reload();
-      }
     } catch (error) {
       console.error('Erro na requisição de exclusão:', error);
       alert(`Não foi possível excluir: ${error.message}`);
@@ -142,7 +139,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                 <div className="flex items-center justify-center gap-1 shrink-0">
                   <MapPin className="h-2.5 w-2.5 text-amber-100/80" />
                   <span className="font-bold text-amber-100/90 text-[10px] uppercase tracking-tighter">
-                    {announcement.setor || 'DIAC'}
+                    {announcement.setor || ''}
                   </span>
                 </div>
 
@@ -155,7 +152,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
 
                 <div className="border-t mt-0.5 pt-1.5 text-center flex flex-col">
                   <span className="text-gray-400 text-[9px] font-medium italic">
-                    Administração: {user?.nome || 'Admin'}
+                    Administração: {user?.nome || ''}
                   </span>
                   <span className="text-gray-400 text-[9px] font-medium italic">
                     {announcement.criado_em || 'Recente'}
@@ -226,7 +223,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
                       <div className="flex items-center justify-center gap-3 shrink-0">
                         <MapPin className="h-6 w-6 text-amber-100/80" />
                         <span className="font-bold text-amber-100/90 text-lg uppercase tracking-widest">
-                          {announcement.setor || 'DIAC'}
+                          {announcement.setor || ''}
                         </span>
                       </div>
 
