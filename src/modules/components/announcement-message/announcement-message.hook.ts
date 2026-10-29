@@ -126,6 +126,7 @@ export function useAnnouncementMessage({
           toast.success('mensagem salva com sucesso');
         }
       }
+      window.location.href = "/comunicados"
 
       for (const [key, value] of apiFormData.entries()) {
         console.log(key, value);
