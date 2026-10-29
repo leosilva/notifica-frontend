@@ -22,7 +22,7 @@ export function useAnnouncement() {
 
   const handleAnnouncement = useCallback(async () => {
     try {
-      const response = await apiFetch(`/postagens/${identify}`);
+      const response = await apiFetch(`/noticias/${identify}`);
 
       if (!response.ok) {
         throw new Error(
