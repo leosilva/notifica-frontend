@@ -1,4 +1,4 @@
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '../../../components/mode-toggle';
 import {
@@ -10,15 +10,17 @@ import {
 } from '../../../components/ui/card';
 import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
+const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
 export function LoginPage() {
+  const [isLoading, setIsLoading] = useState(true); 
+  const { Suap, aviso } = useLogin();
+
   const SuapLogin = () => {
     window.location.href = `${BASE_URL}/auth/suap/login`;
-  };
-  const { Suap, aviso } = useLogin();
+  }
 
   useEffect(() => {
     fetch(`${BASE_URL}/auth/me`, {
@@ -33,14 +35,28 @@ export function LoginPage() {
         return resposta.json();
       })
       .then((dados) => {
-        if (dados.role ===  "aluno"){
-          window.location.href= '/post'
+        if (dados.role === 'aluno') {
+          window.location.href = '/post';
+        } else if (dados.role === 'servidor') {
+          window.location.href = '/comunicados';
+        } else {
+          setIsLoading(false);
         }
       })
       .catch((erro) => {
         console.error('Erro:', erro);
+        setIsLoading(false);
       });
-  }, []) 
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center bg-background">
+        <Loader2 className="animate-spin text-emerald-500" size={48} />
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-screen flex justify-center items-center flex-col">
       <div className="absolute top-4 right-4 m-2">
@@ -62,10 +78,10 @@ export function LoginPage() {
               Sistema integrado de comunicação acadêmica
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex justify-center">
+          <CardContent className="flex justify-center flex-col items-center">
             {aviso.mensagem && (
               <div
-                className={`mb-4 p-3 rounded text-sm font-medium text-center ${
+                className={`mb-4 p-3 rounded text-sm font-medium text-center w-full ${
                   aviso.tipo === 'erro'
                     ? 'bg-red-100 text-red-700'
                     : 'bg-emerald-100 text-emerald-700'
