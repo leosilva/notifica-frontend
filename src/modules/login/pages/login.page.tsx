@@ -10,6 +10,7 @@ import {
 } from '../../../components/ui/card';
 import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
+import { useEffect } from 'react';
 
 const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
 
@@ -18,6 +19,26 @@ export function LoginPage() {
     window.location.href = `${BASE_URL}/auth/suap/login`;
   };
   const { Suap, aviso } = useLogin();
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/auth/me`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((resposta) => {
+        if (!resposta.ok) throw new Error('Erro na requisição');
+        return resposta.json();
+      })
+      .then((dados) => {
+        if dados.autor
+      })
+      .catch((erro) => {
+        console.error('Erro:', erro);
+      });
+  }, []) 
   return (
     <div className="relative w-full h-screen flex justify-center items-center flex-col">
       <div className="absolute top-4 right-4 m-2">
