@@ -31,7 +31,7 @@ export function NewsPage() {
   );
 
   const autoplay = Autoplay({ delay: 10000 });
-  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+  const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
 
   const fetchNews = useCallback(async () => {
     try {

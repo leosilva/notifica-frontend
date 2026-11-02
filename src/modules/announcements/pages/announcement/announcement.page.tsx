@@ -31,7 +31,7 @@ export function AnnouncementPage() {
   } = useAnnouncement();
 
   const [data, setData] = useState(null);
-  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+  const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
 
   useEffect(() => {
     fetch(`${BASE_URL}/auth/me`, {

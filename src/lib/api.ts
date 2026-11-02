@@ -6,7 +6,7 @@ const REFRESH_CSRF_COOKIE_NAME = 'csrf_refresh_token';
 
 const REFRESH_PATH = '/auth/refresh';
 const LOGOUT_PATH = '/auth/logout';
-const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
 
 /**
  * Promise compartilhada para evitar disparar vários refresh em paralelo

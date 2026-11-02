@@ -9,7 +9,7 @@ export function PostPage() {
     'linear-gradient(135deg, rgb(0, 180, 166), rgb(0, 139, 122))',
   );
   const deferredMessage = useDeferredValue(message);
-  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+  const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
   useEffect(() => {
     fetch(`${BASE_URL}/auth/me`, {
       method: 'GET',

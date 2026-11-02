@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 export function useLogin() {
-  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+  const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
   const [isLoading, setIsLoading] = useState(false);
   const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
   const Suap = useCallback(async () => {

@@ -29,7 +29,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 }
 
 import { useCallback, useState } from 'react';
-const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
