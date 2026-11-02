@@ -33,7 +33,9 @@ export function LoginPage() {
         return resposta.json();
       })
       .then((dados) => {
-        console.log(dados)
+        if (dados.role ===  "aluno"){
+          window.location.href= '/post'
+        }
       })
       .catch((erro) => {
         console.error('Erro:', erro);
