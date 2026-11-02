@@ -33,7 +33,7 @@ export function LoginPage() {
         return resposta.json();
       })
       .then((dados) => {
-        if dados.autor
+        console.log(dados)
       })
       .catch((erro) => {
         console.error('Erro:', erro);
