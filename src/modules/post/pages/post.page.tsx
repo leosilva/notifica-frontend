@@ -24,7 +24,6 @@ export function PostPage() {
       })
       .then((dados) => {
         setData(dados);
-        console.log(dados)
       })
       .catch((erro) => {
         console.error('Erro:', erro);
