@@ -31,10 +31,11 @@ export function NewsPage() {
   );
 
   const autoplay = Autoplay({ delay: 10000 });
+  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
 
   const fetchNews = useCallback(async () => {
     try {
-      const response = await fetch(`/api/carrossel`);
+      const response = await fetch(`${BASE_URL}/carrossel`);
       const data = await response.json();
       setNews(data);
       console.log(data);

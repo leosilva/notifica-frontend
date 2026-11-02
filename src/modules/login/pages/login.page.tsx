@@ -10,9 +10,12 @@ import {
 } from '../../../components/ui/card';
 import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
+
+const BASE_URL= import.meta.env.FRONTEND_BASE_URL
+
 export function LoginPage() {
   const SuapLogin = () => {
-    window.location.href = `/api/auth/suap/login`;
+    window.location.href = `${BASE_URL}/auth/suap/login`;
   };
   const { Suap, aviso } = useLogin();
   return (

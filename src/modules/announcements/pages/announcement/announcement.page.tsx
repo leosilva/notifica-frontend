@@ -7,7 +7,6 @@ import {
 } from '../../../components';
 import { SendHorizonal } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { json } from 'stream/consumers';
 
 export function AnnouncementPage() {
   const {
@@ -32,9 +31,10 @@ export function AnnouncementPage() {
   } = useAnnouncement();
 
   const [data, setData] = useState(null);
+  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
 
   useEffect(() => {
-    fetch('/api/auth/me', {
+    fetch(`${BASE_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {

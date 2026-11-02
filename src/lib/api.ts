@@ -6,6 +6,7 @@ const REFRESH_CSRF_COOKIE_NAME = 'csrf_refresh_token';
 
 const REFRESH_PATH = '/auth/refresh';
 const LOGOUT_PATH = '/auth/logout';
+const BASE_URL= import.meta.env.FRONTEND_BASE_URL
 
 /**
  * Promise compartilhada para evitar disparar vários refresh em paralelo
@@ -27,7 +28,7 @@ function getCookie(name: string): string | null {
 }
 
 function resolveUrl(path: string): string {
-  return path.startsWith('http') ? path : `/api/${path}`;
+  return path.startsWith('http') ? path : `${BASE_URL}/${path}`;
 }
 
 function buildHeaders(options: RequestInit, csrfCookieName: string): Headers {

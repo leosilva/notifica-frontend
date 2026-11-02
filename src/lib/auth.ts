@@ -29,6 +29,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 }
 
 import { useCallback, useState } from 'react';
+const BASE_URL= import.meta.env.FRONTEND_BASE_URL
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -47,7 +48,7 @@ export function useRefresh() {
     try {
       const csrfToken = getCookie('csrf_refresh_token');
 
-      const response = await fetch('/api/auth/refresh', {
+      const response = await fetch(`${BASE_URL}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

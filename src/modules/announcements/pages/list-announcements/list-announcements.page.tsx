@@ -32,9 +32,10 @@ export function ListAnnouncementsPage() {
   } = useListAnnouncements();
 
   const [data, setData] = useState(null);
+  const BASE_URL= import.meta.env.FRONTEND_BASE_URL
 
   useEffect(() => {
-    fetch('/api/auth/me', {
+    fetch(`${BASE_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
