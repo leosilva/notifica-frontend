@@ -20,15 +20,21 @@ interface UserAuthResponse {
 }
 
 export function LoginPage() {
-  const [isLoading, setIsLoading] = useState(true);
+  const hasLocalSession = typeof window !== 'undefined' && localStorage.getItem('is_logged') === 'true';
+  const [isLoading, setIsLoading] = useState(hasLocalSession);
+  
   const navigate = useNavigate();
-  const { Suap, aviso } = useLogin();
+  const { aviso } = useLogin();
 
   const handleSuapLogin = () => {
     window.location.href = `${BASE_URL}/auth/suap/login`;
   };
 
   useEffect(() => {
+    if (!hasLocalSession) {
+      return;
+    }
+
     const controller = new AbortController();
 
     const checkAuthStatus = async () => {
@@ -43,7 +49,8 @@ export function LoginPage() {
         });
 
         if (!response.ok) {
-          throw new Error('Falha na requisição de autenticação');
+          localStorage.removeItem('is_logged');
+          throw new Error('Sessão expirada');
         }
 
         const data: UserAuthResponse = await response.json();
@@ -57,7 +64,7 @@ export function LoginPage() {
         }
       } catch (error: any) {
         if (error.name !== 'AbortError') {
-          console.error('Erro na verificação de autenticação:', error);
+          localStorage.removeItem('is_logged');
           setIsLoading(false);
         }
       }
@@ -66,7 +73,7 @@ export function LoginPage() {
     checkAuthStatus();
 
     return () => controller.abort();
-  }, [navigate]);
+  }, [hasLocalSession, navigate]);
 
   if (isLoading) {
     return (
