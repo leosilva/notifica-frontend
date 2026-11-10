@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GraduationCap, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ModeToggle } from '../../../components/mode-toggle';
@@ -10,44 +12,61 @@ import {
 } from '../../../components/ui/card';
 import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
-import { useEffect, useState } from 'react';
 
 const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
+interface UserAuthResponse {
+  role?: 'aluno' | 'servidor' | string;
+}
+
 export function LoginPage() {
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { Suap, aviso } = useLogin();
 
-  const SuapLogin = () => {
+  const handleSuapLogin = () => {
     window.location.href = `${BASE_URL}/auth/suap/login`;
-  }
+  };
 
   useEffect(() => {
-    fetch(`${BASE_URL}/auth/me`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((resposta) => {
-        if (!resposta.ok) throw new Error('Erro na requisição');
-        return resposta.json();
-      })
-      .then((dados) => {
-        if (dados.role === 'aluno') {
-          window.location.href = '/post';
-        } else if (dados.role === 'servidor') {
-          window.location.href = '/comunicados';
+    const controller = new AbortController();
+
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/auth/me`, {
+          method: 'GET',
+          credentials: 'include',
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Falha na requisição de autenticação');
+        }
+
+        const data: UserAuthResponse = await response.json();
+
+        if (data.role === 'aluno') {
+          navigate('/post');
+        } else if (data.role === 'servidor') {
+          navigate('/comunicados');
         } else {
           setIsLoading(false);
         }
-      })
-      .catch((erro) => {
-        console.error('Erro:', erro);
-        setIsLoading(false);
-      });
-  }, []);
+      } catch (error: any) {
+        if (error.name !== 'AbortError') {
+          console.error('Erro na verificação de autenticação:', error);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    checkAuthStatus();
+
+    return () => controller.abort();
+  }, [navigate]);
 
   if (isLoading) {
     return (
@@ -62,7 +81,7 @@ export function LoginPage() {
       <div className="absolute top-4 right-4 m-2">
         <ModeToggle />
       </div>
-      <main className="w-[30%]">
+      <main className="w-full max-w-md px-4">
         <Card className="flex justify-center w-full shadow-[0_0_20px_10px_rgba(0,0,0,0.3)] border-0 bg-card/95 dark:bg-emerald-950/15 backdrop-blur-xl shadow-emerald-900/15 pulse-glow p-4">
           <CardHeader>
             <div className="flex justify-center w-auto">
@@ -74,7 +93,7 @@ export function LoginPage() {
             <CardTitle className="text-3xl font-bold p-4 text-emerald-400 flex justify-center h-20">
               <img src={logo} alt="Logotipo Notifica" />
             </CardTitle>
-            <CardDescription className="text-xl flex justify-center mb-4">
+            <CardDescription className="text-xl flex justify-center text-center mb-4">
               Sistema integrado de comunicação acadêmica
             </CardDescription>
           </CardHeader>
@@ -92,8 +111,8 @@ export function LoginPage() {
             )}
 
             <Button
-              onClick={SuapLogin}
-              className="bg-emerald-50/5 hover:bg-emerald-50 text-emerald-600 font-extrabold ring-2 dark:hover:bg-emerald-950 ring-emerald-300/40 text-2xl p-6"
+              onClick={handleSuapLogin}
+              className="w-full bg-emerald-50/5 hover:bg-emerald-50 text-emerald-600 font-extrabold ring-2 dark:hover:bg-emerald-950 ring-emerald-300/40 text-xl p-6"
             >
               Logar com SUAP
             </Button>
