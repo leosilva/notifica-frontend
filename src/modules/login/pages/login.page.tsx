@@ -30,12 +30,16 @@ export function LoginPage() {
     window.location.href = `${BASE_URL}/auth/suap/login`;
   };
 
-  useEffect(() => {
-    if (!hasLocalSession) {
-      return;
-    }
+ useEffect(() => {
+    if (!hasLocalSession) return;
 
     const controller = new AbortController();
+    
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      setIsLoading(false);
+      localStorage.removeItem('is_logged');
+    }, 1500);
 
     const checkAuthStatus = async () => {
       try {
@@ -43,10 +47,10 @@ export function LoginPage() {
           method: 'GET',
           credentials: 'include',
           signal: controller.signal,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         });
+
+        clearTimeout(timeoutId); 
 
         if (!response.ok) {
           localStorage.removeItem('is_logged');
@@ -64,15 +68,18 @@ export function LoginPage() {
         }
       } catch (error: any) {
         if (error.name !== 'AbortError') {
-          localStorage.removeItem('is_logged');
-          setIsLoading(false);
+          console.error('Erro na verificação:', error);
         }
+        setIsLoading(false);
       }
     };
 
     checkAuthStatus();
 
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, [hasLocalSession, navigate]);
 
   if (isLoading) {
