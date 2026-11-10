@@ -197,6 +197,12 @@ const AdminMessageArea = memo((props: Types) => {
               </div>
             </div>
 
+            {uploadedImage && (
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-teal-100/60 dark:bg-emerald-900/40 text-xs text-teal-800 dark:text-teal-200 w-fit">
+                <span>Nível de opacidade selecionado: <strong>{opacity}%</strong></span>
+              </div>
+            )}
+
             <div className="flex flex-col gap-2 items-start">
               <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
               <DropdownMenu>
