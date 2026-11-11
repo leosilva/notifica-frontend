@@ -29,6 +29,7 @@ import {
 } from '../../../components/ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
+  const criacao = announcement.criado_em; 
   const [user, setUser] = useState(Object);
   const textlimit = (texto, limite) => {
     if (!texto) return '';
@@ -283,7 +284,7 @@ export default function AnnouncementCard({ announcement, onUpdate }) {
               Publicado em:{' '}
             </span>
           ) : (
-            'Ainda não publicado'
+            `Criado em: ${criacao.toLocaleDateString('pt-BR')}`
           )}
           {announcement.visibilidade === 'publicada' && announcement.criado_em}
         </p>
