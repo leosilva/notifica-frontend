@@ -26,12 +26,12 @@ interface News {
 export function NewsPage() {
   const [news, setNews] = useState<News[]>([]);
   const [api, setApi] = useState<CarouselApi>();
-  const [bgColor, setBgColor] = useState(
+  const [bgStyle, setBgStyle] = useState(
     'linear-gradient(to bottom right, #3b82f6, #1d4ed8)',
   );
 
   const autoplay = Autoplay({ delay: 10000 });
-  const BASE_URL= import.meta.env.VITE_FRONTEND_BASE_URL
+  const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
   const fetchNews = useCallback(async () => {
     try {
@@ -40,13 +40,18 @@ export function NewsPage() {
       setNews(data);
       console.log(data);
 
-      if (data.length > 0 && data[0].gradiente) {
-        setBgColor(data[0].gradiente);
+      if (data.length > 0) {
+        const first = data[0];
+        if (first.imagem) {
+          setBgStyle(`url(${first.imagem}) center/cover no-repeat`);
+        } else if (first.gradiente) {
+          setBgStyle(first.gradiente);
+        }
       }
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [BASE_URL]);
 
   useEffect(() => {
     fetchNews();
@@ -59,8 +64,12 @@ export function NewsPage() {
       const currentIndex = api.selectedScrollSnap();
       const currentCard = news[currentIndex];
 
-      if (currentCard?.gradiente) {
-        setBgColor(currentCard.gradiente);
+      if (currentCard) {
+        if (currentCard.imagem) {
+          setBgStyle(`url(${currentCard.imagem}) center/cover no-repeat`);
+        } else if (currentCard.gradiente) {
+          setBgStyle(currentCard.gradiente);
+        }
       }
 
       if (currentIndex === news.length - 1) {
@@ -78,7 +87,7 @@ export function NewsPage() {
   return (
     <div
       className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
-      style={{ background: bgColor || '#000000' }}
+      style={{ background: bgStyle || '#000000' }}
     >
       <div className="w-full max-w-[60vw] mx-auto relative z-10">
         {!!news.length && (
