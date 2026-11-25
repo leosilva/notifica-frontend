@@ -6,18 +6,16 @@ interface AdmincardProps {
   avatar: string;
   author: string;
   fonte: string;
-  url?: string;
 }
 
 export default function Carouselcard({
   title,
   resume,
   author,
-  fonte,
-  url
+  fonte
 }: AdmincardProps) {
   return (
-    <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm relative">
+    <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm">
       <div className="flex items-center justify-center mb-8">
         <MapPin className="h-6 w-6 lg:h-8 lg:w-8 text-amber-50 mx-2" />
         <span className="font-semibold text-amber-50 text-4xl lg:text-3xl uppercase tracking-wide">
@@ -32,24 +30,11 @@ export default function Carouselcard({
         {resume}
       </p>
 
-      {url && (
-        <div className="absolute bottom-6 right-10 r-28 ring-4 ring-black/20 rounded-sm rin">
-          <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=3AA953&data=${encodeURIComponent(
-              url,
-            )}`}
-            alt="QR Code para o link fornecido"
-            className="w-38 h-38 rounded bg-white p-1.5 shadow-md"
-            loading="lazy"
-          />
-        </div>
-      )}
-
       {/* Rodapé */}
-      <div className="text-gray-400 border-t border-gray-400 text-3xl pt-5 text-center">
-        <div>{fonte ? `fonte: ${fonte}` : author ? `Administração: ${author}` : ''}</div>
-        <div className="text-lg p-2">18/10/2026</div>
-      </div>
+<div className="text-gray-400 border-t border-gray-400 text-3xl pt-5 text-center">
+  <div>{fonte ? `fonte: ${fonte}` : author ? `Administração: ${author}` : ''}</div>
+  <div className="text-lg p-2">18/10/2026</div>
+</div>
     </div>
   );
 }

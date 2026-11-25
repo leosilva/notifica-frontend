@@ -28,6 +28,7 @@ interface News {
 export function NewsPage() {
   const [news, setNews] = useState<News[]>([]);
   const [api, setApi] = useState<CarouselApi>();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [bgStyle, setBgStyle] = useState(
     'linear-gradient(to bottom right, #3b82f6, #1d4ed8)',
   );
@@ -66,8 +67,9 @@ export function NewsPage() {
     if (!api || news.length === 0) return;
 
     const handleSelect = () => {
-      const currentIndex = api.selectedScrollSnap();
-      const currentCard = news[currentIndex];
+      const index = api.selectedScrollSnap();
+      setCurrentIndex(index);
+      const currentCard = news[index];
 
       if (currentCard) {
         if (currentCard.imagem) {
@@ -77,7 +79,7 @@ export function NewsPage() {
         }
       }
 
-      if (currentIndex === news.length - 1) {
+      if (index === news.length - 1) {
         fetchNews();
       }
     };
@@ -89,6 +91,8 @@ export function NewsPage() {
       api.off('select', handleSelect);
     };
   }, [api, news, fetchNews]);
+
+  const currentUrl = news[currentIndex]?.url;
 
   return (
     <div
@@ -115,7 +119,7 @@ export function NewsPage() {
                       resume={item.corpo}
                       avatar={item.imagem ?? ''}
                       author={item.autor?.nome ?? ''}
-                      url={item.url ?? ''}
+                      fonte={item.fonte ?? ''}
                     />
                   ) : (
                     <StudentCard
@@ -130,6 +134,19 @@ export function NewsPage() {
           </Carousel>
         )}
       </div>
+
+      {currentUrl && (
+        <div className="fixed bottom-8 right-8 z-20 ring-4 ring-black/20 rounded-md">
+          <img
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=3AA953&data=${encodeURIComponent(
+              currentUrl,
+            )}`}
+            alt="QR Code para o link fornecido"
+            className="w-36 h-36 rounded bg-white p-2 shadow-lg"
+            loading="lazy"
+          />
+        </div>
+      )}
     </div>
   );
 }
