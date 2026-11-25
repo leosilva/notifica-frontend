@@ -35,7 +35,7 @@ export function NewsPage() {
 
   const fetchNews = useCallback(async () => {
     try {
-      const response = await fetch(`${BASE_URL}/news`);
+      const response = await fetch(`${BASE_URL}/carrossel`);
       if (!response.ok) return;
 
       const data: News[] = await response.json();
