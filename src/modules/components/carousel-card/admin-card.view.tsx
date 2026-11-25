@@ -17,7 +17,7 @@ export default function Carouselcard({
       <div className="flex items-center justify-center mb-8">
         <MapPin className="h-12 w-12 lg:h-16 lg:w-16 text-amber-50" />
         <span className="font-semibold text-amber-50 text-4xl lg:text-3xl uppercase tracking-wide">
-          {author === null ? "NOTICIA" : "AVISO"}
+          {author === "" ? "NOTICIA" : "AVISO"}
         </span>
       </div>
       <h3 className="font-bold text-7xl lg:text-8xl xl:text-[3rem] leading-tight mb-10 text-gray-100 text-center p-2 break-words">
