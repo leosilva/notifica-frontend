@@ -138,7 +138,7 @@ export function NewsPage() {
       {currentUrl && (
         <div className="fixed bottom-8 right-8 z-20 ring-4 ring-black/20 rounded-md">
           <img
-            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=3AA953&data=${encodeURIComponent(
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&data=${encodeURIComponent(
               currentUrl,
             )}`}
             alt="QR Code para o link fornecido"
