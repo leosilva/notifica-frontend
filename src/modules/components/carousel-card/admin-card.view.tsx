@@ -5,12 +5,14 @@ interface AdmincardProps {
   resume: string;
   avatar: string;
   author: string;
+  fonte: string;
 }
 
 export default function Carouselcard({
   title,
   resume,
   author,
+  fonte
 }: AdmincardProps) {
   return (
     <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm">
@@ -29,10 +31,10 @@ export default function Carouselcard({
       </p>
 
       {/* Rodapé */}
-      <div className="text-gray-400 border-t border-gray-400 text-3xl pt-5 text-center">
-        <div>Administração: {author}</div>
-        <div className="text-lg p-2">18/10/2026</div>
-      </div>
+<div className="text-gray-400 border-t border-gray-400 text-3xl pt-5 text-center">
+  <div>{fonte ? `fonte: ${fonte}` : author ? `Administração: ${author}` : ''}</div>
+  <div className="text-lg p-2">18/10/2026</div>
+</div>
     </div>
   );
 }

@@ -14,6 +14,7 @@ interface News {
   corpo: string;
   gradiente?: string | null;
   imagem?: string | null;
+  fonte?: string | null;
   autor?: {
     atualizado_em: Date;
     role: any;
@@ -40,7 +41,6 @@ export function NewsPage() {
 
       const data: News[] = await response.json();
       setNews(data);
-      console.log(data);
 
       if (data.length > 0 && !api) {
         const first = data[0];
@@ -97,7 +97,7 @@ export function NewsPage() {
       <div className="w-full max-w-[60vw] mx-auto relative z-10 flex justify-center items-center">
         {!!news.length && (
           <Carousel
-            setApi={setApi}
+            setApi={api}
             plugins={[autoplay.current]}
             opts={{ loop: true, watchDrag: false }}
             className="w-full"
@@ -108,7 +108,7 @@ export function NewsPage() {
                   key={item.id || index}
                   className="pl-0 flex justify-center items-center w-full"
                 >
-                  {item.tipo === 'noticia' ? (
+                  {item.autor?.role === 'servidor' ? (
                     <AdminCard
                       title={item.titulo}
                       resume={item.corpo}
