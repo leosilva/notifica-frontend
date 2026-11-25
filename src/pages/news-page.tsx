@@ -1,5 +1,5 @@
 import Autoplay from 'embla-carousel-autoplay';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Carousel,
   type CarouselApi,
@@ -30,43 +30,34 @@ export function NewsPage() {
     'linear-gradient(to bottom right, #3b82f6, #1d4ed8)',
   );
 
-  const autoplay = Autoplay({ delay: 10000 });
+  const autoplay = useRef(Autoplay({ delay: 10000 }));
   const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
 
-  // Mock temporário com os dados do print e imagem do campus IFRN Ceará-Mirim
   const fetchNews = useCallback(async () => {
-    const mockData: News[] = [
-      {
-        id: 1,
-        titulo: 'Redução dos horários de aula no turno matutino',
-        corpo: 'Prezados(as) alunos(as), informamos que nessa quarta-feira (17/06/2026), devido a reunião com os responsáveis, o horário das aulas acabarão às 10:20.',
-        // URL de exemplo de uma imagem oficial/representativa do campus IFRN Ceará-Mirim (pode ajustar para a URL exata desejada)
-        imagem: 'https://portal.ifrn.edu.br/campus/cearamirim/a-instituicao/imagens/campus-ceara-mirim/@@images/image',
-        gradiente: null,
-        tipo: 'comunicado',
-        autor: {
-          role: 'servidor',
-          nome: 'Roberto Carlos',
-          atualizado_em: new Date('2026-06-16'),
-        },
-        atualizado_em: new Date('2026-06-16'),
-      },
-    ];
+    try {
+      const response = await fetch(`${BASE_URL}/news`);
+      if (!response.ok) return;
 
-    setNews(mockData);
+      const data: News[] = await response.json();
+      setNews(data);
 
-    if (mockData.length > 0) {
-      const first = mockData[0];
-      if (first.imagem) {
-        setBgStyle(`url(${first.imagem}) center/cover no-repeat`);
-      } else if (first.gradiente) {
-        setBgStyle(first.gradiente);
+      if (data.length > 0 && !api) {
+        const first = data[0];
+        if (first.imagem) {
+          setBgStyle(`url(${first.imagem}) center/cover no-repeat`);
+        } else if (first.gradiente) {
+          setBgStyle(first.gradiente);
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
-  }, []);
+  }, [BASE_URL, api]);
 
   useEffect(() => {
     fetchNews();
+    const interval = setInterval(fetchNews, 30000);
+    return () => clearInterval(interval);
   }, [fetchNews]);
 
   useEffect(() => {
@@ -89,6 +80,7 @@ export function NewsPage() {
       }
     };
 
+    handleSelect();
     api.on('select', handleSelect);
 
     return () => {
@@ -105,7 +97,7 @@ export function NewsPage() {
         {!!news.length && (
           <Carousel
             setApi={setApi}
-            plugins={[autoplay]}
+            plugins={[autoplay.current]}
             opts={{ loop: true, watchDrag: false }}
           >
             <CarouselContent>
