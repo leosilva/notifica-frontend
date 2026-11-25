@@ -93,16 +93,20 @@ export function NewsPage() {
       className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
       style={{ background: bgStyle || '#000000' }}
     >
-      <div className="w-full max-w-[60vw] mx-auto relative z-10">
+      <div className="w-full max-w-[60vw] mx-auto relative z-10 flex justify-center items-center">
         {!!news.length && (
           <Carousel
             setApi={setApi}
             plugins={[autoplay.current]}
             opts={{ loop: true, watchDrag: false }}
+            className="w-full"
           >
-            <CarouselContent>
+            <CarouselContent className="-ml-0 flex items-center">
               {news.map((item, index) => (
-                <CarouselItem key={item.id || index}>
+                <CarouselItem
+                  key={item.id || index}
+                  className="pl-0 flex justify-center items-center w-full"
+                >
                   {item.autor?.role === 'servidor' ? (
                     <AdminCard
                       title={item.titulo}
