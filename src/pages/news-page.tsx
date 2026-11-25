@@ -22,6 +22,7 @@ interface News {
   } | null;
   tipo?: string;
   atualizado_em: Date;
+  url?: string;
 }
 
 export function NewsPage() {
@@ -114,6 +115,7 @@ export function NewsPage() {
                       resume={item.corpo}
                       avatar={item.imagem ?? ''}
                       author={item.autor?.nome ?? ''}
+                      url={item.url ?? ''}
                     />
                   ) : (
                     <StudentCard
