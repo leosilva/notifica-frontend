@@ -108,7 +108,7 @@ export function NewsPage() {
                   key={item.id || index}
                   className="pl-0 flex justify-center items-center w-full"
                 >
-                  {item.autor?.role === 'servidor' ? (
+                  {item.tipo === 'noticia' ? (
                     <AdminCard
                       title={item.titulo}
                       resume={item.corpo}
