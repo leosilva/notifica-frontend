@@ -40,6 +40,7 @@ export function NewsPage() {
 
       const data: News[] = await response.json();
       setNews(data);
+      console.log(data);
 
       if (data.length > 0 && !api) {
         const first = data[0];
