@@ -14,8 +14,8 @@ export default function Carouselcard({
 }: AdmincardProps) {
   return (
     <div className="w-full h-auto rounded-3xl shadow-2xl p-12 lg:p-16 bg-gray-900/20 backdrop-blur-sm">
-      <div className="flex items-center justify-center mb-8 mr-2">
-        <MapPin className="h-6 w-6 lg:h-8 lg:w-8 text-amber-50" />
+      <div className="flex items-center justify-center mb-8">
+        <MapPin className="h-6 w-6 lg:h-8 lg:w-8 text-amber-50 mx-2" />
         <span className="font-semibold text-amber-50 text-4xl lg:text-3xl uppercase tracking-wide">
           {author === "" ? "NOTICIA" : "AVISO"}
         </span>
