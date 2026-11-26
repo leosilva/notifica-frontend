@@ -44,7 +44,7 @@ const Header = memo(({ frase, nome, foto }: Type) => {
             </div>
             <div>
               <h1 className="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-emerald-400 dark:text-emerald-800">
-                Olá, {user?.nome}
+                Olá, Matheus Lemos Rodrigues
               </h1>
               <p className="text-sm text-muted-foreground font-medium">
                 {frase}
