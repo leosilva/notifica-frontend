@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 export function useLogin() {
-  const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
+  const BASE_URL = (import.meta.env.VITE_FRONTEND_BASE_URL || '').replace(/\/+$/, '');
   const [isLoading, setIsLoading] = useState(false);
   const [aviso, setAviso] = useState({ mensagem: '', tipo: '' });
 
@@ -19,7 +19,7 @@ export function useLogin() {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [BASE_URL]);
 
   return { Suap, aviso };
 }
