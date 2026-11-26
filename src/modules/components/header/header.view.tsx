@@ -1,5 +1,5 @@
 import { LogOut } from 'lucide-react';
-import { memo, use, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api';
 import { ModeToggle } from '@/components/mode-toggle';
