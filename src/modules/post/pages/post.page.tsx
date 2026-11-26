@@ -10,8 +10,10 @@ export function PostPage() {
   );
   const deferredMessage = useDeferredValue(message);
   const BASE_URL = (import.meta.env.VITE_FRONTEND_BASE_URL || '/api').replace(/\/+$/, '');
+
   useEffect(() => {
-    fetch(`${BASE_URL}auth/me`, {
+    // Adicionada a barra '/' antes de 'auth/me'
+    fetch(`${BASE_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -29,7 +31,8 @@ export function PostPage() {
       .catch((erro) => {
         console.error('Erro:', erro);
       });
-  }, []);
+  }, [BASE_URL]);
+
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden ">
       <Header frase="Portal do Estudante" nome={data?.nome} foto={data?.foto} />
