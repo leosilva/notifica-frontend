@@ -13,7 +13,7 @@ import {
 import { useLogin } from './login.hook';
 import logo from '@/assets/logo.png';
 
-const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
+const BASE_URL = (import.meta.env.VITE_FRONTEND_BASE_URL || '/api').replace(/\/+$/, '');
 
 interface UserAuthResponse {
   role?: 'aluno' | 'servidor' | string;
