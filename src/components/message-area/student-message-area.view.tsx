@@ -85,7 +85,7 @@ const StudentMessageArea = memo(
       formData.append('visibilidade', 'publicada');
 
       try {
-        const response = await apiFetch('/postagens', {
+        const response = await apiFetch('postagens', {
           method: 'POST',
           body: formData,
         });

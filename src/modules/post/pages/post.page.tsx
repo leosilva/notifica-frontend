@@ -11,7 +11,7 @@ export function PostPage() {
   const deferredMessage = useDeferredValue(message);
   const BASE_URL = import.meta.env.VITE_FRONTEND_BASE_URL;
   useEffect(() => {
-    fetch(`${BASE_URL}/auth/me`, {
+    fetch(`${BASE_URL}auth/me`, {
       method: 'GET',
       credentials: 'include',
       headers: {
