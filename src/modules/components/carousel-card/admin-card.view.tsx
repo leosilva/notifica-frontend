@@ -15,7 +15,7 @@ export default function Carouselcard({
   fonte,
 }: AdmincardProps) {
   return (
-    <div className="w-full h-auto rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-16 bg-gray-900/20 backdrop-blur-sm">
+    <div className="w-full h-auto rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-16 bg-gray-900/30 backdrop-blur-sm">
       <div className="flex items-center justify-center mb-4 sm:mb-6 lg:mb-8">
         <MapPin className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-amber-50 mx-1.5 sm:mx-2" />
         <span className="font-semibold text-amber-50 text-lg sm:text-2xl lg:text-3xl uppercase tracking-wide">
@@ -27,7 +27,7 @@ export default function Carouselcard({
         {title === '' ? 'Comunicado Administrativo' : title}
       </h3>
 
-      <p className="text-gray-300 mb-10 sm:mb-14 lg:mb-15 break-words text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed">
+      <p className="text-gray-500 mb-10 sm:mb-14 lg:mb-15 break-words text-center text-lg sm:text-2xl lg:text-3xl leading-relaxed">
         {resume}
       </p>
 
