@@ -203,7 +203,7 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
 
             {uploadedImage && (
-              <div className="relative w-full max-w-sm h-32 rounded-xl overflow-hidden border border-teal-200 dark:border-emerald-700 shadow-md bg-zinc-900">
+              <div className="relative w-full max-w-sm h-32 rounded-xl overflow-hidden border border-teal-200 dark:border-emerald-700 shadow-md dark:bg-zinc-900">
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-opacity duration-150"
                   style={{
