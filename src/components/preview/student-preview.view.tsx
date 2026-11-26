@@ -62,7 +62,7 @@ const preview = memo(({ message, template, foto, nome }: Types) => {
                   <div className="flex items-center justify-center gap-2 text-sm text-gray-400 border-t border-white/10 p-2">
                     <Avatar className="h-6 w-6">
                       <AvatarImage src={foto} alt="img" />
-                      <AvatarFallback className="text-xs">)</AvatarFallback>
+                      <AvatarFallback className="text-xs">0</AvatarFallback>
                     </Avatar>
                     <span className="font-medium">Por: {user?.nome}</span>
                   </div>
