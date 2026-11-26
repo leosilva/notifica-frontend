@@ -43,7 +43,6 @@ export function NewsPage() {
 
       const data: News[] = await response.json();
       setNews(data);
-      console.log(data);
 
       if (data.length > 0 && !api) {
         const first = data[0];
@@ -94,16 +93,17 @@ export function NewsPage() {
   }, [api, news, fetchNews]);
 
   const currentUrl = news[currentIndex]?.url;
+  const hasValidUrl = currentUrl && currentUrl.trim() !== '';
 
   return (
     <div
-      className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden"
+      className="fixed inset-0 w-screen h-screen flex justify-center items-center transition-all duration-700 ease-in-out z-0 overflow-hidden px-4 sm:px-6 lg:px-8"
       style={{ background: bgStyle || '#000000' }}
     >
-      <div className="w-full max-w-[60vw] mx-auto relative z-10 flex justify-center items-center">
+      <div className="w-full max-w-[90vw] sm:max-w-[80vw] lg:max-w-[60vw] mx-auto relative z-10 flex justify-center items-center">
         {!!news.length && (
           <Carousel
-            setApi={api}
+            setApi={setApi}
             plugins={[autoplay.current]}
             opts={{ loop: true, watchDrag: false }}
             className="w-full"
@@ -136,14 +136,14 @@ export function NewsPage() {
         )}
       </div>
 
-      {currentUrl && (
-        <div className="fixed bottom-8 right-8 z-20 ring-4 ring-black/20 rounded-md">
+      {hasValidUrl && (
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 lg:bottom-8 lg:right-8 z-20 ring-4 ring-black/20 rounded-md">
           <img
             src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&data=${encodeURIComponent(
               currentUrl,
             )}`}
             alt="QR Code para o link fornecido"
-            className="w-36 h-36 rounded bg-white p-2 shadow-lg"
+            className="w-24 h-24 sm:w-28 sm:h-28 lg:w-36 lg:h-36 rounded bg-white p-1.5 sm:p-2 shadow-lg"
             loading="lazy"
           />
         </div>
