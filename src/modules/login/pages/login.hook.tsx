@@ -7,7 +7,7 @@ export function useLogin() {
 
   const Suap = useCallback(async () => {
     try {
-      const response = await fetch(`${BASE_URL}/auth/suap/login`, {
+      const response = await fetch(`${BASE_URL}auth/suap/login`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
