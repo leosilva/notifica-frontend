@@ -29,7 +29,7 @@ import {
 } from '../../../components/ui/dialog';
 
 export default function AnnouncementCard({ announcement, onUpdate }) {
-  const criacao = announcement.criado_em; 
+  const criacao = announcement.criado_em;
   const [user, setUser] = useState(Object);
   const textlimit = (texto, limite) => {
     if (!texto) return '';

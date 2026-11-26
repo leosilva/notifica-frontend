@@ -86,7 +86,7 @@ const Preview = memo(
               </div>
             </div>
 
-          {url && (
+            {url && (
               <div className="absolute bottom-6 right-10 z-20 ring-4 ring-black/20 rounded-sm">
                 <img
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&color=000000&data=${encodeURIComponent(

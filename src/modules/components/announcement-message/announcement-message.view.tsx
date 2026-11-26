@@ -203,24 +203,31 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
 
             {uploadedImage && (
-              <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-teal-100/60 dark:bg-emerald-900/40 text-xs text-teal-800 dark:text-teal-200 w-fit">
-                <div className="relative w-8 h-8 rounded overflow-hidden border border-teal-300 dark:border-emerald-700 shrink-0">
+              <div className="flex items-center gap-4 p-3 rounded-xl bg-white/80 dark:bg-emerald-900/60 border border-teal-200 dark:border-emerald-700 shadow-md w-full max-w-sm">
+                <div className="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-teal-500/40 shadow-sm shrink-0 bg-zinc-900">
                   <div
-                    className="absolute inset-0 bg-cover bg-center"
+                    className="absolute inset-0 bg-cover bg-center transition-opacity duration-150"
                     style={{
                       backgroundImage: `url(${imageUrl})`,
                       opacity: opacity / 100,
                     }}
                   />
                   <div
-                    className="absolute inset-0 bg-black"
-                    style={{ opacity: 1 - opacity / 100 }}
+                    className="absolute inset-0 bg-black/20"
+                    style={{ opacity: opacity / 100 }}
                   />
                 </div>
-                <span>
-                  Nível de opacidade selecionado:{' '}
-                  <strong>{opacity}%</strong>
-                </span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-teal-700 dark:text-teal-300">
+                    Prévia da Opacidade
+                  </span>
+                  <span className="text-sm text-zinc-700 dark:text-zinc-200">
+                    Nível atual:{' '}
+                    <strong className="text-base text-teal-600 dark:text-teal-400">
+                      {opacity}%
+                    </strong>
+                  </span>
+                </div>
               </div>
             )}
 

@@ -20,9 +20,11 @@ interface UserAuthResponse {
 }
 
 export function LoginPage() {
-  const hasLocalSession = typeof window !== 'undefined' && localStorage.getItem('is_logged') === 'true';
+  const hasLocalSession =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('is_logged') === 'true';
   const [isLoading, setIsLoading] = useState(hasLocalSession);
-  
+
   const navigate = useNavigate();
   const { aviso } = useLogin();
 
@@ -30,11 +32,11 @@ export function LoginPage() {
     window.location.href = `${BASE_URL}/auth/suap/login`;
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (!hasLocalSession) return;
 
     const controller = new AbortController();
-    
+
     const timeoutId = setTimeout(() => {
       controller.abort();
       setIsLoading(false);
@@ -50,7 +52,7 @@ export function LoginPage() {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        clearTimeout(timeoutId); 
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           localStorage.removeItem('is_logged');
