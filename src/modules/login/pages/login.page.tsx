@@ -33,7 +33,10 @@ export function LoginPage() {
   };
 
   useEffect(() => {
-    if (!hasLocalSession) return;
+    if (!hasLocalSession) {
+      setIsLoading(false);
+      return;
+    }
 
     const controller = new AbortController();
 
