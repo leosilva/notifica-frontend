@@ -113,6 +113,11 @@ const AdminMessageArea = memo((props: Types) => {
     id,
   });
 
+  const imageUrl = useMemo(() => {
+    if (!uploadedImage) return null;
+    return URL.createObjectURL(uploadedImage);
+  }, [uploadedImage]);
+
   const Templates = useMemo(() => {
     return TEMPLATES.map((info) => {
       const isSelected = template === info.color;
@@ -198,8 +203,24 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
 
             {uploadedImage && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-teal-100/60 dark:bg-emerald-900/40 text-xs text-teal-800 dark:text-teal-200 w-fit">
-                <span>Nível de opacidade selecionado: <strong>{opacity}%</strong></span>
+              <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-teal-100/60 dark:bg-emerald-900/40 text-xs text-teal-800 dark:text-teal-200 w-fit">
+                <div className="relative w-8 h-8 rounded overflow-hidden border border-teal-300 dark:border-emerald-700 shrink-0">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${imageUrl})`,
+                      opacity: opacity / 100,
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 bg-black"
+                    style={{ opacity: 1 - opacity / 100 }}
+                  />
+                </div>
+                <span>
+                  Nível de opacidade selecionado:{' '}
+                  <strong>{opacity}%</strong>
+                </span>
               </div>
             )}
 
