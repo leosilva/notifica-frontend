@@ -48,7 +48,7 @@ const Preview = memo(
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="relative flex items-center justify-center p-6 h-[28rem] rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
+          <div className="relative flex items-center justify-center p-4 h-[22rem] rounded-lg overflow-hidden border bg-gray-100 dark:bg-gray-900">
             <div
               className="absolute inset-0 transition-opacity duration-75 z-0 pointer-events-none"
               style={{
@@ -68,7 +68,7 @@ const Preview = memo(
               <div className="flex items-center justify-center gap-2 mb-3">
                 <MapPin className="h-5 w-5 text-amber-50" />
                 <span className="font-semibold text-amber-50">
-                  {selectedSector || 'Setor'}
+                  {'Comunicado'}
                 </span>
               </div>
 
