@@ -113,11 +113,6 @@ const AdminMessageArea = memo((props: Types) => {
     id,
   });
 
-  const imageUrl = useMemo(() => {
-    if (!uploadedImage) return null;
-    return URL.createObjectURL(uploadedImage);
-  }, [uploadedImage]);
-
   const Templates = useMemo(() => {
     return TEMPLATES.map((info) => {
       const isSelected = template === info.color;
@@ -129,7 +124,7 @@ const AdminMessageArea = memo((props: Types) => {
             setTemplate(info.color);
             removeImage();
           }}
-          className={`relative flex w-full h-10 rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group border outline-none cursor-pointer overflow-hidden ${
+          className={`relative flex w-full h-9 rounded-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] group border outline-none cursor-pointer overflow-hidden ${
             isSelected
               ? 'border-emerald-500 shadow-sm ring-2 ring-emerald-500/20 z-10'
               : 'border-black/5 hover:border-black/20 dark:hover:border-white/20'
@@ -149,37 +144,37 @@ const AdminMessageArea = memo((props: Types) => {
   return (
     <Card className="lg:w-full bg-[#f4faf7] dark:bg-emerald-950 border border-emerald-900/10 shadow-sm rounded-xl">
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-xl">
+        <CardHeader className="p-4 pb-2">
+          <CardTitle className="flex items-center gap-2.5 text-lg">
             <div
-              className="p-2 rounded-lg"
+              className="p-1.5 rounded-lg"
               style={{
                 background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
               }}
             >
-              <Megaphone className="h-5 w-5 text-white" />
+              <Megaphone className="h-4 w-4 text-white" />
             </div>
             Comunicado
           </CardTitle>
-          <CardDescription className="text-zinc-500 text-sm mt-0.5">
+          <CardDescription className="text-zinc-500 text-xs mt-0.5">
             Mensagem e setor de destino
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="space-y-5">
-          <div className="space-y-3">
-            <Label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+        <CardContent className="p-4 pt-2 space-y-3">
+          <div className="space-y-1.5">
+            <Label className="text-xs font-medium text-zinc-800 dark:text-zinc-200">
               Plano de fundo:
             </Label>
-            
-            <div className="flex flex-wrap items-center gap-4">
+
+            <div className="flex flex-wrap items-center gap-2.5">
               <Upload
                 uploadedImage={uploadedImage}
                 setUploadedImage={setUploadedImage}
               />
 
               <div
-                className={`flex items-center gap-3 flex-1 min-w-[220px] transition-opacity duration-300 ${
+                className={`flex items-center gap-2 flex-1 min-w-[180px] transition-opacity duration-300 ${
                   uploadedImage
                     ? 'opacity-100'
                     : 'opacity-40 pointer-events-none'
@@ -209,7 +204,7 @@ const AdminMessageArea = memo((props: Types) => {
                   render={
                     <Button
                       type="button"
-                      className="px-4 py-2 bg-white hover:bg-zinc-50 text-zinc-700 border border-zinc-200 shadow-sm rounded-lg text-sm font-medium transition-colors"
+                      className="h-8 px-3 bg-white hover:bg-zinc-50 text-zinc-700 border border-zinc-200 shadow-sm rounded-md text-xs font-medium transition-colors"
                       variant="outline"
                     />
                   }
@@ -218,16 +213,16 @@ const AdminMessageArea = memo((props: Types) => {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuPortal>
-                  <DropdownMenuContent className="w-xl max-w-[95vw] bg-popover/95 backdrop-blur-sm border border-border p-2 rounded-xl shadow-xl">
+                  <DropdownMenuContent className="w-xl max-w-[95vw] bg-popover/95 backdrop-blur-sm border border-border p-1.5 rounded-xl shadow-xl">
                     <DropdownMenuGroup>
-                      <DropdownMenuLabel className="pb-2 pt-1 text-xs font-semibold text-black/40 dark:text-white/40 text-center tracking-wider uppercase">
+                      <DropdownMenuLabel className="pb-1.5 pt-1 text-xs font-semibold text-black/40 dark:text-white/40 text-center tracking-wider uppercase">
                         Escolha o template para a sua mensagem
                       </DropdownMenuLabel>
 
                       <DropdownMenuRadioGroup
                         value={template}
                         onValueChange={setTemplate}
-                        className="grid grid-cols-3 gap-2 p-1"
+                        className="grid grid-cols-3 gap-1.5 p-1"
                       >
                         {Templates}
                       </DropdownMenuRadioGroup>
@@ -236,32 +231,19 @@ const AdminMessageArea = memo((props: Types) => {
                 </DropdownMenuPortal>
               </DropdownMenu>
             </div>
-
-            {uploadedImage && (
-              <div className="relative w-full max-w-sm h-32 rounded-xl overflow-hidden border border-teal-200 dark:border-emerald-700 shadow-md dark:bg-zinc-900">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-opacity duration-150"
-                  style={{
-                    backgroundImage: `url(${imageUrl})`,
-                    opacity: opacity / 100,
-                  }}
-                />
-                <div
-                  className="absolute inset-0 bg-black/20"
-                  style={{ opacity: opacity / 100 }}
-                />
-              </div>
-            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="titulo" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <Label
+                htmlFor="titulo"
+                className="text-xs font-medium text-zinc-800 dark:text-zinc-200"
+              >
                 Título
               </Label>
               <Input
                 name="titulo"
-                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg h-10 px-3 text-sm focus-visible:ring-1 focus-visible:ring-emerald-500"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md h-8 px-2.5 text-xs focus-visible:ring-1 focus-visible:ring-emerald-500"
                 value={title}
                 onChange={handleTitleChange}
                 id="titulo"
@@ -270,13 +252,16 @@ const AdminMessageArea = memo((props: Types) => {
               />
             </div>
 
-            <div className="space-y-1.5">
-              <Label htmlFor="url" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+            <div className="space-y-1">
+              <Label
+                htmlFor="url"
+                className="text-xs font-medium text-zinc-800 dark:text-zinc-200"
+              >
                 URL (opcional)
               </Label>
               <Input
                 name="url"
-                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg h-10 px-3 text-sm focus-visible:ring-1 focus-visible:ring-emerald-500"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md h-8 px-2.5 text-xs focus-visible:ring-1 focus-visible:ring-emerald-500"
                 value={url ?? ''}
                 onChange={(e) => setUrl(e.target.value)}
                 id="url"
@@ -286,8 +271,11 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="admin-message" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+          <div className="space-y-1">
+            <Label
+              htmlFor="admin-message"
+              className="text-xs font-medium text-zinc-800 dark:text-zinc-200"
+            >
               Mensagem
             </Label>
             <Textarea
@@ -296,26 +284,30 @@ const AdminMessageArea = memo((props: Types) => {
               placeholder="Digite o comunicado administrativo..."
               value={message}
               onChange={handleMessageChange}
-              className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-3 text-sm min-h-[110px] resize-none focus-visible:ring-1 focus-visible:ring-emerald-500"
+              className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md p-2.5 text-xs min-h-[75px] resize-none focus-visible:ring-1 focus-visible:ring-emerald-500"
               maxLength={150}
             />
-            <div className="flex justify-between items-center text-xs text-zinc-500 pt-0.5">
+            <div className="flex justify-between items-center text-[11px] text-zinc-500">
               <span>Caracteres restantes:</span>
-              <span className={message.length > 130 ? 'text-orange-500 font-semibold' : ''}>
+              <span
+                className={
+                  message.length > 130 ? 'text-orange-500 font-semibold' : ''
+                }
+              >
                 {150 - message.length}
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row gap-2 pt-1">
             <Button
               type="submit"
               name="action"
               value="save"
               disabled={isSubmitting}
-              className="flex-1 bg-[#2d9d78] hover:bg-[#258565] text-white font-medium h-12 rounded-lg shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-[#2d9d78] hover:bg-[#258565] text-white font-medium h-9 text-xs rounded-md shadow-sm flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Save className="h-4 w-4" />
+              <Save className="h-3.5 w-3.5" />
               {isSubmitting ? 'Salvando...' : 'Salvar Comunicado'}
             </Button>
             <Button
@@ -323,9 +315,9 @@ const AdminMessageArea = memo((props: Types) => {
               name="action"
               value="publish"
               disabled={isSubmitting}
-              className="flex-1 bg-[#0b8559] hover:bg-[#096e49] text-white font-medium h-12 rounded-lg shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-[#0b8559] hover:bg-[#096e49] text-white font-medium h-9 text-xs rounded-md shadow-sm flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-3.5 w-3.5" />
               {isSubmitting ? 'Publicando...' : 'Salvar e Publicar Comunicado'}
             </Button>
           </div>
@@ -336,4 +328,3 @@ const AdminMessageArea = memo((props: Types) => {
 });
 
 export default AdminMessageArea;
-
