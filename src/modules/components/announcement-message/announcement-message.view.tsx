@@ -156,9 +156,6 @@ const AdminMessageArea = memo((props: Types) => {
             </div>
             Comunicado
           </CardTitle>
-          <CardDescription className="text-zinc-500 text-xs mt-0.5">
-            Mensagem e setor de destino
-          </CardDescription>
         </CardHeader>
 
         <CardContent className="p-4 pt-2 space-y-3">
