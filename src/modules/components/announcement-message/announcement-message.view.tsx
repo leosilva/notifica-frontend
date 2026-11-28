@@ -147,45 +147,45 @@ const AdminMessageArea = memo((props: Types) => {
   }, [template, setTemplate, removeImage]);
 
   return (
-    <Card className="lg:w-full bg-teal-50 dark:bg-emerald-950">
+    <Card className="lg:w-full bg-[#f4faf7] dark:bg-emerald-950 border border-emerald-900/10 shadow-sm rounded-xl">
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3 text-xl place-content-between">
-            <div className="flex justify-between w-full">
-              <div className="flex flex-row items-center gap-4">
-                <div
-                  className="p-2 rounded-lg"
-                  style={{
-                    background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
-                  }}
-                >
-                  <Megaphone className="h-5 w-5 text-white" />
-                </div>
-                Comunicado
-              </div>
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-3 text-xl">
+            <div
+              className="p-2 rounded-lg"
+              style={{
+                background: 'linear-gradient(135deg, #00b4a6, #008b7a)',
+              }}
+            >
+              <Megaphone className="h-5 w-5 text-white" />
             </div>
+            Comunicado
           </CardTitle>
-          <CardDescription className="mb-4 mt-2">
+          <CardDescription className="text-zinc-500 text-sm mt-0.5">
             Mensagem e setor de destino
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col gap-3">
-            <Label className="py-2">Plano de fundo:</Label>
-            <div className="flex flex-row">
+
+        <CardContent className="space-y-5">
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+              Plano de fundo:
+            </Label>
+            
+            <div className="flex flex-wrap items-center gap-4">
               <Upload
                 uploadedImage={uploadedImage}
                 setUploadedImage={setUploadedImage}
               />
 
               <div
-                className={`flex items-center gap-3 w-auto px-1 transition-opacity duration-300 ${
+                className={`flex items-center gap-3 flex-1 min-w-[220px] transition-opacity duration-300 ${
                   uploadedImage
                     ? 'opacity-100'
                     : 'opacity-40 pointer-events-none'
                 }`}
               >
-                <Sliders className="h-3.5 w-3.5 text-zinc-500" />
+                <Sliders className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
                 <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400 whitespace-nowrap">
                   Opacidade: {opacity}%
                 </span>
@@ -200,33 +200,16 @@ const AdminMessageArea = memo((props: Types) => {
                   className="flex-1 h-1 bg-zinc-200 dark:bg-zinc-700 rounded-full appearance-none cursor-pointer accent-teal-600 focus:outline-none"
                 />
               </div>
-            </div>
 
-            {uploadedImage && (
-              <div className="relative w-full max-w-sm h-32 rounded-xl overflow-hidden border border-teal-200 dark:border-emerald-700 shadow-md dark:bg-zinc-900">
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-opacity duration-150"
-                  style={{
-                    backgroundImage: `url(${imageUrl})`,
-                    opacity: opacity / 100,
-                  }}
-                />
-                <div
-                  className="absolute inset-0 bg-black/20"
-                  style={{ opacity: opacity / 100 }}
-                />
-              </div>
-            )}
+              <span className="text-xs text-zinc-400 font-medium">ou</span>
 
-            <div className="flex flex-col gap-2 items-start">
-              <span className="text-sm text-zinc-500 font-medium pl-1">ou</span>
               <DropdownMenu>
                 <DropdownMenuTrigger
                   className="outline-none border-none ring-0"
                   render={
                     <Button
                       type="button"
-                      className="p-2 bg-teal-50/10 hover:bg-teal-100/20 text-black/70 dark:text-emerald-50"
+                      className="px-4 py-2 bg-white hover:bg-zinc-50 text-zinc-700 border border-zinc-200 shadow-sm rounded-lg text-sm font-medium transition-colors"
                       variant="outline"
                     />
                   }
@@ -253,62 +236,86 @@ const AdminMessageArea = memo((props: Types) => {
                 </DropdownMenuPortal>
               </DropdownMenu>
             </div>
+
+            {uploadedImage && (
+              <div className="relative w-full max-w-sm h-32 rounded-xl overflow-hidden border border-teal-200 dark:border-emerald-700 shadow-md dark:bg-zinc-900">
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-opacity duration-150"
+                  style={{
+                    backgroundImage: `url(${imageUrl})`,
+                    opacity: opacity / 100,
+                  }}
+                />
+                <div
+                  className="absolute inset-0 bg-black/20"
+                  style={{ opacity: opacity / 100 }}
+                />
+              </div>
+            )}
           </div>
 
-          <div>
-            <Label className="py-2">Titulo</Label>
-            <Input
-              name="titulo"
-              className="w-full border border-black/15 p-1 rounded-sm focus-visible:border-amber-50"
-              value={title}
-              onChange={handleTitleChange}
-              id="titulo"
-              type="text"
-              placeholder="digite o titulo de seu comunicado"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="titulo" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                Título
+              </Label>
+              <Input
+                name="titulo"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg h-10 px-3 text-sm focus-visible:ring-1 focus-visible:ring-emerald-500"
+                value={title}
+                onChange={handleTitleChange}
+                id="titulo"
+                type="text"
+                placeholder="digite o título de seu comunicado"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="url" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                URL (opcional)
+              </Label>
+              <Input
+                name="url"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg h-10 px-3 text-sm focus-visible:ring-1 focus-visible:ring-emerald-500"
+                value={url ?? ''}
+                onChange={(e) => setUrl(e.target.value)}
+                id="url"
+                type="text"
+                placeholder="digite a url da sua notícia"
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="admin-message">Mensagem</Label>
+            <Label htmlFor="admin-message" className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+              Mensagem
+            </Label>
             <Textarea
               name="corpo"
               id="admin-message"
               placeholder="Digite o comunicado administrativo..."
               value={message}
               onChange={handleMessageChange}
-              className="min-h-30 resize-none"
+              className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-3 text-sm min-h-[110px] resize-none focus-visible:ring-1 focus-visible:ring-emerald-500"
               maxLength={150}
             />
-            <div className="flex justify-between text-sm text-muted-foreground">
+            <div className="flex justify-between items-center text-xs text-zinc-500 pt-0.5">
               <span>Caracteres restantes:</span>
-              <span className={message.length > 130 ? 'text-orange-500' : ''}>
+              <span className={message.length > 130 ? 'text-orange-500 font-semibold' : ''}>
                 {150 - message.length}
               </span>
             </div>
           </div>
 
-          <div>
-            <Label className="py-2">URL (opcional)</Label>
-            <Input
-              name="url"
-              className="w-full border border-black/15 p-1 mb-2 rounded-sm focus-visible:border-amber-50"
-              value={url ?? ''}
-              onChange={(e) => setUrl(e.target.value)}
-              id="url"
-              type="text"
-              placeholder="digite a url da sua noticia"
-            />
-          </div>
-
-          <div className="flex flex-row gap-2 justify-around">
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button
               type="submit"
               name="action"
               value="save"
               disabled={isSubmitting}
-              className="w-[50%] bg-emerald-700/80 font-semibold text-emerald-50 hover:bg-emerald-500 text-xl p-6 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-[#2d9d78] hover:bg-[#258565] text-white font-medium h-12 rounded-lg shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Save className="text-emerald-50 h-full mr-2" />
+              <Save className="h-4 w-4" />
               {isSubmitting ? 'Salvando...' : 'Salvar Comunicado'}
             </Button>
             <Button
@@ -316,9 +323,9 @@ const AdminMessageArea = memo((props: Types) => {
               name="action"
               value="publish"
               disabled={isSubmitting}
-              className="w-[50%] bg-emerald-700 font-semibold text-lg p-6 hover:bg-emerald-500 text-emerald-50 flex items-center justify-center transition-colors duration-300 dark:hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-[#0b8559] hover:bg-[#096e49] text-white font-medium h-12 rounded-lg shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Send className="mr-2" />
+              <Send className="h-4 w-4" />
               {isSubmitting ? 'Publicando...' : 'Salvar e Publicar Comunicado'}
             </Button>
           </div>
@@ -329,3 +336,4 @@ const AdminMessageArea = memo((props: Types) => {
 });
 
 export default AdminMessageArea;
+
