@@ -40,7 +40,7 @@ const Preview = memo(
     }, []);
 
     return (
-      <Card className="mt-4 transform-gpu bg-teal-50 dark:bg-emerald-950">
+      <Card className=" transform-gpu bg-teal-50 dark:bg-emerald-950">
         <CardHeader>
           <CardTitle>Pré-visualização</CardTitle>
           <CardDescription>
