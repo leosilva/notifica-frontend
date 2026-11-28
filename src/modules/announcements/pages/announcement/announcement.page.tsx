@@ -55,15 +55,15 @@ export function AnnouncementPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden ">
+    <div className="min-h-screen bg-linear-to-br from-green-50 via-emerald-50/30 to-teal-50/20 dark:from-green-600/20 dark:via-emerald-600/10 dark:to-teal-600/5 relative overflow-hidden">
       <Header
         frase="Painel Administrativo"
         nome={data?.nome}
         foto={data?.foto}
       />
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 gap-8">
-          <div className="flex flex-col lg:flex-row w-full justify-between gap-3">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="grid grid-cols-1 gap-3">
+          <div className="flex flex-col lg:flex-row w-full justify-between gap-2">
             <AnnouncementMessage
               message={message}
               setMessage={setMessage}
