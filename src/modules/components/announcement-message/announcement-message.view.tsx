@@ -144,7 +144,7 @@ const AdminMessageArea = memo((props: Types) => {
   return (
     <Card className="lg:w-full bg-[#f4faf7] dark:bg-emerald-950 border border-emerald-900/10 shadow-sm rounded-xl">
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <CardHeader className="p-4 pb-2">
+        <CardHeader className="px-4 pb-2">
           <CardTitle className="flex items-center gap-2.5 text-lg">
             <div
               className="p-1.5 rounded-lg"
